@@ -1,5 +1,6 @@
 {
-  "SubagentStop": [
+  "hooks": {
+    "SubagentStop": [
     {
       "matcher": "",
       "hooks": [
@@ -47,4 +48,5 @@
       ]
     }
   ]
+  }
 }
