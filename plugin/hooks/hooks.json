@@ -1,0 +1,50 @@
+{
+  "SubagentStop": [
+    {
+      "matcher": "",
+      "hooks": [
+        {
+          "type": "command",
+          "command": "${CLAUDE_PLUGIN_ROOT}/hooks/scripts/verify-evidence.sh",
+          "timeout": 30
+        }
+      ]
+    }
+  ],
+  "Stop": [
+    {
+      "matcher": "",
+      "hooks": [
+        {
+          "type": "command",
+          "command": "${CLAUDE_PLUGIN_ROOT}/hooks/scripts/verify-pipeline.sh",
+          "timeout": 30
+        }
+      ]
+    }
+  ],
+  "PostToolUse": [
+    {
+      "matcher": "Write|Edit",
+      "hooks": [
+        {
+          "type": "command",
+          "command": "${CLAUDE_PLUGIN_ROOT}/hooks/scripts/protect-geas-state.sh",
+          "timeout": 10
+        }
+      ]
+    }
+  ],
+  "SessionStart": [
+    {
+      "matcher": "",
+      "hooks": [
+        {
+          "type": "command",
+          "command": "${CLAUDE_PLUGIN_ROOT}/hooks/scripts/session-init.sh",
+          "timeout": 10
+        }
+      ]
+    }
+  ]
+}
