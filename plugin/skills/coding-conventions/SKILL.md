@@ -14,7 +14,7 @@ The tech stack is **NOT predefined**. It is decided by the team at project start
 3. **Compass (PM)** confirms feasibility within scope
 4. Decision is recorded as a Linear issue with label `architecture`
 
-Once decided, Forge creates `workspace/CLAUDE.md` with the chosen stack and conventions.
+Once decided, Forge creates `.geas/memory/_project/conventions.md` with the chosen stack and conventions.
 
 ## Universal Standards (apply regardless of stack)
 

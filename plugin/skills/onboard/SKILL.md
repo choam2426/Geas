@@ -13,7 +13,7 @@ Codebase discovery protocol for Sprint mode on existing projects. A single-agent
 
 ## When Triggered
 
-Compass detects no `.geas/memory/_project/state.json` during Sprint mode. This means the project has never been onboarded by this team.
+Compass detects no `.geas/state/run.json` during Sprint mode. This means the project has never been onboarded by this team.
 
 If `.geas/memory/_project/conventions.md` already exists from a previous Sprint, skip onboarding entirely — the project is already "known."
 
@@ -62,7 +62,7 @@ Find the structural skeleton of the project:
 Read existing configuration to understand the project's style:
 
 - **Linter config**: `.eslintrc`, `.prettierrc`, `rustfmt.toml`, `ruff.toml`, `.golangci.yml`
-- **Existing CLAUDE.md**: If `workspace/CLAUDE.md` exists, read and respect it — do not overwrite
+- **Existing conventions**: If `.geas/memory/_project/conventions.md` exists, read and respect it — do not overwrite
 - **Naming patterns**: camelCase vs snake_case, file naming conventions, directory structure patterns
 - **Import style**: Absolute vs relative, barrel exports, path aliases (tsconfig paths)
 - **TypeScript strictness**: Check `tsconfig.json` for strict mode, noImplicitAny, etc.

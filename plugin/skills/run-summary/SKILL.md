@@ -24,7 +24,7 @@ Compass invokes this:
 
 Read these in order to assemble the summary:
 
-1. **`.geas/memory/_project/state.json`** — current phase, mode, mission, milestone
+1. **`.geas/state/run.json`** — current phase, mode, mission, milestone
 2. **`.geas/memory/_project/agent-log.jsonl`** — agent spawn history (who was spawned, when, for what issue)
 3. **Linear issues** — `list-issues` filtered by project, check statuses and comments for decisions
 4. **Linear comments** — scan for decision patterns: `[Nova]`, `[Forge]`, vote results, pivot notices
