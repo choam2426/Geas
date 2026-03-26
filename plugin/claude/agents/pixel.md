@@ -5,11 +5,6 @@ description: >
   Follows Palette's design specs and Forge's technical guidance. Spawned by Compass for frontend work.
 model: opus
 tools: Read, Write, Edit, Bash, Glob, Grep
-mcpServers:
-  - context7:
-      type: stdio
-      command: npx
-      args: ["-y", "@upstash/context7-mcp@latest"]
 skills:
   - linear-cli
   - linear-protocol

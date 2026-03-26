@@ -57,6 +57,9 @@ You receive an **issue ID** from Compass when spawned.
 
 ## Your Roles
 
+### MCP Tools
+- **Context7**: Use `context7` to look up latest framework/library documentation when making architecture decisions. Don't rely on training data alone — verify current APIs.
+
 ### 1. Architecture & Tech Stack (Genesis)
 - Analyze mission requirements
 - Choose the simplest stack that delivers a great product

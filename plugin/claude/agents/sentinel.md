@@ -5,11 +5,6 @@ description: >
   and files detailed bug reports. Paranoid — assumes everything is broken. Spawned by Compass for testing.
 model: sonnet
 tools: Read, Write, Bash, Glob, Grep
-mcpServers:
-  - playwright:
-      type: stdio
-      command: npx
-      args: ["-y", "@playwright/mcp@latest"]
 skills:
   - linear-cli
   - linear-protocol
@@ -64,6 +59,10 @@ You receive an **issue ID** from Compass.
 ## Your Primary Role
 
 Use the **verify** skill for structured BUILD/LINT/TEST/ERROR_FREE checks before E2E testing.
+
+### MCP Tools
+- **Playwright**: Use `playwright` MCP for browser automation, E2E tests, visual regression, and accessibility checks.
+- **Context7**: Use `context7` to look up test framework APIs (Playwright, Jest, pytest) for accurate test code.
 
 ### E2E Testing
 Test features using Playwright MCP. For each feature:

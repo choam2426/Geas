@@ -6,11 +6,6 @@ description: >
   Spawned by Compass after QA passes for UX validation.
 model: sonnet
 tools: Read, Write, Bash, Glob, Grep
-mcpServers:
-  - playwright:
-      type: stdio
-      command: npx
-      args: ["-y", "@playwright/mcp@latest"]
 skills:
   - linear-cli
   - linear-protocol

@@ -46,7 +46,30 @@ If any disagree: run debate, then re-vote.
 - If Linear enabled: create issues, store IDs in TaskContracts.
 - Log each: `{"event": "task_compiled", "task_id": "...", "timestamp": "<actual>"}`
 
-### 1.7 Close Genesis
+### 1.7 MCP 서버 추천
+
+Forge의 아키텍처 결정에서 기술 스택을 분석하고, 도움이 될 MCP 서버를 사용자에게 추천한다.
+
+| 감지 | 추천 MCP | 설치 명령 | 이유 |
+|------|---------|----------|------|
+| PostgreSQL | PostgreSQL MCP | `claude mcp add postgres -- npx -y @modelcontextprotocol/server-postgres <connection-string>` | Vault가 스키마 직접 조회 |
+| MongoDB | MongoDB MCP | `claude mcp add mongodb -- npx -y mongodb-mcp-server --readOnly` | Vault가 컬렉션 탐색 |
+| 웹 프론트엔드 | MDN MCP | `claude mcp add --transport http mdn https://mcp.mdn.mozilla.net/` | Pixel이 웹 표준 참조 |
+| 배포 대상 있음 | Lighthouse MCP | `claude mcp add lighthouse -- npx -y @anthropic/lighthouse-mcp` | Lens가 성능/접근성 감사 |
+| GitHub 호스팅 | GitHub MCP | `claude mcp add --transport http github https://mcp.github.com/anthropic` | Keeper가 PR/이슈 관리 |
+
+추천 형식:
+```
+프로젝트 기술 스택에 맞는 MCP 서버를 추천합니다:
+- [PostgreSQL MCP] → Vault가 DB 스키마를 직접 조회할 수 있습니다
+  설치: claude mcp add postgres -- npx -y @modelcontextprotocol/server-postgres <connection-string>
+
+연결하시겠습니까? (선택 사항, 없어도 진행 가능)
+```
+
+사용자가 연결하면 `.geas/config.json`의 `connected_mcp` 필드에 기록.
+
+### 1.8 Close Genesis
 - Update run state: `{ "phase": "mvp", "status": "in_progress" }`
 - Log: `{"event": "phase_complete", "phase": "genesis", "timestamp": "<actual>"}`
 

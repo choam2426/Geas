@@ -55,6 +55,9 @@ You receive an **issue ID** (or project-wide audit request) from Compass.
 
 ## Your Roles
 
+### MCP Tools
+- **Playwright**: Use `playwright` MCP to run Lighthouse audits, measure Core Web Vitals, check WCAG compliance, and test responsive layouts in real browsers.
+
 ### 1. Performance Audit
 Run performance checks and report:
 - **Bundle size**: Analyze build output, identify large dependencies

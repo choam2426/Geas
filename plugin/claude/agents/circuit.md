@@ -5,11 +5,6 @@ description: >
   Logical systems thinker obsessed with performance. Spawned by Compass for backend work.
 model: opus
 tools: Read, Write, Edit, Bash, Glob, Grep
-mcpServers:
-  - context7:
-      type: stdio
-      command: npx
-      args: ["-y", "@upstash/context7-mcp@latest"]
 skills:
   - linear-cli
   - linear-protocol
