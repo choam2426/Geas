@@ -6,7 +6,7 @@
 set -euo pipefail
 
 INPUT=$(cat)
-CWD=$(echo "$INPUT" | jq -r '.cwd // empty')
+CWD=$(echo "$INPUT" | python -c "import json,sys; d=json.load(sys.stdin); print(d.get('cwd',''))" 2>/dev/null || echo "")
 
 if [ -z "$CWD" ]; then
   exit 0
@@ -20,24 +20,20 @@ if [ ! -d "$GEAS_DIR" ] || [ ! -f "$RUN_FILE" ]; then
   exit 0
 fi
 
-# 현재 태스크 확인
-CURRENT_TASK=$(jq -r '.current_task_id // empty' "$RUN_FILE")
-if [ -z "$CURRENT_TASK" ]; then
-  exit 0
-fi
-
-EVIDENCE_DIR="$GEAS_DIR/evidence/$CURRENT_TASK"
-
-# evidence 디렉토리가 없으면 경고
-if [ ! -d "$EVIDENCE_DIR" ]; then
-  echo "[Geas] Warning: No evidence directory for $CURRENT_TASK" >&2
-  exit 0
-fi
-
-# evidence 파일이 하나도 없으면 경고
-FILE_COUNT=$(find "$EVIDENCE_DIR" -name "*.json" 2>/dev/null | wc -l)
-if [ "$FILE_COUNT" -eq 0 ]; then
-  echo "[Geas] Warning: No evidence files in $EVIDENCE_DIR — agent may not have written results" >&2
-fi
+# 현재 태스크 확인 + evidence 존재 검사
+python -c "
+import json, sys, os, glob
+d = json.load(open(sys.argv[1]))
+tid = d.get('current_task_id', '')
+if not tid:
+    sys.exit(0)
+edir = os.path.join(sys.argv[2], 'evidence', tid)
+if not os.path.isdir(edir):
+    print(f'[Geas] Warning: No evidence directory for {tid}', file=sys.stderr)
+    sys.exit(0)
+files = glob.glob(os.path.join(edir, '*.json'))
+if not files:
+    print(f'[Geas] Warning: No evidence files in {edir} — agent may not have written results', file=sys.stderr)
+" "$RUN_FILE" "$GEAS_DIR" 2>&1 >&2 || true
 
 exit 0

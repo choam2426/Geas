@@ -36,6 +36,12 @@ These rules apply to ALL modes (Full Team, Sprint, Debate).
 - 모든 에이전트 스폰 시 `"Read .geas/rules.md first."` 를 프롬프트에 포함하면 에이전트가 규칙을 따름.
 - 이슈 상태 전환은 오케스트레이터(메인 세션)가 직접 처리: In Progress → In Review → Testing → Done.
 
+### Rules evolution
+- `.geas/rules.md`는 살아있는 문서. 주요 단계 전환 시 리뷰하고 업데이트하라.
+- Genesis 완료 후: 기술 스택 관련 규칙 추가 (예: "Python은 ruff으로 lint", "테스트는 pytest")
+- 태스크 완료 후: 에이전트 evidence에 `suggested_rules`가 있으면 rules.md에 반영
+- 첫 태스크 완료 후: 코드 컨벤션, 디렉토리 구조, 테스트 패턴 등 프로젝트 고유 규칙 추가
+
 ### What you do NOT do
 - **Do NOT implement code yourself.** You orchestrate. Specialist agents implement.
 - **Do NOT skip pipeline steps.** Follow the protocol of the invoked mode.

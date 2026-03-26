@@ -14,7 +14,7 @@ When making any design decision, ask: **"Does this make the multi-agent process 
 Collaboration Surface  ← replaceable (Linear, Dashboard)
 Agent Teams            ← replaceable (Geas-16, Lean-4, Custom)
 Contract Engine        ← core (Intake, TaskContract, Evidence Gate)
-Tool Adapters          ← replaceable (Claude Code, Codex)
+Tool Adapters          ← replaceable (Claude Code, ...)
 ```
 
 Full architecture: `docs/DESIGN.md`
@@ -25,8 +25,7 @@ Full architecture: `docs/DESIGN.md`
 plugin/
 ├── plugin.json              # Claude plugin manifest
 ├── skills/                  # Shared skills (core + team + surface)
-├── claude/agents/           # 16 Claude agent definitions
-└── codex/agents/            # 16 Codex agent definitions
+└── agents/                  # 15 agent definitions
 ```
 
 ### Core skills (contract engine)
@@ -48,7 +47,7 @@ plugin/
 
 ## Key Design Principles
 
-1. **Contract Engine is tool-agnostic** — skills in core/ should not reference Claude Code, Codex, or any specific AI tool.
+1. **Contract Engine is tool-agnostic** — skills in core/ should not reference any specific AI tool.
 2. **Agents are templates, not identity** — the 16-agent team is one configuration. The contract engine works with any agent setup.
 3. **Collaboration surface is an adapter** — Linear is the current implementation. Don't hardcode Linear assumptions into core skills.
 4. **Evidence over declaration** — "agent says done" is never enough. Evidence Gate must verify.

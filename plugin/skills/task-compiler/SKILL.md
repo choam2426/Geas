@@ -57,7 +57,7 @@ From the architecture context and conventions:
   - Example: `["src/components/auth/**", "src/styles/auth.css"]`
 - **prohibited_paths**: directories/files the worker MUST NOT touch
   - Example: `["src/components/payment/**", "*.config.js", ".env"]`
-  - Always prohibit: `.env`, `.geas/`, `plugin/`, `.agents/`, `.codex/`, `node_modules/`
+  - Always prohibit: `.env`, `.geas/`, `plugin/`, `.agents/`, `node_modules/`
 
 ### Step 5: Define Acceptance Criteria
 
@@ -121,7 +121,7 @@ Example output:
   "assigned_worker": "pixel",
   "reviewer": "forge",
   "allowed_paths": ["src/components/auth/**", "src/pages/login.*", "src/styles/auth.*"],
-  "prohibited_paths": [".env", ".geas/", "plugin/", ".agents/", ".codex/", "src/components/payment/**"],
+  "prohibited_paths": [".env", ".geas/", "plugin/", ".agents/", "src/components/payment/**"],
   "dependencies": ["task-002"],
   "acceptance_criteria": [
     "Login form renders with email and password fields",

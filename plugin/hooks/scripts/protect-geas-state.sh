@@ -6,9 +6,24 @@
 set -euo pipefail
 
 INPUT=$(cat)
-CWD=$(echo "$INPUT" | jq -r '.cwd // empty')
-TOOL_INPUT=$(echo "$INPUT" | jq -r '.tool_input // empty')
-FILE_PATH=$(echo "$TOOL_INPUT" | jq -r '.file_path // empty' 2>/dev/null || echo "")
+
+PARSED=$(echo "$INPUT" | python -c "
+import json, sys
+d = json.load(sys.stdin)
+cwd = d.get('cwd', '')
+ti = d.get('tool_input', {})
+if isinstance(ti, str):
+    try:
+        ti = json.loads(ti)
+    except:
+        ti = {}
+fp = ti.get('file_path', '') if isinstance(ti, dict) else ''
+print(cwd)
+print(fp)
+" 2>/dev/null || echo "")
+
+CWD=$(echo "$PARSED" | head -1)
+FILE_PATH=$(echo "$PARSED" | tail -1)
 
 if [ -z "$CWD" ] || [ -z "$FILE_PATH" ]; then
   exit 0
@@ -21,17 +36,21 @@ case "$FILE_PATH" in
   */.geas/tasks/*.json)
     # TaskContract 수정 감시: status가 "passed"로 바뀌는지 확인
     if [ -f "$FILE_PATH" ]; then
-      NEW_STATUS=$(jq -r '.status // empty' "$FILE_PATH" 2>/dev/null || echo "")
-      if [ "$NEW_STATUS" = "passed" ]; then
-        TASK_ID=$(jq -r '.id // empty' "$FILE_PATH" 2>/dev/null || echo "")
-        EVIDENCE_DIR="$GEAS_DIR/evidence/$TASK_ID"
-
-        if [ ! -f "$EVIDENCE_DIR/forge-review.json" ]; then
-          echo "[Geas] Warning: $TASK_ID marked as 'passed' but forge-review.json is missing" >&2
-        fi
-        if [ ! -f "$EVIDENCE_DIR/sentinel.json" ]; then
-          echo "[Geas] Warning: $TASK_ID marked as 'passed' but sentinel.json is missing" >&2
-        fi
+      WARN=$(python -c "
+import json, sys, os
+fp = sys.argv[1]
+geas = sys.argv[2]
+d = json.load(open(fp))
+if d.get('status') == 'passed':
+    tid = d.get('id', '')
+    edir = os.path.join(geas, 'evidence', tid)
+    if not os.path.isfile(os.path.join(edir, 'forge-review.json')):
+        print(f'[Geas] Warning: {tid} marked as passed but forge-review.json is missing')
+    if not os.path.isfile(os.path.join(edir, 'sentinel.json')):
+        print(f'[Geas] Warning: {tid} marked as passed but sentinel.json is missing')
+" "$FILE_PATH" "$GEAS_DIR" 2>/dev/null || echo "")
+      if [ -n "$WARN" ]; then
+        echo "$WARN" >&2
       fi
     fi
     ;;
