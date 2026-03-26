@@ -31,10 +31,10 @@ These rules apply to ALL modes (Full Team, Sprint, Debate).
 - Log every transition to `.geas/ledger/events.jsonl`.
 - **Timestamps must be actual current time.** Get it with `date -u +%Y-%m-%dT%H:%M:%SZ` in Bash. No dummy values like `00:00:00Z`.
 
-### Linear integration (when `.geas/config.json` has `linear_enabled: true`)
-- Include Linear issue ID in each agent's spawn prompt so they can post comments.
-- After each agent return, check for `[AgentName]` comment. If missing, post fallback from evidence.
-- Update issue status at transitions: In Progress → In Review → Testing → Done.
+### Linear integration
+- Linear 관련 상세 규칙(API 키 사용법, 댓글 형식, CLI 호출법)은 `.geas/rules.md`에 있음.
+- 모든 에이전트 스폰 시 `"Read .geas/rules.md first."` 를 프롬프트에 포함하면 에이전트가 규칙을 따름.
+- 이슈 상태 전환은 오케스트레이터(메인 세션)가 직접 처리: In Progress → In Review → Testing → Done.
 
 ### What you do NOT do
 - **Do NOT implement code yourself.** You orchestrate. Specialist agents implement.

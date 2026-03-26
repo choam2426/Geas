@@ -38,6 +38,32 @@ Write the initial run state file `.geas/state/run.json`:
 }
 ```
 
+### Phase A-2: Generate `.geas/rules.md`
+
+Write `.geas/rules.md` — the shared rules that ALL agents must follow:
+
+```markdown
+# Agent Rules
+
+## Evidence
+- 작업 결과를 .geas/evidence/{task-id}/{your-name}.json에 JSON으로 작성
+- 필수 필드: agent, task_id, summary, files_changed, created_at
+- created_at은 실제 현재 시간. Bash에서 date -u +%Y-%m-%dT%H:%M:%SZ 로 가져올 것. 더미 값 금지.
+
+## Linear
+- enabled: <true 또는 false — Phase B 결과에 따라 채움>
+- 댓글 형식: [AgentName] 요약 내용
+- LINEAR_API_KEY를 직접 환경변수로 설정하지 말 것. .env에서 자동 로드됨.
+- 이슈 UUID는 ContextPacket의 Reference 섹션에 있음.
+- linear-cli 경로: <Phase B에서 발견된 경로로 채움>
+
+## 코드 작성
+- TaskContract의 path_boundaries를 준수할 것
+- 작업 범위 밖의 파일을 수정하지 말 것
+```
+
+Phase B 완료 후 Linear 관련 필드를 실제 값으로 업데이트할 것 (enabled, linear-cli 경로).
+
 ### Phase B: Linear Setup (Optional)
 
 Ask the user: "Do you want to connect Linear for issue tracking? (Recommended for team visibility, but not required)"
@@ -86,10 +112,10 @@ If the user wants Linear, proceed with the steps below:
    Using the selected team, run these steps:
 
    a. **Check existing labels** (`list-issue-labels --team <team-name>`)
-      - Create missing type labels: `feature`, `bug`, `design-spec`, `architecture`, `review`, `tech-debt`, `blocked`, `pivot`, `improvement`
-      - Create missing area labels: `frontend`, `backend`, `infra`
-      - Create missing role labels: `needs-review`, `needs-qa`
-      - Use `create-issue-label --name <name> --team-id <UUID>` for each missing label
+      - 먼저 기존 라벨 목록을 가져온다.
+      - 필요한 라벨: type(`feature`, `bug`, `design-spec`, `architecture`, `review`, `tech-debt`, `blocked`, `pivot`, `improvement`), area(`frontend`, `backend`, `infra`), role(`needs-review`, `needs-qa`)
+      - 기존 목록과 대조하여 **이미 존재하는 라벨은 건너뛴다. 존재하지 않는 것만 생성한다.**
+      - Use `create-issue-label --name <name> --team-id <UUID>` for each **missing** label only.
       - Report: count created vs already existed
 
    b. **Check existing workflow states** (`list-issue-statuses --name <team-name>`)

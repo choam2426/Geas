@@ -17,26 +17,27 @@ user-invocable: true
 - If readiness_score < 60 and no override: ask the user, re-run intake.
 
 ### 1.2 Linear Bootstrap (if enabled)
-- Create project, milestones (Genesis, MVP, Polish, Evolution).
-- Discover team/label/state IDs. Save to `.geas/memory/_project/linear-config.json`.
+- Check `.geas/config.json` for `linear_enabled`.
+- If enabled: create project, milestones (Genesis, MVP, Polish, Evolution), discover IDs.
+- Save to `.geas/memory/_project/linear-config.json`.
+- **Update `.geas/rules.md`**: Linear 섹션의 enabled를 true로, linear-cli 경로와 팀/프로젝트 ID를 실제 값으로 채움.
 
 ### 1.3 Vision (Nova)
 ```
-Agent(agent: "nova", prompt: "Read .geas/spec/seed.json. Deliver vision, MVP scope, user value proposition. Write to .geas/evidence/genesis/nova.json")
+Agent(agent: "nova", prompt: "Read .geas/rules.md first. Then read .geas/spec/seed.json. Deliver vision, MVP scope, user value proposition. Write to .geas/evidence/genesis/nova.json")
 ```
-Verify evidence exists.
+Verify `.geas/evidence/genesis/nova.json` exists.
 
 ### 1.4 Architecture (Forge)
 ```
-Agent(agent: "forge", prompt: "Read .geas/spec/seed.json and .geas/evidence/genesis/nova.json. Propose architecture and tech stack. Write conventions to .geas/memory/_project/conventions.md and evidence to .geas/evidence/genesis/forge.json")
+Agent(agent: "forge", prompt: "Read .geas/rules.md first. Then read .geas/spec/seed.json and .geas/evidence/genesis/nova.json. Propose architecture and tech stack. Write conventions to .geas/memory/_project/conventions.md and evidence to .geas/evidence/genesis/forge.json")
 ```
 Verify evidence exists. Write DecisionRecord to `.geas/decisions/dec-001.json`.
 
 ### 1.5 Vote Round
-Spawn Circuit and Palette to vote on Forge's architecture:
 ```
-Agent(agent: "circuit", prompt: "Read .geas/evidence/genesis/forge.json. Vote agree/disagree with rationale. Write to .geas/evidence/genesis/vote-circuit.json")
-Agent(agent: "palette", prompt: "Read .geas/evidence/genesis/forge.json. Vote agree/disagree with rationale. Write to .geas/evidence/genesis/vote-palette.json")
+Agent(agent: "circuit", prompt: "Read .geas/rules.md first. Read .geas/evidence/genesis/forge.json. Vote agree/disagree with rationale. Write to .geas/evidence/genesis/vote-circuit.json")
+Agent(agent: "palette", prompt: "Read .geas/rules.md first. Read .geas/evidence/genesis/forge.json. Vote agree/disagree with rationale. Write to .geas/evidence/genesis/vote-palette.json")
 ```
 If any disagree: run debate, then re-vote.
 
@@ -53,46 +54,51 @@ If any disagree: run debate, then re-vote.
 
 ## Phase 2: MVP Build
 
+**EVERY task gets the full pipeline. Do NOT batch-ship. Do NOT skip steps for later tasks.
+Even if all tests pass, Code Review (Forge) and Testing (Sentinel) are MANDATORY for EVERY task — not just the first one.
+Process each task completely before starting the next.**
+
 For **each** TaskContract in `.geas/tasks/` (ordered by dependencies):
 
 ### 2.0 Start Task
 - Read TaskContract. Check dependencies are `"passed"`.
 - Update status to `"in_progress"`. Log `task_started` event.
 
-### 2.1 Design (Palette) [DEFAULT — skip-if: no UI/UX component]
+### 2.1 Design (Palette) [DEFAULT — skip-if: 사용자 인터페이스가 전혀 없는 태스크 (DB, API, CI, Docker 등)]
+**프론트엔드 페이지, 폼, 대시보드 등 사용자가 보는 화면이 있으면 반드시 실행할 것.**
 Generate ContextPacket, then:
 ```
-Agent(agent: "palette", prompt: "Read .geas/packets/{task-id}/palette.md. Write design spec to .geas/evidence/{task-id}/palette.json")
+Agent(agent: "palette", prompt: "Read .geas/rules.md first. Read .geas/packets/{task-id}/palette.md. Write design spec to .geas/evidence/{task-id}/palette.json")
 ```
-Verify evidence exists.
+Verify `.geas/evidence/{task-id}/palette.json` exists.
 
-### 2.2 Tech Guide (Forge) [DEFAULT — skip-if: trivial task]
+### 2.2 Tech Guide (Forge) [DEFAULT — skip-if: trivial task (config, version bump)]
 Generate ContextPacket, then:
 ```
-Agent(agent: "forge", prompt: "Read .geas/packets/{task-id}/forge.md. Write tech guide to .geas/evidence/{task-id}/forge.json")
+Agent(agent: "forge", prompt: "Read .geas/rules.md first. Read .geas/packets/{task-id}/forge.md. Write tech guide to .geas/evidence/{task-id}/forge.json")
 ```
-Verify evidence exists.
+Verify `.geas/evidence/{task-id}/forge.json` exists.
 
 ### 2.3 Implementation [MANDATORY — worktree isolated]
 Generate ContextPacket, then:
 ```
-Agent(agent: "{worker}", isolation: "worktree", prompt: "Read .geas/packets/{task-id}/{worker}.md. Implement the feature. Write evidence to .geas/evidence/{task-id}/{worker}.json")
+Agent(agent: "{worker}", isolation: "worktree", prompt: "Read .geas/rules.md first. Read .geas/packets/{task-id}/{worker}.md. Implement the feature. Write evidence to .geas/evidence/{task-id}/{worker}.json")
 ```
 Verify evidence exists. Merge worktree branch.
 
 ### 2.4 Code Review (Forge) [MANDATORY]
 Generate ContextPacket, then:
 ```
-Agent(agent: "forge", prompt: "Read .geas/packets/{task-id}/forge-review.md. Review implementation. Write to .geas/evidence/{task-id}/forge-review.json")
+Agent(agent: "forge", prompt: "Read .geas/rules.md first. Read .geas/packets/{task-id}/forge-review.md. Review implementation. Write to .geas/evidence/{task-id}/forge-review.json")
 ```
-Verify evidence exists.
+Verify `.geas/evidence/{task-id}/forge-review.json` exists.
 
 ### 2.5 Testing (Sentinel) [MANDATORY]
 Generate ContextPacket, then:
 ```
-Agent(agent: "sentinel", prompt: "Read .geas/packets/{task-id}/sentinel.md. Test the feature. Write QA results to .geas/evidence/{task-id}/sentinel.json")
+Agent(agent: "sentinel", prompt: "Read .geas/rules.md first. Read .geas/packets/{task-id}/sentinel.md. Test the feature. Write QA results to .geas/evidence/{task-id}/sentinel.json")
 ```
-Verify evidence exists.
+Verify `.geas/evidence/{task-id}/sentinel.json` exists.
 
 ### 2.6 Evidence Gate
 Run eval_commands from TaskContract. Check acceptance criteria against all evidence.
@@ -101,10 +107,17 @@ If fail → invoke `/geas:verify-fix-loop`. After fix, re-run gate.
 
 ### 2.7 Nova Product Review [MANDATORY]
 ```
-Agent(agent: "nova", prompt: "Read all evidence at .geas/evidence/{task-id}/. Verdict: Ship, Iterate, or Cut. Write to .geas/evidence/{task-id}/nova-verdict.json")
+Agent(agent: "nova", prompt: "Read .geas/rules.md first. Read all evidence at .geas/evidence/{task-id}/. Verdict: Ship, Iterate, or Cut. Write to .geas/evidence/{task-id}/nova-verdict.json")
 ```
 
-### 2.8 Resolve
+### 2.8 Ship Gate — verify before marking passed
+**Before marking any task as "passed", verify:**
+- `.geas/evidence/{task-id}/forge-review.json` exists (Read it)
+- `.geas/evidence/{task-id}/sentinel.json` exists (Read it)
+- `.geas/evidence/{task-id}/nova-verdict.json` exists (Read it)
+**If ANY is missing: go back and execute the missing step. Do NOT proceed without all three.**
+
+### 2.9 Resolve
 - **Ship**: status → `"passed"`.
 - **Iterate**: re-dispatch with Nova's feedback.
 - **Cut**: status → `"failed"`. Write DecisionRecord.
@@ -114,18 +127,30 @@ Log: `{"event": "phase_complete", "phase": "mvp", "timestamp": "<actual>"}`
 
 ---
 
-## Phase 3: Polish
+## Phase 3: Polish [MANDATORY — do not skip]
 
 ```
-Agent(agent: "shield", prompt: "Security review. Write to .geas/evidence/polish/shield.json")
-Agent(agent: "scroll", prompt: "Write README and docs. Write to .geas/evidence/polish/scroll.json")
+Agent(agent: "shield", prompt: "Read .geas/rules.md first. Security review of the project. Write to .geas/evidence/polish/shield.json")
 ```
+Verify `.geas/evidence/polish/shield.json` exists.
+
+```
+Agent(agent: "scroll", prompt: "Read .geas/rules.md first. Write README and docs. Write to .geas/evidence/polish/scroll.json")
+```
+Verify `.geas/evidence/polish/scroll.json` exists.
+
 Fix issues found. Log phase complete.
 
 ---
 
-## Phase 4: Scoped Evolution
+## Phase 4: Scoped Evolution [MANDATORY — do not skip]
 
 Assess remaining work within seed's `scope_in`. Reject `scope_out` features.
-Spawn agents as needed for improvements. Close out with Nova briefing.
-Log: `{"event": "phase_complete", "phase": "complete", "timestamp": "<actual>"}`
+Spawn agents as needed for improvements.
+
+**Nova 최종 브리핑은 반드시 실행:**
+```
+Agent(agent: "nova", prompt: "Read .geas/rules.md first. Final product review. Read all evidence. Deliver strategic summary and recommendations. Write to .geas/evidence/evolution/nova-final.json")
+```
+
+Close out. Log: `{"event": "phase_complete", "phase": "complete", "timestamp": "<actual>"}`
