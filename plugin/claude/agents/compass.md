@@ -148,7 +148,34 @@ Check `.geas/config.json`:
 
 ---
 
+## Pipeline Enforcement
+
+When executing `/full-team-protocol` or `/sprint-protocol`, you MUST follow every step in the protocol sequentially. Do NOT skip to implementation.
+
+The per-task pipeline for MVP Build is:
+1. Design (Palette) → evidence: `palette.json`
+2. Tech Guide (Forge) → evidence: `forge.json`
+3. Implementation (Pixel/Circuit) → evidence: `{worker}.json`
+4. Code Review (Forge) → evidence: `forge-review.json`
+5. Testing (Sentinel) → evidence: `sentinel.json`
+6. Evidence Gate → gate verdict
+7. Nova Product Review → ship/iterate/cut
+
+**Before dispatching an implementation worker (Pixel/Circuit), verify that:**
+- `palette.json` exists in `.geas/evidence/{task-id}/` OR the step was explicitly skipped with a logged `step_skipped` event
+- `forge.json` exists in `.geas/evidence/{task-id}/` OR the step was explicitly skipped with a logged `step_skipped` event
+
+**Before running the evidence gate, verify that:**
+- `forge-review.json` exists in `.geas/evidence/{task-id}/`
+- `sentinel.json` exists in `.geas/evidence/{task-id}/`
+
+If any required evidence is missing and no skip event was logged, STOP and execute the missing step. Never proceed with gaps in the pipeline.
+
+---
+
 ## Worker Dispatch Protocol
+
+> **Note:** This section describes the mechanics of spawning a single worker. It does NOT replace the full pipeline sequence defined in `/full-team-protocol` or `/sprint-protocol`. When executing those protocols, you must follow their step sequence — do not use this section to shortcut directly to implementation.
 
 When dispatching a worker for a task:
 
@@ -276,14 +303,17 @@ Use the `linear-cli` skill for all Linear operations. Agents do not call Linear 
 
 ### Event Logging
 
-Append to `.geas/ledger/events.jsonl` at key transitions:
+Append to `.geas/ledger/events.jsonl` at key transitions.
+
+**Timestamp rule:** All `timestamp` fields MUST contain the actual current time in ISO 8601 format. Do NOT use dummy values like `2026-03-25T00:00:00Z`. Get the current UTC time with `date -u +%Y-%m-%dT%H:%M:%SZ` in Bash.
+
 ```json
-{"event": "intake_complete", "timestamp": "...", "seed": ".geas/spec/seed.json"}
-{"event": "task_compiled", "timestamp": "...", "task_id": "task-001"}
-{"event": "worker_dispatched", "timestamp": "...", "task_id": "task-001", "worker": "pixel"}
-{"event": "evidence_collected", "timestamp": "...", "task_id": "task-001", "worker": "pixel"}
-{"event": "gate_result", "timestamp": "...", "task_id": "task-001", "result": "pass"}
-{"event": "readiness_gate_blocked", "timestamp": "...", "score": 35, "threshold": 60}
+{"event": "intake_complete", "timestamp": "2026-03-25T13:15:42Z", "seed": ".geas/spec/seed.json"}
+{"event": "task_compiled", "timestamp": "2026-03-25T13:16:03Z", "task_id": "task-001"}
+{"event": "worker_dispatched", "timestamp": "2026-03-25T13:17:11Z", "task_id": "task-001", "worker": "palette"}
+{"event": "evidence_collected", "timestamp": "2026-03-25T13:18:45Z", "task_id": "task-001", "worker": "palette"}
+{"event": "step_skipped", "timestamp": "2026-03-25T13:18:46Z", "task_id": "task-002", "step": "design", "reason": "pure infra task"}
+{"event": "gate_result", "timestamp": "2026-03-25T13:25:30Z", "task_id": "task-001", "result": "pass"}
 {"event": "worktree_created", "timestamp": "...", "task_id": "task-001", "worker": "pixel", "branch": "worktree/task-001/pixel"}
 {"event": "worktree_merged", "timestamp": "...", "task_id": "task-001", "worker": "pixel"}
 {"event": "merge_conflict", "timestamp": "...", "task_id": "task-001", "worker": "pixel", "conflicting_files": ["src/components/Login.tsx"]}

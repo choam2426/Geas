@@ -38,6 +38,8 @@ Run the eval commands from the TaskContract and check results.
 
 **Stop on first failure** — no point running semantic checks if the code doesn't build.
 
+> **Important:** eval_commands를 반드시 실행하고 결과를 기록할 것. "pass"라고 가정하지 말 것. 커맨드가 없으면 `"skip"`으로 기록하되, 있는데 실행하지 않은 것은 게이트 위반이다.
+
 If the EvidenceBundle already contains `verify_results`, compare them against a fresh run. Trust the fresh run.
 
 ### Tier 2: Semantic Gate
@@ -108,7 +110,20 @@ After running all applicable tiers, produce a verdict:
 ### On Pass
 
 1. Update the TaskContract status to `"passed"` in `.geas/tasks/{task-id}.json`
-2. Log the event to `.geas/ledger/events.jsonl`
+2. Log a **detailed** event to `.geas/ledger/events.jsonl` with tier results. Timestamp must be actual current time (not dummy):
+   ```json
+   {
+     "event": "gate_result",
+     "task_id": "task-001",
+     "result": "pass",
+     "tiers": {
+       "mechanical": { "status": "pass", "commands_run": ["npm run build", "npm test"] },
+       "semantic": { "status": "pass", "criteria_met": 5, "criteria_total": 5 },
+       "product": { "status": "ship", "nova_notes": "..." }
+     },
+     "timestamp": "<actual ISO 8601 from date -u>"
+   }
+   ```
 3. If Linear is enabled:
    a. Post a summary comment: `[Compass] Gate PASSED for {task-title}. All criteria met.`
    b. Verify at least one `[AgentName]` comment exists on the issue (via `list-comments`)

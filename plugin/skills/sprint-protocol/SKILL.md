@@ -11,6 +11,16 @@ Use this when the request is clearly about a bounded feature or change in an exi
 
 Natural-language intent is enough. `sprint:` is optional shorthand, not required syntax.
 
+## Execution Model
+
+Sprint에서 각 태스크는 아래 단계를 **순서대로** 실행한다.
+
+- `[MANDATORY]` — 어떤 경우에도 건너뛸 수 없다.
+- `[DEFAULT]` — 기본은 실행. 명시된 스킵 조건이 충족될 때만 건너뛸 수 있다.
+- 단계를 건너뛰면 반드시 이벤트 로그에 기록한다: `{"event": "step_skipped", "task_id": "...", "step": "...", "reason": "..."}`
+- 다음 단계로 넘어가기 전에 해당 단계의 evidence 파일이 존재하는지 확인한다.
+- 확신이 없으면 건너뛰지 말고 실행한다.
+
 ## File Paths
 
 | Purpose | Path |
@@ -83,21 +93,23 @@ The project has not been onboarded yet. Before proceeding:
   }
   ```
 
-### Step 3 — Design (Palette)
+### Step 3 — Design (Palette) [DEFAULT — skip-if: UI/UX 관련 없는 태스크]
 - Invoke `/context-packet` for **palette** (includes Linear thread if available).
 - Spawn **Palette** with ContextPacket.
 - Palette respects the **existing design system**.
 - Writes evidence to `.geas/evidence/{task-id}/palette.json`.
 - **Linear comment verification** (if enabled):
   - Check for `[Palette]` comment. If missing: Compass posts fallback from evidence.
+- **Checkpoint:** `.geas/evidence/{task-id}/palette.json` 존재 확인 후 다음 단계로.
 
-### Step 4 — Tech Guide (Forge)
+### Step 4 — Tech Guide (Forge) [DEFAULT — skip-if: 단순 태스크 (설정 변경, 버전 범프, 문구 수정)]
 - Invoke `/context-packet` for **forge** with Palette's evidence.
 - Spawn **Forge** for technical approach respecting **existing architecture**.
 - Pushes back on anything that conflicts with established patterns.
 - Writes evidence to `.geas/evidence/{task-id}/forge.json`.
 - **Linear comment verification** (if enabled):
   - Check for `[Forge]` comment. If missing: Compass posts fallback from evidence.
+- **Checkpoint:** `.geas/evidence/{task-id}/forge.json` 존재 확인 후 다음 단계로.
 
 ### Step 5 — Implementation (Pixel / Circuit) [WORKTREE ISOLATED]
 - Invoke `/context-packet` for the assigned worker with all prior evidence.
@@ -112,21 +124,23 @@ The project has not been onboarded yet. Before proceeding:
   - If merge conflict → spawn Forge to resolve.
   - Log worktree events to `.geas/ledger/events.jsonl`.
 
-### Step 6 — Code Review (Forge)
+### Step 6 — Code Review (Forge) [MANDATORY]
 - Invoke `/context-packet` for **forge** as reviewer.
 - Spawn **Forge** for code review.
 - Writes review evidence to `.geas/evidence/{task-id}/forge-review.json`.
 - If Linear enabled:
   - Update issue status to **In Review**.
   - Verify `[Forge]` review comment. If missing: Compass posts fallback.
+- **Checkpoint:** `.geas/evidence/{task-id}/forge-review.json` 존재 확인 후 다음 단계로.
 
-### Step 7 — Testing (Sentinel)
+### Step 7 — Testing (Sentinel) [MANDATORY]
 - Invoke `/context-packet` for **sentinel**.
 - Spawn **Sentinel** for QA.
 - Writes test evidence to `.geas/evidence/{task-id}/sentinel.json`.
 - If Linear enabled:
   - Update issue status to **Testing**.
   - Verify `[Sentinel]` QA comment. If missing: Compass posts fallback.
+- **Checkpoint:** `.geas/evidence/{task-id}/sentinel.json` 존재 확인 후 다음 단계로.
 
 ### Step 8 — Evidence Gate
 - Invoke `/evidence-gate` with Sentinel's evidence and the TaskContract.
