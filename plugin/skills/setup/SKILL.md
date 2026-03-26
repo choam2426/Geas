@@ -94,7 +94,7 @@ If the user wants Linear, proceed with the steps below:
 
 3. **Check Python**
    - Run: `python --version` on Windows or `python3 --version` on macOS/Linux
-   - Require Python 3.6+
+   - Require Python 3.10+
    - If missing, direct user to https://python.org
 
 4. **Create .env file** (only if key was manually provided in Step 2)
@@ -152,6 +152,6 @@ If the user wants Linear, proceed with the steps below:
    ```
 
 ## If something fails
-- Missing Python: "Install Python 3.6+ from https://python.org"
+- Missing Python: "Install Python 3.10+ from https://python.org"
 - Missing Node.js: "Install Node.js 18+ from https://nodejs.org"
 - Invalid API key: "Check your key at https://linear.app/settings/api"

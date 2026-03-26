@@ -9,7 +9,7 @@
 A harness that brings structure to multi-agent AI development — so every decision is deliberate, every action is traceable, and every output is verified.
 
 [![Claude Code](https://img.shields.io/badge/Built_for-Claude_Code-6B4FBB?style=for-the-badge)](https://claude.ai/code)
-[![License](https://img.shields.io/badge/License-BSL_1.1-orange?style=for-the-badge)](LICENSE)
+[![License](https://img.shields.io/badge/License-Apache_2.0-blue?style=for-the-badge)](LICENSE)
 
 </div>
 
@@ -59,7 +59,7 @@ Every action produces a traceable artifact. Missions freeze into **seed specs**.
 
 - [Claude Code CLI](https://claude.ai/code) installed and authenticated
 - Optional: [Linear](https://linear.app) API key for collaboration visibility
-- Optional: Python 3.6+ for Linear integration
+- Optional: Python 3.10+ for Linear integration
 
 ### 1. Install the plugin
 
@@ -157,7 +157,7 @@ Your comments are included in the next agent's context. This is how you stay in 
 
 ## License
 
-[Business Source License 1.1](LICENSE)
+[Apache License 2.0](LICENSE)
 
 ---
 
