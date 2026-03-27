@@ -19,18 +19,18 @@ Agents are templates, not fixed identities. The 12-agent team (Geas-12) is the d
 
 | Group | Agent | Role | Model | Tools | MCP | Skills |
 |-------|-------|------|-------|-------|-----|--------|
-| **Leadership** | Nova | CEO / Vision | opus | Read, Glob, Grep | -- | linear-cli, linear-protocol, pivot-protocol |
-| | Forge | CTO / Architecture | opus | Read, Grep, Glob, Bash, Write, Edit | Context7 | linear-cli, linear-protocol, coding-conventions, verify |
+| **Leadership** | Nova | CEO / Vision | opus | Read, Glob, Grep | -- | linear-cli, linear-protocol, pivot-protocol, briefing, write-prd, write-stories |
+| | Forge | CTO / Architecture | opus | Read, Grep, Glob, Bash, Write, Edit | Context7 | linear-cli, linear-protocol, coding-conventions, verify, cleanup |
 | **Design** | Palette | UI/UX Designer | sonnet | Read, Write, Glob, Grep | -- | linear-cli, linear-protocol, coding-conventions |
 | **Engineering** | Pixel | Frontend Engineer | opus | Read, Write, Edit, Bash, Glob, Grep | Context7 | linear-cli, linear-protocol, coding-conventions |
 | | Circuit | Backend Engineer | opus | Read, Write, Edit, Bash, Glob, Grep | Context7 | linear-cli, linear-protocol, coding-conventions |
 | | Keeper | Git / Release Manager | sonnet | Read, Write, Edit, Bash, Glob, Grep | -- * | linear-cli, linear-protocol, coding-conventions |
 | **Quality** | Sentinel | QA Engineer | sonnet | Read, Write, Bash, Glob, Grep | Playwright, Context7 | linear-cli, linear-protocol, verify |
 | **Operations** | Pipeline | DevOps Engineer | sonnet | Read, Write, Edit, Bash | -- | linear-cli, linear-protocol, coding-conventions |
-| | Shield | Security Engineer | sonnet | Read, Grep, Glob, Bash, Write, Edit | -- | linear-cli, linear-protocol |
+| | Shield | Security Engineer | sonnet | Read, Grep, Glob, Bash, Write, Edit | -- | linear-cli, linear-protocol, coding-conventions |
 | **Strategy** | Critic | Devil's Advocate | opus | Read, Glob, Grep | -- | linear-cli, linear-protocol |
 | **Documentation** | Scroll | Tech Writer | sonnet | Read, Write, Glob, Grep | Context7 | linear-cli, linear-protocol |
-| **Process** | Scrum | Agile Master | sonnet | Read, Write, Edit, Glob, Grep | -- | -- |
+| **Process** | Scrum | Agile Master | sonnet | Read, Write, Edit, Glob, Grep | -- | linear-cli, linear-protocol, ledger-query |
 
 \* Keeper has no built-in MCP server. During Genesis, Geas may recommend contextual MCP servers based on the tech stack (e.g., GitHub MCP for Keeper). See [initiative skill](../plugin/skills/initiative/SKILL.md) Step 1.7.
 
@@ -77,10 +77,10 @@ Scroll ensures the product is documented. Code without docs is treated as techni
 **Role.** Sets the product vision, defines MVP scope, makes ship/iterate/cut decisions, and resolves conflicts. The final decision-maker in debates.
 
 **When invoked.**
-- Genesis phase: mission analysis, P0/P1/P2 scope definition.
+- Genesis phase: mission analysis, P0/P1/P2 scope definition, PRD and user stories (write-prd, write-stories).
 - Per feature: product review after QA passes (mandatory).
 - On escalation: pivot decisions, priority adjustments.
-- Milestones: morning briefings.
+- Milestones: morning briefings (briefing skill).
 
 **Evidence produced.**
 - `nova.json` -- product review verdict (Ship / Iterate / Cut) with reasoning.
@@ -103,7 +103,7 @@ Scroll ensures the product is documented. Code without docs is treated as techni
 - Genesis phase: tech stack selection, writing `conventions.md`.
 - Pre-implementation: technical guide for engineers (function signatures, file organization, edge cases).
 - Post-implementation: mandatory code review of every feature.
-- Ongoing: architecture consistency monitoring.
+- Ongoing: architecture consistency monitoring, entropy scans (cleanup skill).
 
 **Evidence produced.**
 - `forge.json` -- architecture decisions, technical guides, or code review verdicts (`APPROVED` / `CHANGES REQUESTED`).
@@ -253,7 +253,7 @@ Scroll ensures the product is documented. Code without docs is treated as techni
 
 > "This endpoint is wide open. Fix it."
 
-**Role.** Reviews code for vulnerabilities using OWASP Top 10, analyzes authentication flows, and audits dependencies. Trusts no input.
+**Role.** Reviews code for vulnerabilities using OWASP Top 10, analyzes authentication flows, and audits dependencies. Trusts no input. References project coding-conventions to avoid false positives.
 
 **When invoked.**
 - Polish phase: comprehensive security review.
@@ -321,7 +321,7 @@ Scroll ensures the product is documented. Code without docs is treated as techni
 
 > "What did we learn? What do we carry forward?"
 
-**Role.** Runs task retrospectives after Ship Gate. Reviews all evidence, extracts project-specific conventions for `rules.md`, and records lessons learned for future tasks. Focused on continuous improvement, not cheerleading.
+**Role.** Runs task retrospectives after Ship Gate. Reviews all evidence, extracts project-specific conventions for `rules.md`, and records lessons learned for future tasks. Uses ledger-query to cross-reference event history. Focused on continuous improvement, not cheerleading.
 
 **When invoked.**
 - After every task passes Ship Gate (MANDATORY step in both Initiative and Sprint modes).

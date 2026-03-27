@@ -95,16 +95,16 @@ task-compiler  -->  context-packet  -->  [agent work]  -->  evidence-gate
 
 | Skill | Description | Invocation | Inputs | Outputs |
 |-------|-------------|------------|--------|---------|
-| [briefing](#briefing) | Nova's structured status report on product health | At milestones, phase transitions, or on request | Run state, Linear issues, prior briefings | Status report (Linear comment + console) |
-| [cleanup](#cleanup) | Entropy scan for AI slop, dead code, convention drift | After MVP or during Evolution | Source files, conventions.md | Tech-debt issues on Linear |
+| [briefing](#briefing) | Nova's structured status report on product health | Nova agent skill; at milestones, phase transitions, or on request | Run state, Linear issues, prior briefings | Status report (Linear comment + console) |
+| [cleanup](#cleanup) | Entropy scan for AI slop, dead code, convention drift | Forge agent skill; after MVP or during Evolution | Source files, conventions.md | Tech-debt issues on Linear |
 | [coding-conventions](#coding-conventions) | Universal coding standards for the AI startup workspace — stack-agnostic | Referenced by agents during implementation | N/A (reference document) | N/A (defines standards) |
-| [ledger-query](#ledger-query) | Read-only search over `.geas/ledger/events.jsonl` | On demand for diagnostics, status, or history | Query type + optional filters | Formatted markdown tables |
+| [ledger-query](#ledger-query) | Read-only search over `.geas/ledger/events.jsonl` | Scrum agent skill; on demand for diagnostics, status, or history | Query type + optional filters | Formatted markdown tables |
 | [onboard](#onboard) | Codebase discovery: scan structure, detect stack, map architecture | Auto-triggered in Sprint mode when no prior state exists | Project source files | `.geas/memory/_project/conventions.md` |
 | [pivot-protocol](#pivot-protocol) | Strategic direction change when the current approach is failing | Triggered by repeated failures, Nova "Cut" verdict, or agent concern | Failure context, evidence, options | Nova's pivot decision, restructured Linear board |
-| [run-summary](#run-summary) | Generate end-of-session summary — decisions, issues completed, agent stats, verify-fix loops. Post to Linear Document and console | At session end, handoff, or on request | Run state, agent log, Linear issues | Linear Document + console output |
+| [run-summary](#run-summary) | Generate end-of-session summary — decisions, issues completed, agent stats, verify-fix loops. Post to Linear Document and console | Invoked by compass at initiative Phase 4 end / sprint end, or on request | Run state, agent log, Linear issues | Linear Document + console output |
 | [verify](#verify) | Structured verification checklist — BUILD, LINT, TEST, ERROR_FREE, FUNCTIONALITY. Invoke to check code quality before declaring complete | Before declaring any feature complete | Project build/lint/test commands | Checklist verdict (PASS/FAIL per item) |
-| [write-prd](#write-prd) | Create a Product Requirements Document from a feature idea or mission | On demand or during Genesis | Feature idea, problem statement, or mission | PRD in markdown |
-| [write-stories](#write-stories) | Break a feature or mission into user stories with acceptance criteria | On demand or during planning | Feature description or mission statement | User stories in markdown |
+| [write-prd](#write-prd) | Create a Product Requirements Document from a feature idea or mission | Nova agent skill; invoked during initiative Genesis 1.4 | Feature idea, problem statement, or mission | `.geas/spec/prd.md` |
+| [write-stories](#write-stories) | Break a feature or mission into user stories with acceptance criteria | Nova agent skill; invoked during initiative Genesis 1.4 | PRD or feature description | `.geas/spec/stories.md` |
 
 ---
 
@@ -291,10 +291,10 @@ Phases:
 
 | Phase | Key activities |
 |-------|---------------|
-| **Genesis** | Seed check, Linear bootstrap, Nova vision, Forge architecture, vote round (Critic mandatory), compile TaskContracts, MCP server recommendations |
+| **Genesis** | Seed check, Linear bootstrap, Nova vision, PRD & user stories (Nova), Forge architecture, vote round (Critic mandatory), compile TaskContracts from stories, MCP server recommendations |
 | **MVP Build** | Per-task pipeline: Design (Palette) -> Tech Guide (Forge) -> Implementation (worker in worktree) -> Code Review (Forge) -> Testing (Sentinel) -> Evidence Gate -> Critic Pre-ship Review -> Nova Product Review -> Ship Gate -> Retrospective (Scrum) -> Resolve (Keeper commits) |
 | **Polish** | Security review (Shield), documentation (Scroll), fix issues found |
-| **Evolution** | Scoped improvements within seed scope, Nova final briefing, Keeper release management |
+| **Evolution** | Scoped improvements within seed scope, Nova final briefing, Keeper release management, run-summary |
 
 Every task gets the full pipeline. Code Review and Testing are mandatory for every task, not just the first. Critic performs a pre-ship review (step 2.7) before Nova's verdict. Keeper handles commits at Resolve and release management at Evolution.
 
@@ -311,7 +311,7 @@ Every task gets the full pipeline. Code Review and Testing are mandatory for eve
 | **Inputs** | Seed spec from intake, existing codebase conventions (`.geas/memory/_project/conventions.md`). |
 | **Outputs** | Shipped feature with full evidence trail. |
 
-Pipeline: Compile TaskContract -> Design (Palette) -> Tech Guide (Forge) -> Implementation (worktree) -> Code Review (Forge) -> Testing (Sentinel) -> Evidence Gate -> Nova Product Review -> Ship Gate -> Retrospective (Scrum) -> Resolve (Keeper commits).
+Pipeline: Compile TaskContract -> Design (Palette) -> Tech Guide (Forge) -> Implementation (worktree) -> Code Review (Forge) -> Testing (Sentinel) -> Evidence Gate -> Nova Product Review -> Ship Gate -> Retrospective (Scrum) -> Resolve (Keeper commits) -> Run Summary.
 
 On Evidence Gate failure, verify-fix-loop spawns the original worker agent to fix (never fix code directly).
 
@@ -483,7 +483,7 @@ Skipped entirely on repeat Sprints if conventions.md already exists.
 | **Name** | run-summary |
 | **Category** | Utility |
 | **Description** | Generate end-of-session summary — decisions, issues completed, agent stats, verify-fix loops. Post to Linear Document and console. |
-| **When invoked** | At end of every session, before session handoff, or on explicit request. |
+| **When invoked** | Invoked by compass at initiative Phase 4 end and sprint end. Also at session handoff or on explicit request. |
 | **Inputs** | `.geas/state/run.json`, `.geas/memory/_project/agent-log.jsonl`, Linear issues and comments. |
 | **Outputs** | Linear Document (`Run Summary: <date>`) and identical console output. |
 
@@ -517,9 +517,9 @@ Skipped entirely on repeat Sprints if conventions.md already exists.
 | **Name** | write-prd |
 | **Category** | Utility |
 | **Description** | Create a Product Requirements Document from a feature idea or mission. |
-| **When invoked** | On demand or during Genesis phase planning. |
-| **Inputs** | Feature idea, problem statement, or mission (passed as arguments). |
-| **Outputs** | PRD in markdown (Problem, Objective, Target Users, Scope, User Flows, Requirements, Success Metrics, Open Questions). |
+| **When invoked** | Nova agent skill. During initiative Genesis phase 1.4 (after Nova vision), or on demand. |
+| **Inputs** | Seed spec (`.geas/spec/seed.json`) and Nova's vision evidence. |
+| **Outputs** | `.geas/spec/prd.md` — PRD in markdown (Problem, Objective, Target Users, Scope, User Flows, Requirements, Success Metrics, Open Questions). |
 
 ---
 
@@ -530,6 +530,6 @@ Skipped entirely on repeat Sprints if conventions.md already exists.
 | **Name** | write-stories |
 | **Category** | Utility |
 | **Description** | Breaks a feature or mission into user stories with acceptance criteria. |
-| **When invoked** | On demand or during planning phases. |
-| **Inputs** | Feature description, mission statement, or problem to solve (passed as arguments). |
-| **Outputs** | User stories in markdown, each with "As a / I want to / So that" format, acceptance criteria checklist, priority (P0/P1/P2), and size estimate (S/M/L). |
+| **When invoked** | Nova agent skill. During initiative Genesis phase 1.4 (after PRD), or on demand. |
+| **Inputs** | PRD (`.geas/spec/prd.md`) or feature description. |
+| **Outputs** | `.geas/spec/stories.md` — User stories in markdown, each with "As a / I want to / So that" format, acceptance criteria checklist, priority (P0/P1/P2), and size estimate (S/M/L). Stories feed into task-compiler (step 1.7). |
