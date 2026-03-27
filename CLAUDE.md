@@ -37,7 +37,7 @@ plugin/
 - `vote-round/` — structured agent voting + debate on disagreement
 
 ### Team skills (execution protocols)
-- `full-team/` — 4-phase execution (Genesis → MVP → Polish → Evolution)
+- `initiative/` — 4-phase execution (Genesis → MVP → Polish → Evolution)
 - `sprint/` — bounded feature addition to existing project
 - `debate/` — decision-only discussion, no code
 
@@ -70,5 +70,5 @@ All files must be written in English, except `README.ko.md`. This includes skill
 - Read the existing file first — understand the current behavior before changing it
 - Keep skills focused — one skill, one responsibility
 - Preserve the "if Linear enabled" conditional pattern — Linear is optional
-- Update both `full-team` and `sprint` when changing shared behavior
+- Update both `initiative` and `sprint` when changing shared behavior
 - Test changes by running the harness in `test_session/`

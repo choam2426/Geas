@@ -33,12 +33,12 @@ compass              Orchestrator -- setup, intake, mode detection
   |
   +---> [mode detection]
         |
-        +---> full-team     New product (Genesis -> MVP -> Polish -> Evolution)
+        +---> initiative     New product (Genesis -> MVP -> Polish -> Evolution)
         +---> sprint        Bounded feature addition to existing project
         +---> debate        Decision-only discussion, no code
 ```
 
-Within `full-team` and `sprint`, the contract engine skills run per task:
+Within `initiative` and `sprint`, the contract engine skills run per task:
 
 ```
 task-compiler  -->  context-packet  -->  [agent work]  -->  evidence-gate
@@ -62,14 +62,14 @@ task-compiler  -->  context-packet  -->  [agent work]  -->  evidence-gate
 
 | Skill | Description | Invocation | Inputs | Outputs |
 |-------|-------------|------------|--------|---------|
-| [compass](#compass) | Coordinates the entire multi-agent team -- manages setup, intake, mode detection, and delegation | Called by `mission` via `/geas:compass` | `.geas/state/run.json` (if resuming) | Delegates to `full-team`, `sprint`, or `debate` |
+| [compass](#compass) | Coordinates the entire multi-agent team -- manages setup, intake, mode detection, and delegation | Called by `mission` via `/geas:compass` | `.geas/state/run.json` (if resuming) | Delegates to `initiative`, `sprint`, or `debate` |
 
 ### Core (Contract Engine)
 
 | Skill | Description | Invocation | Inputs | Outputs |
 |-------|-------------|------------|--------|---------|
 | [intake](#intake) | Socratic requirements gathering -- surfaces hidden assumptions and freezes a seed spec | Called by `compass` via `/geas:intake` | User's mission string | `.geas/spec/seed.json` |
-| [task-compiler](#task-compiler) | Compiles a user story into a TaskContract with verifiable acceptance criteria | Called by `compass` during full-team or sprint | Seed spec, architecture context, user story | `.geas/tasks/{id}.json` |
+| [task-compiler](#task-compiler) | Compiles a user story into a TaskContract with verifiable acceptance criteria | Called by `compass` during initiative or sprint | Seed spec, architecture context, user story | `.geas/tasks/{id}.json` |
 | [context-packet](#context-packet) | Generates a role-specific briefing for a worker agent | Called by `compass` before dispatching any worker | TaskContract, prior evidence, Linear thread, seed spec | `.geas/packets/{task-id}/{worker}.md` |
 | [evidence-gate](#evidence-gate) | Three-tier quality gate evaluating output against a TaskContract | Called by `compass` after collecting an EvidenceBundle | EvidenceBundle, TaskContract, gate level | Gate verdict (pass/fail/iterate) in `.geas/evidence/` |
 | [verify-fix-loop](#verify-fix-loop) | Bounded fix-verify inner loop after evidence gate failure | Called by `compass` (or evidence-gate) on gate failure | Failed EvidenceBundle, TaskContract, gate verdict | Fixed evidence, or escalation DecisionRecord |
@@ -79,7 +79,7 @@ task-compiler  -->  context-packet  -->  [agent work]  -->  evidence-gate
 
 | Skill | Description | Invocation | Inputs | Outputs |
 |-------|-------------|------------|--------|---------|
-| [full-team](#full-team) | 4-phase new product build: Genesis, MVP, Polish, Evolution. Critic votes in every vote round, performs pre-ship review. Keeper commits at Resolve/Evolution | Called by `compass` or explicitly via `/geas:full-team` | Seed spec from intake | Completed project with evidence trail |
+| [initiative](#initiative) | 4-phase new product build: Genesis, MVP, Polish, Evolution. Critic votes in every vote round, performs pre-ship review. Keeper commits at Resolve/Evolution | Called by `compass` or explicitly via `/geas:initiative` | Seed spec from intake | Completed project with evidence trail |
 | [sprint](#sprint) | Single-feature pipeline: Design, Build, Review, QA, Retrospective. Keeper commits at Resolve | Called by `compass` or explicitly via `/geas:sprint` | Seed spec, existing codebase conventions | Shipped feature with evidence trail |
 | [debate](#debate) | Multi-agent structured debate for decisions, no code produced | Called by `compass` or explicitly via `/geas:debate` | User's question framed as 2-3 options | DecisionRecord in `.geas/decisions/` |
 
@@ -137,7 +137,7 @@ task-compiler  -->  context-packet  -->  [agent work]  -->  evidence-gate
 Startup sequence:
 1. **Environment check** -- look for `.geas/state/run.json` to determine fresh vs. resume run.
 2. **Intake gate** -- invoke `/geas:intake` to produce `seed.json`.
-3. **Mode detection** -- infer full-team, sprint, or debate from user intent; delegate accordingly.
+3. **Mode detection** -- infer initiative, sprint, or debate from user intent; delegate accordingly.
 
 Key rules:
 - Sub-agents are spawned as 1-level agents (no nesting).
@@ -162,7 +162,7 @@ Key rules:
 
 Process:
 1. Score readiness across 5 dimensions (Clarity, Scope, Users, Constraints, Acceptance), each 0-20.
-2. If score < threshold (60 for Full Team, 40 for Sprint), ask Socratic questions (max 2 rounds).
+2. If score < threshold (60 for Initiative, 40 for Sprint), ask Socratic questions (max 2 rounds).
 3. Produce `seed.json` with acceptance criteria (>= 3), scope boundaries, and readiness breakdown.
 4. Confirm with user before freezing.
 
@@ -175,7 +175,7 @@ Process:
 | **Name** | task-compiler |
 | **Category** | Core (Contract Engine) |
 | **Description** | Compiles a user story into a TaskContract -- a machine-readable work agreement with verifiable acceptance criteria, path boundaries, and eval commands. |
-| **When invoked** | Called by `compass` during Full Team (after Genesis creates issues) and Sprint (for the feature). |
+| **When invoked** | Called by `compass` during Initiative (after Genesis creates issues) and Sprint (for the feature). |
 | **Inputs** | User story or feature description, seed spec, architecture context, existing task contracts. |
 | **Outputs** | `.geas/tasks/{id}.json` (conforms to `schemas/task-contract.schema.json`). |
 
@@ -276,14 +276,14 @@ Not used for: individual feature specs, per-feature tech guides, single-domain i
 
 ---
 
-### full-team
+### initiative
 
 | | |
 |---|---|
-| **Name** | full-team |
+| **Name** | initiative |
 | **Category** | Team (Execution Protocol) |
 | **Description** | Start a new product with the full Geas team. Four phases: Genesis, MVP Build, Polish, Evolution. |
-| **When invoked** | Called by `compass` when mode is "new product or broad mission," or explicitly via `/geas:full-team`. |
+| **When invoked** | Called by `compass` when mode is "new product or broad mission," or explicitly via `/geas:initiative`. |
 | **Inputs** | Seed spec from intake. |
 | **Outputs** | Completed project with full evidence trail across all phases. |
 

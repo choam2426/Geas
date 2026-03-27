@@ -38,7 +38,7 @@ Post as both a **Linear Document** and **console output**.
 ```
 Run Summary — <mission name or Sprint feature>
 Date: <ISO date, e.g. 2026-03-21>
-Mode: <full-team | sprint | debate>
+Mode: <initiative | sprint | debate>
 Phase: <genesis | mvp | polish | evolve | complete>
 Duration: <if available from timestamps, otherwise omit>
 

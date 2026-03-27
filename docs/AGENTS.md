@@ -32,7 +32,7 @@ Agents are templates, not fixed identities. The 12-agent team (Geas-12) is the d
 | **Documentation** | Scroll | Tech Writer | sonnet | Read, Write, Glob, Grep | Context7 | linear-cli, linear-protocol |
 | **Process** | Scrum | Agile Master | sonnet | Read, Write, Edit, Glob, Grep | -- | -- |
 
-\* Keeper has no built-in MCP server. During Genesis, Geas may recommend contextual MCP servers based on the tech stack (e.g., GitHub MCP for Keeper). See [full-team skill](../plugin/skills/full-team/SKILL.md) Step 1.7.
+\* Keeper has no built-in MCP server. During Genesis, Geas may recommend contextual MCP servers based on the tech stack (e.g., GitHub MCP for Keeper). See [initiative skill](../plugin/skills/initiative/SKILL.md) Step 1.7.
 
 ---
 
@@ -324,7 +324,7 @@ Scroll ensures the product is documented. Code without docs is treated as techni
 **Role.** Runs task retrospectives after Ship Gate. Reviews all evidence, extracts project-specific conventions for `rules.md`, and records lessons learned for future tasks. Focused on continuous improvement, not cheerleading.
 
 **When invoked.**
-- After every task passes Ship Gate (MANDATORY step in both Full Team and Sprint modes).
+- After every task passes Ship Gate (MANDATORY step in both Initiative and Sprint modes).
 
 **Evidence produced.**
 - `.geas/memory/retro/{task-id}.json` -- retrospective with `rules_added`, `rules_updated`, `lessons`, `insights_for_next_tasks`.
@@ -362,6 +362,6 @@ Before shipping, Compass verifies that `forge-review.json`, `sentinel.json`, and
 
 | Mode | Purpose | Agents Involved |
 |------|---------|-----------------|
-| **Full Team** | New product from scratch | All 12 agents across Genesis, MVP, Polish, Evolution phases |
+| **Initiative** | New product from scratch | All 12 agents across Genesis, MVP, Polish, Evolution phases |
 | **Sprint** | Bounded feature addition to existing project | Core agents: Design, Build, Review, QA, Retro |
 | **Debate** | Decision-only discussion, no code | Relevant debaters only (typically Nova, Forge, Critic, and domain experts) |

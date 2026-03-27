@@ -179,7 +179,7 @@ Current run state summary with recent events.
 ## Current Status
 
 Mission: <mission from seed>
-Mode: <full-team | sprint | debate>
+Mode: <initiative | sprint | debate>
 Phase: <current phase>
 Readiness Score: <score>/100
 

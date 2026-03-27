@@ -35,12 +35,12 @@ compass              오케스트레이터 -- 설정, intake, 모드 감지
   |
   +---> [모드 감지]
         |
-        +---> full-team     신규 제품 (Genesis -> MVP -> Polish -> Evolution)
+        +---> initiative     신규 제품 (Genesis -> MVP -> Polish -> Evolution)
         +---> sprint        기존 프로젝트에 범위 한정 기능 추가
         +---> debate        의사결정 전용 토론, 코드 없음
 ```
 
-`full-team`과 `sprint` 내부에서는 태스크별로 계약 엔진 스킬이 실행됩니다:
+`initiative`과 `sprint` 내부에서는 태스크별로 계약 엔진 스킬이 실행됩니다:
 
 ```
 task-compiler  -->  context-packet  -->  [에이전트 작업]  -->  evidence-gate
@@ -64,14 +64,14 @@ task-compiler  -->  context-packet  -->  [에이전트 작업]  -->  evidence-ga
 
 | 스킬 | 설명 | 호출 방식 | 입력 | 출력 |
 |-------|------|-----------|------|------|
-| [compass](#compass) | 멀티 에이전트 팀 전체를 조율 -- 설정, intake, 모드 감지, 위임 관리 | `mission`이 `/geas:compass`를 통해 호출 | `.geas/state/run.json` (재개 시) | `full-team`, `sprint`, 또는 `debate`에 위임 |
+| [compass](#compass) | 멀티 에이전트 팀 전체를 조율 -- 설정, intake, 모드 감지, 위임 관리 | `mission`이 `/geas:compass`를 통해 호출 | `.geas/state/run.json` (재개 시) | `initiative`, `sprint`, 또는 `debate`에 위임 |
 
 ### 코어 (Contract Engine)
 
 | 스킬 | 설명 | 호출 방식 | 입력 | 출력 |
 |-------|------|-----------|------|------|
 | [intake](#intake) | 소크라테스식 요구사항 수집 -- 숨겨진 가정을 드러내고 seed 스펙을 확정 | `compass`가 `/geas:intake`를 통해 호출 | 사용자의 미션 문자열 | `.geas/spec/seed.json` |
-| [task-compiler](#task-compiler) | 사용자 스토리를 검증 가능한 수락 기준이 포함된 TaskContract로 컴파일 | full-team 또는 sprint 중 `compass`가 호출 | Seed 스펙, 아키텍처 컨텍스트, 사용자 스토리 | `.geas/tasks/{id}.json` |
+| [task-compiler](#task-compiler) | 사용자 스토리를 검증 가능한 수락 기준이 포함된 TaskContract로 컴파일 | initiative 또는 sprint 중 `compass`가 호출 | Seed 스펙, 아키텍처 컨텍스트, 사용자 스토리 | `.geas/tasks/{id}.json` |
 | [context-packet](#context-packet) | 워커 에이전트를 위한 역할 맞춤형 브리핑 생성 | 워커 디스패치 전 `compass`가 호출 | TaskContract, 이전 에비던스, Linear 스레드, seed 스펙 | `.geas/packets/{task-id}/{worker}.md` |
 | [evidence-gate](#evidence-gate) | TaskContract 대비 출력을 평가하는 3단계 품질 게이트 | EvidenceBundle 수집 후 `compass`가 호출 | EvidenceBundle, TaskContract, 게이트 레벨 | `.geas/evidence/`에 게이트 판정 (pass/fail/iterate) |
 | [verify-fix-loop](#verify-fix-loop) | Evidence Gate 실패 후 제한된 수정-검증 내부 루프 | 게이트 실패 시 `compass`(또는 evidence-gate)가 호출 | 실패한 EvidenceBundle, TaskContract, 게이트 판정 | 수정된 에비던스 또는 에스컬레이션 DecisionRecord |
@@ -81,7 +81,7 @@ task-compiler  -->  context-packet  -->  [에이전트 작업]  -->  evidence-ga
 
 | 스킬 | 설명 | 호출 방식 | 입력 | 출력 |
 |-------|------|-----------|------|------|
-| [full-team](#full-team) | 4단계 신규 제품 빌드: Genesis, MVP, Polish, Evolution. Critic이 모든 vote round에 참여하고 출시 전 리뷰 수행. Keeper가 Resolve/Evolution에서 커밋 | `compass`가 호출하거나 `/geas:full-team`으로 명시 호출 | intake의 seed 스펙 | 에비던스 트레일이 포함된 완성된 프로젝트 |
+| [initiative](#initiative) | 4단계 신규 제품 빌드: Genesis, MVP, Polish, Evolution. Critic이 모든 vote round에 참여하고 출시 전 리뷰 수행. Keeper가 Resolve/Evolution에서 커밋 | `compass`가 호출하거나 `/geas:initiative`으로 명시 호출 | intake의 seed 스펙 | 에비던스 트레일이 포함된 완성된 프로젝트 |
 | [sprint](#sprint) | 단일 기능 파이프라인: Design, Build, Review, QA, Retrospective. Keeper가 Resolve에서 커밋 | `compass`가 호출하거나 `/geas:sprint`로 명시 호출 | seed 스펙, 기존 코드베이스 컨벤션 | 에비던스 트레일이 포함된 배포된 기능 |
 | [debate](#debate) | 의사결정을 위한 멀티 에이전트 구조화 토론, 코드 생성 없음 | `compass`가 호출하거나 `/geas:debate`로 명시 호출 | 2-3개 옵션으로 구성된 사용자의 질문 | `.geas/decisions/`에 DecisionRecord |
 
@@ -139,7 +139,7 @@ task-compiler  -->  context-packet  -->  [에이전트 작업]  -->  evidence-ga
 시작 시퀀스:
 1. **환경 확인** -- `.geas/state/run.json`을 찾아 신규 실행인지 재개인지 판단합니다.
 2. **Intake 게이트** -- `/geas:intake`를 호출하여 `seed.json`을 생성합니다.
-3. **모드 감지** -- 사용자 의도에서 full-team, sprint, debate를 추론하고 해당 모드에 위임합니다.
+3. **모드 감지** -- 사용자 의도에서 initiative, sprint, debate를 추론하고 해당 모드에 위임합니다.
 
 핵심 규칙:
 - 서브 에이전트는 1단계 에이전트로 스폰됩니다(중첩 없음).
@@ -164,7 +164,7 @@ task-compiler  -->  context-packet  -->  [에이전트 작업]  -->  evidence-ga
 
 프로세스:
 1. 5개 차원(Clarity, Scope, Users, Constraints, Acceptance)에 걸쳐 준비도를 0-20으로 평가합니다.
-2. 점수가 임계값(Full Team은 60, Sprint는 40) 미만이면 소크라테스식 질문을 합니다(최대 2라운드).
+2. 점수가 임계값(Initiative은 60, Sprint는 40) 미만이면 소크라테스식 질문을 합니다(최대 2라운드).
 3. 수락 기준(3개 이상), 범위 경계, 준비도 분석이 포함된 `seed.json`을 생성합니다.
 4. 확정 전 사용자에게 확인을 받습니다.
 
@@ -177,7 +177,7 @@ task-compiler  -->  context-packet  -->  [에이전트 작업]  -->  evidence-ga
 | **이름** | task-compiler |
 | **카테고리** | 코어 (Contract Engine) |
 | **설명** | 사용자 스토리를 검증 가능한 수락 기준, 경로 경계, eval 명령어가 포함된 TaskContract(기계 판독 가능한 작업 합의서)로 컴파일합니다. |
-| **호출 시점** | Full Team(Genesis에서 이슈 생성 후) 및 Sprint(기능 작업) 중 `compass`가 호출합니다. |
+| **호출 시점** | Initiative(Genesis에서 이슈 생성 후) 및 Sprint(기능 작업) 중 `compass`가 호출합니다. |
 | **입력** | 사용자 스토리 또는 기능 설명, seed 스펙, 아키텍처 컨텍스트, 기존 task contract. |
 | **출력** | `.geas/tasks/{id}.json` (`schemas/task-contract.schema.json` 준수). |
 
@@ -278,14 +278,14 @@ TaskContract에 포함되는 항목:
 
 ---
 
-### full-team
+### initiative
 
 | | |
 |---|---|
-| **이름** | full-team |
+| **이름** | initiative |
 | **카테고리** | 팀 (실행 프로토콜) |
 | **설명** | 전체 Geas 팀으로 신규 제품을 시작합니다. 4개 페이즈: Genesis, MVP Build, Polish, Evolution. |
-| **호출 시점** | 모드가 "신규 제품 또는 광범위한 미션"일 때 `compass`가 호출하거나, `/geas:full-team`으로 명시 호출합니다. |
+| **호출 시점** | 모드가 "신규 제품 또는 광범위한 미션"일 때 `compass`가 호출하거나, `/geas:initiative`으로 명시 호출합니다. |
 | **입력** | intake의 seed 스펙. |
 | **출력** | 전체 페이즈에 걸친 에비던스 트레일이 포함된 완성된 프로젝트. |
 

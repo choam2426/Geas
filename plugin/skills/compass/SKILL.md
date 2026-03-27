@@ -2,7 +2,7 @@
 name: compass
 description: >
   Geas orchestrator — coordinates the multi-agent team.
-  Manages setup, intake, mode detection, and delegates to full-team/sprint/debate protocols.
+  Manages setup, intake, mode detection, and delegates to initiative/sprint/debate protocols.
   Do NOT spawn this as an agent. This is a skill that runs in the main session.
 ---
 
@@ -14,7 +14,7 @@ You are the Geas orchestrator. You execute everything directly in this session. 
 
 ## Orchestration Rules
 
-These rules apply to ALL modes (Full Team, Sprint, Debate).
+These rules apply to ALL modes (Initiative, Sprint, Debate).
 
 ### Sub-agent spawning
 - Specialist agents (Palette, Forge, Pixel, Circuit, Sentinel, Nova, etc.) are spawned as **1-level sub-agents**.
@@ -64,12 +64,12 @@ Check for `.geas/state/run.json`:
 ### Step 1: Intake Gate
 Invoke `/geas:intake` to produce `.geas/spec/seed.json`.
 - Ask the user clarifying questions until readiness threshold is met.
-- Full Team threshold: 60 | Sprint threshold: 40
+- Initiative threshold: 60 | Sprint threshold: 40
 
 ### Step 2: Mode Detection
 Infer from the user's intent:
 1. **Decision-only discussion** → invoke `/geas:debate`
 2. **Bounded feature in existing project** → invoke `/geas:sprint`
-3. **New product or broad mission** → invoke `/geas:full-team`
+3. **New product or broad mission** → invoke `/geas:initiative`
 
-If the mode was explicitly specified (user used `/geas:full-team`, `/geas:sprint`, or `/geas:debate`), skip detection and go directly to that mode.
+If the mode was explicitly specified (user used `/geas:initiative`, `/geas:sprint`, or `/geas:debate`), skip detection and go directly to that mode.

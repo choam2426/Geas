@@ -141,7 +141,7 @@ Compass orchestrates the pipeline. 12 specialist agents execute it, each under t
 
 ## Execution Modes
 
-| | Full Team | Sprint | Debate |
+| | Initiative | Sprint | Debate |
 |---|---|---|---|
 | **When** | Starting a new product | Adding a feature | Making a decision |
 | **Phases** | Genesis → MVP → Polish → Evolution | Design → Build → Review → QA | Structured discussion |

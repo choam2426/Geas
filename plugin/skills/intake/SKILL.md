@@ -5,7 +5,7 @@ description: Mission intake gate — surfaces hidden assumptions via Socratic qu
 
 # Intake Gate
 
-Before any execution mode (Full Team, Sprint), run this gate to freeze the mission specification.
+Before any execution mode (Initiative, Sprint), run this gate to freeze the mission specification.
 
 **Skip this skill entirely for Debate mode** — the debate question itself is the specification.
 

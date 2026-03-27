@@ -1,10 +1,10 @@
 ---
-name: full-team
-description: Start a new product with the full Geas team — Genesis, MVP Build, Polish, Evolution.
+name: initiative
+description: Start a new product with the Geas team — Genesis, MVP Build, Polish, Evolution.
 user-invocable: true
 ---
 
-# Full Team Mode
+# Initiative Mode
 
 4 phases: Genesis → MVP Build → Polish → Evolution.
 
