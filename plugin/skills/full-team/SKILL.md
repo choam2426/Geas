@@ -126,7 +126,7 @@ Verify `.geas/evidence/{task-id}/sentinel.json` exists.
 ### 2.6 Evidence Gate
 Run eval_commands from TaskContract. Check acceptance criteria against all evidence.
 Log detailed result with tier breakdown.
-If fail → invoke `/geas:verify-fix-loop`. After fix, re-run gate.
+If fail → invoke `/geas:verify-fix-loop`. **Spawn the worker agent to fix — do NOT fix code directly.** After fix, re-run gate.
 
 ### 2.7 Nova Product Review [MANDATORY]
 ```
@@ -140,8 +140,11 @@ Agent(agent: "nova", prompt: "Read .geas/rules.md first. Read all evidence at .g
 - `.geas/evidence/{task-id}/nova-verdict.json` exists (Read it)
 **If ANY is missing: go back and execute the missing step. Do NOT proceed without all three.**
 
-### Rules Update
-After task completion, check evidence for `suggested_rules` and merge into `.geas/rules.md`. Also add any project-specific conventions discovered during this task (patterns, constraints, naming).
+### Retrospective (Scrum) [MANDATORY]
+```
+Agent(agent: "scrum", prompt: "Read .geas/rules.md first. Read all evidence at .geas/evidence/{task-id}/. Run retrospective: update rules.md with new conventions, write lessons to .geas/memory/retro/{task-id}.json")
+```
+Verify `.geas/memory/retro/{task-id}.json` exists.
 
 ### 2.9 Resolve
 - **Ship**: status → `"passed"`.

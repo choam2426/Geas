@@ -2,7 +2,7 @@
 
 ## Overview
 
-Geas operates with a team of 15 specialist agents coordinated by Compass. Compass itself is not an agent -- it is a **skill** that runs in the main session, acting as the orchestrator. Compass spawns specialist agents as **1-level sub-agents**: each agent does its work and returns. There is no nesting -- sub-agents never spawn further agents.
+Geas operates with a team of 16 specialist agents coordinated by Compass. Compass itself is not an agent -- it is a **skill** that runs in the main session, acting as the orchestrator. Compass spawns specialist agents as **1-level sub-agents**: each agent does its work and returns. There is no nesting -- sub-agents never spawn further agents.
 
 Every agent:
 
@@ -11,7 +11,7 @@ Every agent:
 - Posts summary comments to Linear (when enabled) for human visibility, prefixed with its name (e.g., `[Forge]`, `[Sentinel]`).
 - Participates in structured debates with explicit voting and evidence-backed disagreements.
 
-Agents are templates, not fixed identities. The 15-agent team (Geas-15) is the default configuration. The contract engine works with any agent setup.
+Agents are templates, not fixed identities. The 16-agent team (Geas-16) is the default configuration. The contract engine works with any agent setup.
 
 ---
 
@@ -34,6 +34,7 @@ Agents are templates, not fixed identities. The 15-agent team (Geas-15) is the d
 | | Shield | Security Engineer | sonnet | Read, Grep, Glob, Bash, Write, Edit | -- | linear-cli, linear-protocol |
 | **Strategy** | Critic | Devil's Advocate | opus | Read, Glob, Grep | -- | linear-cli, linear-protocol |
 | **Documentation** | Scroll | Tech Writer | sonnet | Read, Write, Glob, Grep | Context7 | linear-cli, linear-protocol |
+| **Process** | Scrum | Agile Master | sonnet | Read, Write, Edit, Glob, Grep | -- | -- |
 
 \* Vault and Keeper have no built-in MCP servers. During Genesis, Geas may recommend contextual MCP servers based on the tech stack (e.g., PostgreSQL MCP for Vault, GitHub MCP for Keeper). See [full-team skill](../plugin/skills/full-team/SKILL.md) Step 1.7.
 
@@ -408,6 +409,28 @@ Scroll ensures the product is documented. Code without docs is treated as techni
 
 ---
 
+### Scrum -- Agile Master
+
+> "What did we learn? What do we carry forward?"
+
+**Role.** Runs task retrospectives after Ship Gate. Reviews all evidence, extracts project-specific conventions for `rules.md`, and records lessons learned for future tasks. Focused on continuous improvement, not cheerleading.
+
+**When invoked.**
+- After every task passes Ship Gate (MANDATORY step in both Full Team and Sprint modes).
+
+**Evidence produced.**
+- `.geas/memory/retro/{task-id}.json` -- retrospective with `rules_added`, `rules_updated`, `lessons`, `insights_for_next_tasks`.
+- Updates to `.geas/rules.md` -- new project conventions extracted from evidence.
+
+**Key behaviors.**
+- Reads ALL evidence for the task (worker, forge-review, sentinel, nova-verdict, palette).
+- Looks for patterns: What bugs did Sentinel find? What did Forge flag? What rules would prevent these next time?
+- Extracts actionable rules, not vague observations ("use prepared statements for all SQL" not "be careful with SQL").
+- Checks existing rules.md before adding -- no duplicates.
+- Keeps retro JSON structured for machine consumption by future ContextPackets.
+
+---
+
 ## Pipeline Execution Order
 
 Every task follows a mandatory pipeline. Compass enforces this sequence:
@@ -421,8 +444,9 @@ Every task follows a mandatory pipeline. Compass enforces this sequence:
 | 5. Testing | Sentinel | MANDATORY |
 | 6. Evidence Gate | (automated) | MANDATORY |
 | 7. Product Review | Nova | MANDATORY |
+| 8. Retrospective | Scrum | MANDATORY |
 
-Before shipping, Compass verifies that `forge-review.json`, `sentinel.json`, and `nova-verdict.json` all exist. If any is missing, the skipped step is executed.
+Before shipping, Compass verifies that `forge-review.json`, `sentinel.json`, and `nova-verdict.json` all exist. If any is missing, the skipped step is executed. After Ship Gate, Scrum runs a retrospective to update rules and record lessons.
 
 ---
 
@@ -430,6 +454,6 @@ Before shipping, Compass verifies that `forge-review.json`, `sentinel.json`, and
 
 | Mode | Purpose | Agents Involved |
 |------|---------|-----------------|
-| **Full Team** | New product from scratch | All 15 agents across Genesis, MVP, Polish, Evolution phases |
-| **Sprint** | Bounded feature addition to existing project | Core agents: Design, Build, Review, QA |
+| **Full Team** | New product from scratch | All 16 agents across Genesis, MVP, Polish, Evolution phases |
+| **Sprint** | Bounded feature addition to existing project | Core agents: Design, Build, Review, QA, Retro |
 | **Debate** | Decision-only discussion, no code | Relevant debaters only (typically Nova, Forge, Critic, and domain experts) |

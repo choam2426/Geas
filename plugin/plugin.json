@@ -33,7 +33,8 @@
     "./agents/pipeline.md",
     "./agents/shield.md",
     "./agents/critic.md",
-    "./agents/scroll.md"
+    "./agents/scroll.md",
+    "./agents/scrum.md"
   ],
   "skills": "./skills/",
   "hooks": "./hooks/hooks.json",

@@ -48,7 +48,7 @@ Write `.geas/rules.md` — the shared rules that ALL agents must follow:
 ## Evidence
 - Write results to .geas/evidence/{task-id}/{your-name}.json as JSON
 - Required fields: agent, task_id, summary, files_changed, created_at
-- created_at must be actual current time. Use `date -u +%Y-%m-%dT%H:%M:%SZ` in Bash. No dummy values.
+- created_at is auto-injected by the PostToolUse hook. No manual timestamp needed.
 
 ## Linear
 - enabled: <true or false — filled based on Phase B result>

@@ -2,6 +2,7 @@
 # protect-geas-state.sh — PostToolUse hook (Write|Edit)
 # Monitors .geas/ state file integrity.
 # Warns when task marked "passed" without required evidence.
+# Injects real timestamps into .geas/**/*.json files.
 
 set -euo pipefail
 
@@ -33,6 +34,33 @@ GEAS_DIR="$CWD/.geas"
 
 # Not a .geas file — skip
 case "$FILE_PATH" in
+  */.geas/*.json)
+    # Inject real timestamp if created_at is missing or dummy
+    if [ -f "$FILE_PATH" ]; then
+      python -c "
+import json, sys, re
+from datetime import datetime, timezone
+
+fp = sys.argv[1]
+with open(fp, 'r', encoding='utf-8') as f:
+    d = json.load(f)
+
+ts = d.get('created_at', '')
+needs_fix = False
+
+if not ts:
+    needs_fix = True
+elif re.search(r':00:00Z$', ts) or re.search(r':00:00\.000Z$', ts):
+    needs_fix = True
+
+if needs_fix:
+    d['created_at'] = datetime.now(timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ')
+    with open(fp, 'w', encoding='utf-8') as f:
+        json.dump(d, f, indent=2, ensure_ascii=False)
+        f.write('\n')
+" "$FILE_PATH" 2>/dev/null || true
+    fi
+    ;;&
   */.geas/tasks/*.json)
     # Watch TaskContract edits: check if status changed to "passed"
     if [ -f "$FILE_PATH" ]; then

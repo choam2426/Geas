@@ -60,6 +60,7 @@ Verify evidence.
 
 ### 7. Evidence Gate
 Run eval_commands. Check acceptance criteria. Log detailed result.
+If fail → invoke `/geas:verify-fix-loop`. **Spawn the worker agent to fix — do NOT fix code directly.** After fix, re-run gate.
 
 ### 8. Nova Product Review [MANDATORY]
 ```
@@ -73,8 +74,11 @@ Agent(agent: "nova", prompt: "Read .geas/rules.md first. Read all evidence at .g
 - `.geas/evidence/{task-id}/nova-verdict.json`
 **If ANY missing: execute the missing step.**
 
-### Rules Update
-After task completion, check evidence for `suggested_rules` and merge into `.geas/rules.md`. Also add any project-specific conventions discovered during this task (patterns, constraints, naming).
+### Retrospective (Scrum) [MANDATORY]
+```
+Agent(agent: "scrum", prompt: "Read .geas/rules.md first. Read all evidence at .geas/evidence/{task-id}/. Run retrospective: update rules.md with new conventions, write lessons to .geas/memory/retro/{task-id}.json")
+```
+Verify `.geas/memory/retro/{task-id}.json` exists.
 
 ### 9. Resolve
 - Ship → `"passed"`

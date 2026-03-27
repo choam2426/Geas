@@ -29,7 +29,7 @@ These rules apply to ALL modes (Full Team, Sprint, Debate).
 
 ### Event logging
 - Log every transition to `.geas/ledger/events.jsonl`.
-- **Timestamps must be actual current time.** Get it with `date -u +%Y-%m-%dT%H:%M:%SZ` in Bash. No dummy values like `00:00:00Z`.
+- **Timestamps must be actual current time.** For event ledger entries, use `date -u +%Y-%m-%dT%H:%M:%SZ` in Bash. For JSON files in `.geas/`, the hook auto-injects timestamps.
 
 ### Linear integration
 - Detailed Linear rules (API key usage, comment format, CLI calls) are in `.geas/rules.md`.
@@ -37,13 +37,13 @@ These rules apply to ALL modes (Full Team, Sprint, Debate).
 - Issue state transitions are handled directly by the orchestrator (main session): In Progress → In Review → Testing → Done.
 
 ### Rules evolution
-- `.geas/rules.md` is a living document. Review and update it at major phase transitions.
-- After Genesis: add stack-specific rules (e.g., "lint with ruff", "test with pytest")
-- After each task: if agent evidence contains `suggested_rules`, merge them into rules.md
-- After first task: add project-specific conventions (directory structure, test patterns, naming)
+- `.geas/rules.md` is a living document managed primarily by **Scrum** (Agile Master).
+- After each task's Ship Gate, spawn Scrum for a retrospective — Scrum updates rules.md and records lessons.
+- After Genesis: Compass adds stack-specific rules (e.g., "lint with ruff", "test with pytest") before Scrum exists in the pipeline.
 
 ### What you do NOT do
 - **Do NOT implement code yourself.** You orchestrate. Specialist agents implement.
+- **Even for bug fixes** found during Evidence Gate or verify-fix-loop, **spawn the original worker agent** to fix. Do NOT fix code directly.
 - **Do NOT skip pipeline steps.** Follow the protocol of the invoked mode.
 
 ---
