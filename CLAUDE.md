@@ -2,11 +2,11 @@
 
 ## Project Identity
 
-**Decision. Traceability. Verification.**
+**Governance. Traceability. Verification. Evolution.**
 
-Geas brings structure to multi-agent AI development. The core value is not the number of agents — it's that every decision has a record, every action is traceable, and every output is verified against a contract.
+Geas brings structure to multi-agent AI development. The core value is not the number of agents — it's that every decision follows a governed process, every action is traceable, every output is verified against a contract, and the team evolves across sessions.
 
-When making any design decision, ask: **"Does this make the multi-agent process more structured, traceable, or verifiable?"**
+When making any design decision, ask: **"Does this make the multi-agent process more governed, traceable, verifiable, or capable of learning?"**
 
 ## Architecture (4 Layers)
 
