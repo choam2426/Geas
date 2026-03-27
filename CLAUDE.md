@@ -12,7 +12,7 @@ When making any design decision, ask: **"Does this make the multi-agent process 
 
 ```
 Collaboration Surface  ← replaceable (Linear, Dashboard)
-Agent Teams            ← replaceable (Geas-16, Lean-4, Custom)
+Agent Teams            ← replaceable (Geas-15, Lean-4, Custom)
 Contract Engine        ← core (Intake, TaskContract, Evidence Gate)
 Tool Adapters          ← replaceable (Claude Code, ...)
 ```
@@ -37,9 +37,9 @@ plugin/
 - `vote-round/` — structured agent voting + debate on disagreement
 
 ### Team skills (execution protocols)
-- `full-team-protocol/` — 4-phase execution (Genesis → MVP → Polish → Evolution)
-- `sprint-protocol/` — bounded feature addition to existing project
-- `debate-protocol/` — decision-only discussion, no code
+- `full-team/` — 4-phase execution (Genesis → MVP → Polish → Evolution)
+- `sprint/` — bounded feature addition to existing project
+- `debate/` — decision-only discussion, no code
 
 ### Surface skills (collaboration adapters)
 - `linear-cli/` — Linear API wrapper (Python)
@@ -48,7 +48,7 @@ plugin/
 ## Key Design Principles
 
 1. **Contract Engine is tool-agnostic** — skills in core/ should not reference any specific AI tool.
-2. **Agents are templates, not identity** — the 16-agent team is one configuration. The contract engine works with any agent setup.
+2. **Agents are templates, not identity** — the 15-agent team is one configuration. The contract engine works with any agent setup.
 3. **Collaboration surface is an adapter** — Linear is the current implementation. Don't hardcode Linear assumptions into core skills.
 4. **Evidence over declaration** — "agent says done" is never enough. Evidence Gate must verify.
 5. **Human comments are stakeholder input** — when reading Linear threads for ContextPackets, human comments have the highest priority.
@@ -70,5 +70,5 @@ All files must be written in English, except `README.ko.md`. This includes skill
 - Read the existing file first — understand the current behavior before changing it
 - Keep skills focused — one skill, one responsibility
 - Preserve the "if Linear enabled" conditional pattern — Linear is optional
-- Update both `full-team-protocol` and `sprint-protocol` when changing shared behavior
+- Update both `full-team` and `sprint` when changing shared behavior
 - Test changes by running the harness in `test_session/`

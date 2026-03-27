@@ -155,6 +155,18 @@ Your comments are included in the next agent's context. This is how you stay in 
 
 ---
 
+## Documentation
+
+| Document | Description |
+|----------|-------------|
+| [User Guide](docs/GUIDE.md) | Installation, first mission, modes, .geas/ structure, FAQ |
+| [Agent Reference](docs/AGENTS.md) | 15 specialist agents — roles, groups, evidence, MCP tools |
+| [Skill Reference](docs/SKILLS.md) | 24 skills — contract engine, protocols, utilities |
+| [Hooks Reference](docs/HOOKS.md) | 4 hooks — mechanical enforcement of pipeline rules |
+| [Design Document](docs/DESIGN.md) | Architecture, contract engine, roadmap (Korean) |
+
+---
+
 ## License
 
 [Apache License 2.0](LICENSE)
