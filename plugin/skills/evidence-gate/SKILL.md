@@ -38,7 +38,7 @@ Run the eval commands from the TaskContract and check results.
 
 **Stop on first failure** — no point running semantic checks if the code doesn't build.
 
-> **Important:** eval_commands를 반드시 실행하고 결과를 기록할 것. "pass"라고 가정하지 말 것. 커맨드가 없으면 `"skip"`으로 기록하되, 있는데 실행하지 않은 것은 게이트 위반이다.
+> **Important:** You MUST execute eval_commands and record the results. Do not assume "pass". If no commands exist, record as `"skip"`. Having commands but not running them is a gate violation.
 
 If the EvidenceBundle already contains `verify_results`, compare them against a fresh run. Trust the fresh run.
 

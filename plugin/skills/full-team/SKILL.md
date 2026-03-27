@@ -20,7 +20,7 @@ user-invocable: true
 - Check `.geas/config.json` for `linear_enabled`.
 - If enabled: create project, milestones (Genesis, MVP, Polish, Evolution), discover IDs.
 - Save to `.geas/memory/_project/linear-config.json`.
-- **Update `.geas/rules.md`**: Linear 섹션의 enabled를 true로, linear-cli 경로와 팀/프로젝트 ID를 실제 값으로 채움.
+- **Update `.geas/rules.md`**: set Linear section `enabled` to true, fill in linear-cli path and team/project IDs with actual values.
 
 ### 1.3 Vision (Nova)
 ```
@@ -46,28 +46,28 @@ If any disagree: run debate, then re-vote.
 - If Linear enabled: create issues, store IDs in TaskContracts.
 - Log each: `{"event": "task_compiled", "task_id": "...", "timestamp": "<actual>"}`
 
-### 1.7 MCP 서버 추천
+### 1.7 MCP Server Recommendations
 
-Forge의 아키텍처 결정에서 기술 스택을 분석하고, 도움이 될 MCP 서버를 사용자에게 추천한다.
+Analyze the tech stack from Forge's architecture decision and recommend helpful MCP servers to the user.
 
-| 감지 | 추천 MCP | 설치 명령 | 이유 |
-|------|---------|----------|------|
-| PostgreSQL | PostgreSQL MCP | `claude mcp add postgres -- npx -y @modelcontextprotocol/server-postgres <connection-string>` | Vault가 스키마 직접 조회 |
-| MongoDB | MongoDB MCP | `claude mcp add mongodb -- npx -y mongodb-mcp-server --readOnly` | Vault가 컬렉션 탐색 |
-| 웹 프론트엔드 | MDN MCP | `claude mcp add --transport http mdn https://mcp.mdn.mozilla.net/` | Pixel이 웹 표준 참조 |
-| 배포 대상 있음 | Lighthouse MCP | `claude mcp add lighthouse -- npx -y @anthropic/lighthouse-mcp` | Lens가 성능/접근성 감사 |
-| GitHub 호스팅 | GitHub MCP | `claude mcp add --transport http github https://mcp.github.com/anthropic` | Keeper가 PR/이슈 관리 |
+| Detected | Recommended MCP | Install command | Reason |
+|----------|----------------|-----------------|--------|
+| PostgreSQL | PostgreSQL MCP | `claude mcp add postgres -- npx -y @modelcontextprotocol/server-postgres <connection-string>` | Vault can query schemas directly |
+| MongoDB | MongoDB MCP | `claude mcp add mongodb -- npx -y mongodb-mcp-server --readOnly` | Vault can explore collections |
+| Web frontend | MDN MCP | `claude mcp add --transport http mdn https://mcp.mdn.mozilla.net/` | Pixel can reference web standards |
+| Has deploy target | Lighthouse MCP | `claude mcp add lighthouse -- npx -y @anthropic/lighthouse-mcp` | Lens can audit performance/a11y |
+| GitHub hosted | GitHub MCP | `claude mcp add --transport http github https://mcp.github.com/anthropic` | Keeper can manage PRs/issues |
 
-추천 형식:
+Recommendation format:
 ```
-프로젝트 기술 스택에 맞는 MCP 서버를 추천합니다:
-- [PostgreSQL MCP] → Vault가 DB 스키마를 직접 조회할 수 있습니다
-  설치: claude mcp add postgres -- npx -y @modelcontextprotocol/server-postgres <connection-string>
+Recommended MCP servers for your tech stack:
+- [PostgreSQL MCP] → Vault can query DB schemas directly
+  Install: claude mcp add postgres -- npx -y @modelcontextprotocol/server-postgres <connection-string>
 
-연결하시겠습니까? (선택 사항, 없어도 진행 가능)
+Would you like to connect? (optional, you can proceed without them)
 ```
 
-사용자가 연결하면 `.geas/config.json`의 `connected_mcp` 필드에 기록.
+If the user connects, record in `.geas/config.json` under `connected_mcp`.
 
 ### 1.8 Close Genesis
 - Update run state: `{ "phase": "mvp", "status": "in_progress" }`
@@ -87,8 +87,8 @@ For **each** TaskContract in `.geas/tasks/` (ordered by dependencies):
 - Read TaskContract. Check dependencies are `"passed"`.
 - Update status to `"in_progress"`. Log `task_started` event.
 
-### 2.1 Design (Palette) [DEFAULT — skip-if: 사용자 인터페이스가 전혀 없는 태스크 (DB, API, CI, Docker 등)]
-**프론트엔드 페이지, 폼, 대시보드 등 사용자가 보는 화면이 있으면 반드시 실행할 것.**
+### 2.1 Design (Palette) [DEFAULT — skip-if: no user-facing interface (DB, API, CI, Docker, etc.)]
+**Must run if the task has any user-facing interface (pages, forms, dashboards).**
 Generate ContextPacket, then:
 ```
 Agent(agent: "palette", prompt: "Read .geas/rules.md first. Read .geas/packets/{task-id}/palette.md. Write design spec to .geas/evidence/{task-id}/palette.json")
@@ -174,7 +174,7 @@ Fix issues found. Log phase complete.
 Assess remaining work within seed's `scope_in`. Reject `scope_out` features.
 Spawn agents as needed for improvements.
 
-**Nova 최종 브리핑은 반드시 실행:**
+**Nova final briefing is MANDATORY:**
 ```
 Agent(agent: "nova", prompt: "Read .geas/rules.md first. Final product review. Read all evidence. Deliver strategic summary and recommendations. Write to .geas/evidence/evolution/nova-final.json")
 ```

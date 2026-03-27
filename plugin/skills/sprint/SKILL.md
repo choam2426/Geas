@@ -28,7 +28,7 @@ One feature, one pipeline. Skips Genesis.
 Invoke `/geas:task-compiler` for the feature. If Linear enabled: create issue, store IDs.
 
 ### 2. Design (Palette) [DEFAULT — skip-if: no user-facing interface]
-**프론트엔드 페이지/폼/대시보드가 있으면 반드시 실행.**
+**Must run if the task has any user-facing interface (pages, forms, dashboards).**
 ```
 Agent(agent: "palette", prompt: "Read .geas/rules.md first. Read .geas/packets/{task-id}/palette.md. Write design to .geas/evidence/{task-id}/palette.json")
 ```

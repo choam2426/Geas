@@ -46,23 +46,23 @@ Write `.geas/rules.md` — the shared rules that ALL agents must follow:
 # Agent Rules
 
 ## Evidence
-- 작업 결과를 .geas/evidence/{task-id}/{your-name}.json에 JSON으로 작성
-- 필수 필드: agent, task_id, summary, files_changed, created_at
-- created_at은 실제 현재 시간. Bash에서 date -u +%Y-%m-%dT%H:%M:%SZ 로 가져올 것. 더미 값 금지.
+- Write results to .geas/evidence/{task-id}/{your-name}.json as JSON
+- Required fields: agent, task_id, summary, files_changed, created_at
+- created_at must be actual current time. Use `date -u +%Y-%m-%dT%H:%M:%SZ` in Bash. No dummy values.
 
 ## Linear
-- enabled: <true 또는 false — Phase B 결과에 따라 채움>
-- 댓글 형식: [AgentName] 요약 내용
-- LINEAR_API_KEY를 직접 환경변수로 설정하지 말 것. .env에서 자동 로드됨.
-- 이슈 UUID는 ContextPacket의 Reference 섹션에 있음.
-- linear-cli 경로: <Phase B에서 발견된 경로로 채움>
+- enabled: <true or false — filled based on Phase B result>
+- Comment format: [AgentName] summary content
+- Do not set LINEAR_API_KEY as env var directly. It auto-loads from .env.
+- Issue UUIDs are in the ContextPacket's Reference section.
+- linear-cli path: <filled with path discovered in Phase B>
 
-## 코드 작성
-- TaskContract의 path_boundaries를 준수할 것
-- 작업 범위 밖의 파일을 수정하지 말 것
+## Code
+- Respect path_boundaries from the TaskContract
+- Do not modify files outside the task scope
 ```
 
-Phase B 완료 후 Linear 관련 필드를 실제 값으로 업데이트할 것 (enabled, linear-cli 경로).
+After Phase B, update Linear fields with actual values (enabled, linear-cli path).
 
 ### Phase B: Linear Setup (Optional)
 
@@ -112,9 +112,9 @@ If the user wants Linear, proceed with the steps below:
    Using the selected team, run these steps:
 
    a. **Check existing labels** (`list-issue-labels --team <team-name>`)
-      - 먼저 기존 라벨 목록을 가져온다.
-      - 필요한 라벨: type(`feature`, `bug`, `design-spec`, `architecture`, `review`, `tech-debt`, `blocked`, `pivot`, `improvement`), area(`frontend`, `backend`, `infra`), role(`needs-review`, `needs-qa`)
-      - 기존 목록과 대조하여 **이미 존재하는 라벨은 건너뛴다. 존재하지 않는 것만 생성한다.**
+      - Fetch existing label list first.
+      - Required labels: type(`feature`, `bug`, `design-spec`, `architecture`, `review`, `tech-debt`, `blocked`, `pivot`, `improvement`), area(`frontend`, `backend`, `infra`), role(`needs-review`, `needs-qa`)
+      - Compare with existing labels — **skip labels that already exist. Only create missing ones.**
       - Use `create-issue-label --name <name> --team-id <UUID>` for each **missing** label only.
       - Report: count created vs already existed
 

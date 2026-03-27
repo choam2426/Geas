@@ -1,7 +1,7 @@
 #!/bin/bash
 # verify-pipeline.sh — Stop hook
-# 세션 종료 전 파이프라인 완성도를 확인한다.
-# MANDATORY evidence가 누락된 태스크가 있으면 세션 종료를 차단한다 (exit 2).
+# Checks pipeline completeness before session end.
+# Blocks session exit (exit 2) if MANDATORY evidence is missing.
 
 set -euo pipefail
 
@@ -15,7 +15,7 @@ fi
 GEAS_DIR="$CWD/.geas"
 RUN_FILE="$GEAS_DIR/state/run.json"
 
-# .geas가 없으면 Geas 프로젝트가 아님 — 무시
+# Not a Geas project — skip
 if [ ! -d "$GEAS_DIR" ] || [ ! -f "$RUN_FILE" ]; then
   exit 0
 fi
@@ -23,17 +23,17 @@ fi
 STATUS=$(python -c "import json,sys; d=json.load(open(sys.argv[1])); print(d.get('status',''))" "$RUN_FILE" 2>/dev/null || echo "")
 PHASE=$(python -c "import json,sys; d=json.load(open(sys.argv[1])); print(d.get('phase',''))" "$RUN_FILE" 2>/dev/null || echo "")
 
-# 이미 complete이면 검사 불필요
+# Already complete — no check needed
 if [ "$STATUS" = "complete" ]; then
   exit 0
 fi
 
-# mvp 또는 그 이후 phase에서만 검사
+# Only check during mvp or later phases
 if [ "$PHASE" != "mvp" ] && [ "$PHASE" != "polish" ] && [ "$PHASE" != "evolve" ]; then
   exit 0
 fi
 
-# completed_tasks 확인 + evidence 검사
+# Check completed tasks for missing evidence
 MISSING=$(python -c "
 import json, sys, os
 d = json.load(open(sys.argv[1]))
@@ -53,7 +53,7 @@ if [ -n "$MISSING" ]; then
   echo "$MISSING" >&2
   echo "" >&2
   echo "Execute the missing steps before completing the session." >&2
-  exit 2  # 세션 종료 차단
+  exit 2  # Block session exit
 fi
 
 exit 0

@@ -32,9 +32,9 @@ These rules apply to ALL modes (Full Team, Sprint, Debate).
 - **Timestamps must be actual current time.** Get it with `date -u +%Y-%m-%dT%H:%M:%SZ` in Bash. No dummy values like `00:00:00Z`.
 
 ### Linear integration
-- Linear 관련 상세 규칙(API 키 사용법, 댓글 형식, CLI 호출법)은 `.geas/rules.md`에 있음.
-- 모든 에이전트 스폰 시 `"Read .geas/rules.md first."` 를 프롬프트에 포함하면 에이전트가 규칙을 따름.
-- 이슈 상태 전환은 오케스트레이터(메인 세션)가 직접 처리: In Progress → In Review → Testing → Done.
+- Detailed Linear rules (API key usage, comment format, CLI calls) are in `.geas/rules.md`.
+- Include `"Read .geas/rules.md first."` in every agent spawn prompt so agents follow the rules.
+- Issue state transitions are handled directly by the orchestrator (main session): In Progress → In Review → Testing → Done.
 
 ### Rules evolution
 - `.geas/rules.md` is a living document. Review and update it at major phase transitions.

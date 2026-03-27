@@ -1,7 +1,7 @@
 #!/bin/bash
 # verify-evidence.sh — SubagentStop hook
-# 서브에이전트 완료 후 evidence 파일 존재를 확인한다.
-# 차단하지 않고 경고만 출력 (메인 세션이 재시도 판단).
+# Checks evidence file existence after sub-agent completion.
+# Warning only — does not block (main session decides on retry).
 
 set -euo pipefail
 
@@ -15,12 +15,12 @@ fi
 GEAS_DIR="$CWD/.geas"
 RUN_FILE="$GEAS_DIR/state/run.json"
 
-# .geas가 없으면 Geas 프로젝트가 아님 — 무시
+# Not a Geas project — skip
 if [ ! -d "$GEAS_DIR" ] || [ ! -f "$RUN_FILE" ]; then
   exit 0
 fi
 
-# 현재 태스크 확인 + evidence 존재 검사
+# Check current task + evidence existence
 python -c "
 import json, sys, os, glob
 d = json.load(open(sys.argv[1]))

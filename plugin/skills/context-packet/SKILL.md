@@ -134,7 +134,7 @@ Write the packet as a markdown file with this structure:
 {Previous comments on this issue, including human feedback. Omit if Linear disabled or no comments.}
 
 - [Palette] Design spec: mobile-first layout with... (2026-03-25T01:00)
-- [Human] 투표 결과 차트는 파이 차트보다 막대 그래프가 좋겠어 (2026-03-25T01:05)
+- [Human] Use bar charts instead of pie charts for vote results (2026-03-25T01:05)
 - [Forge] Agreed. CSS-only bar chart approach. (2026-03-25T01:10)
 
 ## Reference

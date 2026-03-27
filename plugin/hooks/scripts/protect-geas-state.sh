@@ -1,7 +1,7 @@
 #!/bin/bash
 # protect-geas-state.sh — PostToolUse hook (Write|Edit)
-# .geas/ 핵심 상태 파일의 무결성을 감시한다.
-# task status가 "passed"로 바뀔 때 필수 evidence가 있는지 확인한다.
+# Monitors .geas/ state file integrity.
+# Warns when task marked "passed" without required evidence.
 
 set -euo pipefail
 
@@ -31,10 +31,10 @@ fi
 
 GEAS_DIR="$CWD/.geas"
 
-# .geas 파일이 아니면 무시
+# Not a .geas file — skip
 case "$FILE_PATH" in
   */.geas/tasks/*.json)
-    # TaskContract 수정 감시: status가 "passed"로 바뀌는지 확인
+    # Watch TaskContract edits: check if status changed to "passed"
     if [ -f "$FILE_PATH" ]; then
       WARN=$(python -c "
 import json, sys, os
@@ -55,7 +55,7 @@ if d.get('status') == 'passed':
     fi
     ;;
   */.geas/spec/seed.json)
-    # seed.json은 intake 후 고정. 수정 시 경고.
+    # seed.json is frozen after intake — warn on modification
     echo "[Geas] Warning: seed.json was modified after intake. Seed should be frozen." >&2
     ;;
 esac
