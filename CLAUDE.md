@@ -25,7 +25,7 @@ Full architecture: `docs/DESIGN.md`
 plugin/
 ├── plugin.json              # Claude plugin manifest
 ├── skills/                  # Shared skills (core + team + surface)
-└── agents/                  # 15 agent definitions
+└── agents/                  # 12 agent definitions
 ```
 
 ### Core skills (contract engine)

@@ -58,7 +58,7 @@ Write `.geas/rules.md` — the shared rules that ALL agents must follow:
 - linear-cli path: <filled with path discovered in Phase B>
 
 ## Code
-- Respect path_boundaries from the TaskContract
+- Respect prohibited_paths from the TaskContract
 - Do not modify files outside the task scope
 ```
 

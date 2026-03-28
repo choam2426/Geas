@@ -56,7 +56,7 @@ if not os.path.isfile(rules):
 - enabled: false
 
 ## Code
-- Respect path_boundaries from the TaskContract
+- Respect prohibited_paths from the TaskContract
 - Do not modify files outside the task scope
 '''
     with open(rules, 'w', encoding='utf-8') as f:
