@@ -1,8 +1,8 @@
 #!/bin/bash
 # protect-geas-state.sh — PostToolUse hook (Write|Edit)
 # Monitors .geas/ state file integrity.
-# Warns when task marked "passed" without required evidence.
 # Injects real timestamps into .geas/**/*.json files.
+# Warns on prohibited path violations.
 
 set -euo pipefail
 
@@ -32,7 +32,7 @@ fi
 
 GEAS_DIR="$CWD/.geas"
 
-# Path boundary check — warn if file is outside task's allowed_paths
+# Prohibited path check — warn if file matches a prohibited pattern
 python -c "
 import json, sys, os, fnmatch
 
@@ -62,11 +62,6 @@ if rel.startswith('.geas/'):
 for pat in task.get('prohibited_paths', []):
     if fnmatch.fnmatch(rel, pat):
         print(f'[Geas] WARNING: Write to {rel} matches prohibited path \"{pat}\" in {tid}', file=sys.stderr)
-        sys.exit(0)
-
-allowed = task.get('allowed_paths', [])
-if allowed and not any(fnmatch.fnmatch(rel, p) for p in allowed):
-    print(f'[Geas] WARNING: Write to {rel} outside allowed_paths of {tid}', file=sys.stderr)
 " "$CWD" "$FILE_PATH" 2>&1 >&2 || true
 
 # .geas/ file checks
@@ -98,34 +93,6 @@ if needs_fix:
 " "$FILE_PATH" 2>/dev/null || true
     fi
     ;;&
-  */.geas/tasks/*.json)
-    # Watch TaskContract edits: check if status changed to "passed"
-    if [ -f "$FILE_PATH" ]; then
-      WARN=$(python -c "
-import json, sys, os
-fp = sys.argv[1]
-geas = sys.argv[2]
-d = json.load(open(fp))
-if d.get('status') == 'passed':
-    tid = d.get('id', '')
-    edir = os.path.join(geas, 'evidence', tid)
-    if not os.path.isfile(os.path.join(edir, 'forge-review.json')):
-        print(f'[Geas] Warning: {tid} marked as passed but forge-review.json is missing')
-    if not os.path.isfile(os.path.join(edir, 'sentinel.json')):
-        print(f'[Geas] Warning: {tid} marked as passed but sentinel.json is missing')
-    if not os.path.isfile(os.path.join(edir, 'critic-review.json')):
-        print(f'[Geas] Warning: {tid} marked as passed but critic-review.json is missing')
-    if not os.path.isfile(os.path.join(edir, 'nova-verdict.json')):
-        print(f'[Geas] Warning: {tid} marked as passed but nova-verdict.json is missing')
-    retro_path = os.path.join(geas, 'memory', 'retro', tid + '.json')
-    if not os.path.isfile(retro_path):
-        print(f'[Geas] Warning: {tid} marked as passed but retro/{tid}.json is missing (Scrum retrospective not run)')
-" "$FILE_PATH" "$GEAS_DIR" 2>/dev/null || echo "")
-      if [ -n "$WARN" ]; then
-        echo "$WARN" >&2
-      fi
-    fi
-    ;;
   */.geas/spec/seed.json)
     # seed.json is frozen after intake — warn on modification
     echo "[Geas] Warning: seed.json was modified after intake. Seed should be frozen." >&2
