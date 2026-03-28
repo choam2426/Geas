@@ -32,11 +32,6 @@
       "type": "string",
       "description": "Agent name assigned to review (e.g., 'forge')"
     },
-    "allowed_paths": {
-      "type": "array",
-      "items": { "type": "string" },
-      "description": "File/directory paths the worker MAY modify (glob patterns allowed)"
-    },
     "prohibited_paths": {
       "type": "array",
       "items": { "type": "string" },

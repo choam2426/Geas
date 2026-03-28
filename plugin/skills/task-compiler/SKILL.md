@@ -49,14 +49,14 @@ Based on the task nature:
 | Documentation | scroll | forge |
 | Full-stack feature | pixel or circuit (primary) | forge |
 
-### Step 4: Set Path Boundaries
+### Step 4: Set Prohibited Paths
 
-From the architecture context and conventions:
-- **allowed_paths**: directories/files the worker MAY modify (use glob patterns)
-  - Example: `["src/components/auth/**", "src/styles/auth.css"]`
-- **prohibited_paths**: directories/files the worker MUST NOT touch
-  - Example: `["src/components/payment/**", "*.config.js", ".env"]`
-  - Always prohibit: `.env`, `.geas/`, `plugin/`, `.agents/`, `node_modules/`
+Define paths the worker MUST NOT modify:
+- **prohibited_paths**: files/directories that are off-limits
+  - Always include: `.env`, `.geas/`, `plugin/`, `.agents/`, `node_modules/`
+  - Add project-specific prohibitions based on task scope (e.g., payment module for an auth task)
+
+Workers are free to create or modify any file not in prohibited_paths. Scope compliance is verified by Forge in code review, not by mechanical path matching.
 
 ### Step 5: Define Acceptance Criteria
 
@@ -119,7 +119,6 @@ Example output:
   "linear_issue_id": "MY-15",
   "assigned_worker": "pixel",
   "reviewer": "forge",
-  "allowed_paths": ["src/components/auth/**", "src/pages/login.*", "src/styles/auth.*"],
   "prohibited_paths": [".env", ".geas/", "plugin/", ".agents/", "src/components/payment/**"],
   "dependencies": ["task-002"],
   "acceptance_criteria": [

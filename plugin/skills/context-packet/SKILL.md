@@ -24,7 +24,7 @@ Compass invokes this skill before dispatching any worker for a task.
 
 Load the contract to understand:
 - Goal, acceptance criteria, eval commands
-- Allowed/prohibited paths
+- Prohibited paths
 - Dependencies and their status
 
 ### Step 2: Identify the Target Worker's Needs
@@ -41,7 +41,6 @@ Different workers need different context:
 #### Implementer (Pixel / Circuit)
 - Design spec from Palette (from prior evidence)
 - Technical approach from Forge (from prior evidence)
-- Allowed paths — where to write code
 - Prohibited paths — what to leave alone
 - Eval commands — how to verify their work
 - Known risks or edge cases
@@ -112,7 +111,6 @@ Write the packet as a markdown file with this structure:
 {Forge's technical guidance excerpt, if available}
 
 ## Boundaries
-**Allowed paths:** {list}
 **Prohibited paths:** {list}
 
 ## Acceptance Criteria

@@ -28,11 +28,6 @@
       "type": "string",
       "description": "Technical approach from Forge (if applicable)"
     },
-    "allowed_paths": {
-      "type": "array",
-      "items": { "type": "string" },
-      "description": "Inherited from TaskContract"
-    },
     "prohibited_paths": {
       "type": "array",
       "items": { "type": "string" },
