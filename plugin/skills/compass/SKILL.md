@@ -31,6 +31,22 @@ These rules apply to ALL modes (Initiative, Sprint, Debate).
 - Log every transition to `.geas/ledger/events.jsonl`.
 - **Timestamps must be actual current time.** For event ledger entries, use `date -u +%Y-%m-%dT%H:%M:%SZ` in Bash. For JSON files in `.geas/`, the hook auto-injects timestamps.
 
+### Checkpoint management
+- Before spawning any agent, update `.geas/state/run.json` checkpoint:
+  ```json
+  "checkpoint": {
+    "pipeline_step": "code_review",
+    "agent_in_flight": "forge",
+    "pending_evidence": ["forge-review.json"],
+    "retry_count": 0,
+    "parallel_batch": null,
+    "last_updated": "<actual timestamp>"
+  }
+  ```
+- After agent returns: clear `agent_in_flight`, update `pending_evidence` with completed files.
+- On parallel batch: set `parallel_batch` with task IDs.
+- On task completion: clear checkpoint entirely.
+
 ### Linear integration
 - Detailed Linear rules (API key usage, comment format, CLI calls) are in `.geas/rules.md`.
 - The SubagentStart hook automatically injects `rules.md` + per-agent memory into every agent. No need to include "Read rules.md" in spawn prompts.

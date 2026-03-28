@@ -34,6 +34,13 @@ phase = d.get('phase', 'unknown')
 mission = d.get('mission', 'unknown')
 completed = len(d.get('completed_tasks', []))
 print(f'[Geas] Session resumed. Mission: {mission} | Phase: {phase} | Status: {status} | Tasks completed: {completed}', file=sys.stderr)
+cp = d.get('checkpoint', {})
+if cp:
+    step = cp.get('pipeline_step', '')
+    agent = cp.get('agent_in_flight', '')
+    tid_current = d.get('current_task_id', '')
+    if step:
+        print(f'[Geas] Checkpoint: task={tid_current}, step={step}, agent={agent}', file=sys.stderr)
 
 # Create rules.md if missing
 rules = os.path.join(sys.argv[2], 'rules.md')
