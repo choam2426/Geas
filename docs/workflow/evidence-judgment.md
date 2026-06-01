@@ -2,7 +2,7 @@
 
 ## Evidence
 
-`Evidence`는 Agent가 `Outcome`을 어떤 기준으로 확인했는지, 무엇을 확인했고 무엇을 확인하지 못했는지, User가 판단할 수 있게 남기는 근거다.
+`Evidence`는 Agent가 `Outcome`을 어떤 기준으로 확인했는지, 확인한 범위와 남은 한계를 User가 판단할 수 있게 남기는 근거다.
 
 `Outcome`과 `Evidence`는 분리한다. `Outcome`은 이번 `Work`의 결과이고, `Evidence`는 그 결과를 판단할 수 있게 하는 확인 근거와 한계다.
 
@@ -12,7 +12,7 @@
 |---|---|
 |Checked|실제로 확인한 것을 남긴다.|
 |Basis|확인에 사용한 근거, 출력, 관찰, 비교 기준을 남긴다.|
-|Limits|확인하지 못한 것과 남은 위험을 남긴다.|
+|Limits|남은 한계와 위험을 남긴다.|
 
 `Direct Work`에서는 `Check and Limits`가 가벼운 `Evidence` 역할을 한다. `Task`와 `Mission`은 `User Judgment`의 입력으로 `Evidence`를 남긴다.
 

@@ -6,14 +6,14 @@
 
 `Continuation State`의 핵심은 현재 목표, 기준, 결정, tradeoff, 완료된 것, 확인한 것, 미확인 범위, 남은 판단을 복원하는 데 있다. 가능한 다음 행동은 이 상태를 이해하는 데 필요한 보조 정보로 포함한다.
 
-`Continuation State`는 다음 내용을 가진다.
+`Continuation State`는 다음 내용을 남긴다.
 
 |항목|역할|
 |---|---|
 |Current Position|현재 `Work`가 어디까지 진행되었는지 남긴다.|
 |Accepted Decisions|User 상호작용 중 확정된 결정을 남긴다.|
 |Accepted Tradeoffs|User가 알고 받아들인 대가, 위험, 포기한 선택지를 남긴다.|
-|Open Questions|아직 닫히지 않은 판단과 이후 확인해야 할 질문을 남긴다.|
+|Open Questions|열린 판단과 이후 확인해야 할 질문을 남긴다.|
 |Confirmed Limits|이번 `Work`의 미확인 범위와 범위 밖에 둔 것을 남긴다.|
 
 User 상호작용 중 확정된 결정과 받아들인 tradeoff는 `Continuation State`에 남긴다. Agent의 추천, 추정, 미확인 해석은 User가 받아들인 뒤에만 `Accepted Decisions`나 `Accepted Tradeoffs`로 기록한다.

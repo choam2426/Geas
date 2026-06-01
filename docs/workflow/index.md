@@ -4,7 +4,7 @@
 
 Geas Workflow는 Human-Agent Work Harness의 정의를 실제 작업 흐름으로 옮기는 기준이다.
 
-이 workflow는 User가 Agent에게 맡긴 작업을 실행 가능한 구조, 검토 가능한 판단 지점, 복원 가능한 상태로 바꾼다. Agent는 작업을 빠르게 처리하는 것보다 User가 목표, 범위, 충분한 상태, 확인한 것과 확인하지 못한 것을 낮은 비용으로 판단할 수 있게 만드는 데 초점을 둔다.
+이 workflow는 User가 Agent에게 맡긴 작업을 실행 가능한 구조, 검토 가능한 판단 지점, 복원 가능한 상태로 바꾼다. Agent는 User가 목표, 범위, 충분한 상태, 확인한 것과 남은 한계를 낮은 비용으로 판단할 수 있게 만드는 데 초점을 둔다.
 
 ## 기본 단위
 
@@ -29,17 +29,16 @@ Mission
 
 ## Workflow 흐름
 
-모든 `Work`는 `Alignment Loop`를 거쳐 `Work Frame`으로 시작한다. `Alignment Loop`는 흐린 목표와 의도를 상호작용으로 구체화하고, `Work Frame`은 작업 배경, 확인한 맥락, 고려할 점을 드러낸다. `Handling Recommendation`은 `Work`를 `Direct Work`, `Task`, `Mission` 중 하나로 보낸다.
+모든 `Work`는 `Alignment Loop`를 거쳐 `Work Frame`으로 정리된다. `Alignment Loop`는 흐린 요청을 작업 가능한 공통 기준으로 구체화하고, `Work Frame`은 작업 배경, 확인한 맥락, 고려할 점, 처리 방식 제안을 남긴다. 이후 `Work`는 `Direct Work`, `Task`, `Mission` 중 하나의 방식으로 다뤄진다.
 
 ```mermaid
 flowchart TD
   start["Work starts"] --> align["Alignment Loop"]
   align --> frame["Work Frame"]
-  frame --> handling["Handling Recommendation"]
 
-  handling --> direct["Direct Work"]
-  handling --> task["Task"]
-  handling --> mission["Mission"]
+  frame --> direct["Direct Work"]
+  frame --> task["Task"]
+  frame --> mission["Mission"]
 
   direct --> directExecute["Execute"]
   directExecute --> directOutcome["Outcome + Check and Limits"]
@@ -53,11 +52,13 @@ flowchart TD
   taskExecute --> taskEvidence["Evidence"]
   taskEvidence --> taskReady["Ready for Judgment"]
   taskReady --> taskJudgment["User Judgment"]
-  taskJudgment --> taskContinuity["Continuity Artifact Review"]
+  taskJudgment --> taskAccept["Accept"]
+  taskAccept --> taskContinuity["Continuity Artifact Review"]
   taskContinuity --> taskClosure["Closure"]
   taskJudgment --> taskRework["Rework"]
   taskJudgment --> taskCancel["Cancel"]
   taskRework --> taskExecute
+  taskCancel --> taskContinuity
 
   mission --> missionAlign["Alignment Loop"]
   missionAlign --> brief["Mission Brief"]
@@ -66,11 +67,13 @@ flowchart TD
   taskLoop --> taskRepeat["Task Closure repeat"]
   taskRepeat --> synthesis["Mission Synthesis"]
   synthesis --> missionJudgment["Mission User Judgment"]
-  missionJudgment --> missionContinuity["Continuity Artifact Review"]
+  missionJudgment --> missionAccept["Accept"]
+  missionAccept --> missionContinuity["Continuity Artifact Review"]
   missionContinuity --> missionClosure["Closure"]
   missionJudgment --> missionContinue["Continue"]
   missionJudgment --> missionCancel["Cancel"]
   missionContinue --> taskLoop
+  missionCancel --> missionContinuity
 ```
 
 `Task`와 `Mission`은 User가 기준을 받아들인 뒤 실행한다. `Closure`는 `Outcome`, `Evidence`, `User Judgment`, `Continuation State`, `Continuity Artifact Review`를 `Work` 단위에 맞게 남긴다.
