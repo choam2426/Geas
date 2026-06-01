@@ -64,7 +64,7 @@ User는 `Mission Synthesis`를 보고 `Mission` 결과를 `Accept`, `Continue`, 
 
 |항목|역할|
 |---|---|
-|Mission Outcome|`Mission`이 실제로 어떤 상태까지 도달했는지 종합한다.|
+|Mission Result|`Mission`이 실제로 어떤 상태까지 도달했는지 종합한다.|
 |Task Results Summary|각 `Task`가 무엇을 남겼고 어떤 User Judgment를 받았는지 종합한다.|
 |Brief Criteria Check|`Mission Brief`의 `Success Shape`, `Mission Boundary`, `Mission Criteria`, `Decision Points` 기준으로 결과를 대조한다.|
 |Remaining Limits|미확인 범위, 남은 위험, User가 받아들여야 할 한계를 종합한다.|

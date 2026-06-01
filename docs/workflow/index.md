@@ -41,8 +41,8 @@ flowchart TD
   frame --> mission["Mission"]
 
   direct --> directExecute["Execute"]
-  directExecute --> directOutcome["Outcome + Check and Limits"]
-  directOutcome --> directContinuity["Continuity Artifact Review"]
+  directExecute --> directResult["Result + Check and Limits"]
+  directResult --> directContinuity["Continuity Artifact Review"]
   directContinuity --> directClosure["Closure"]
 
   task --> taskAlign["Alignment Loop"]
@@ -76,7 +76,7 @@ flowchart TD
   missionCancel --> missionContinuity
 ```
 
-`Task`와 `Mission`은 User가 기준을 받아들인 뒤 실행한다. `Closure`는 `Outcome`, `Evidence`, `User Judgment`, `Continuation State`, `Continuity Artifact Review`를 `Work` 단위에 맞게 남긴다.
+`Task`와 `Mission`은 User가 기준을 받아들인 뒤 실행한다. `Closure`는 결과, `Evidence`, `User Judgment`, `Continuation State`, `Continuity Artifact Review`를 `Work` 단위에 맞게 남긴다.
 
 ## 문서 구성
 

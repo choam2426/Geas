@@ -50,8 +50,8 @@ User 상호작용 중 확정된 결정과 받아들인 tradeoff는 `Continuation
 
 |단위|Closure 기준|
 |---|---|
-|`Direct Work`|`Outcome`, `Check and Limits`, `Continuity Artifact Review`를 남긴다. 같은 `Work` 맥락의 복원이 필요할 때만 짧은 `Continuation State`를 남긴다.|
-|`Task`|`Outcome`, `Evidence`, `User Judgment`, `Continuation State`, `Continuity Artifact Review`를 남긴다.|
+|`Direct Work`|결과, `Check and Limits`, `Continuity Artifact Review`를 남긴다. 같은 `Work` 맥락의 복원이 필요할 때만 짧은 `Continuation State`를 남긴다.|
+|`Task`|결과, `Evidence`, `User Judgment`, `Continuation State`, `Continuity Artifact Review`를 남긴다.|
 |`Mission`|`Synthesis`, `Evidence`, `User Judgment`, `Continuation State`, `Continuity Artifact Review`를 남긴다.|
 
-`Task`와 `Mission`은 User 판단이 필요한 단위다. Agent가 `Outcome`과 `Evidence`를 준비한 상태는 `Ready for Judgment`이고, User Judgment 이후에 `Closed` 상태가 된다.
+`Task`와 `Mission`은 User 판단이 필요한 단위다. Agent가 결과와 `Evidence`를 준비한 상태는 `Ready for Judgment`이고, User Judgment 이후에 `Closed` 상태가 된다.
