@@ -51,6 +51,8 @@ flowchart TD
   contractAccept --> taskExecute["Execute"]
   taskExecute --> taskEvidence["Evidence"]
   taskEvidence --> taskReady["Ready for Judgment"]
+  taskEvidence --> taskEvidenceEnhance["Evidence Enhancement (if needed)"]
+  taskEvidenceEnhance --> taskReady
   taskReady --> taskJudgment["User Judgment"]
   taskJudgment --> taskAccept["Accept"]
   taskAccept --> taskContinuity["Continuity Artifact Review"]
