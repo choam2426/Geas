@@ -62,20 +62,23 @@ flowchart TD
   taskRework --> taskExecute
   taskCancel --> taskContinuity
 
-  mission --> missionAlign["Alignment Loop"]
+  mission --> missionAlign["Mission Brief Alignment"]
   missionAlign --> brief["Mission Brief"]
   brief --> briefAccept["User accepts Mission Brief"]
   briefAccept --> taskLoop["Task Contract per Task"]
   taskLoop --> taskRepeat["Task Closure repeat"]
   taskRepeat --> synthesis["Mission Synthesis"]
   synthesis --> missionJudgment["Mission User Judgment"]
+  synthesis --> missionEvidenceEnhance["Evidence Enhancement (if needed)"]
+  missionEvidenceEnhance --> missionJudgment
   missionJudgment --> missionAccept["Accept"]
   missionAccept --> missionContinuity["Continuity Artifact Review"]
   missionContinuity --> missionClosure["Closure"]
   missionJudgment --> missionContinue["Continue"]
   missionJudgment --> missionCancel["Cancel"]
   missionContinue --> taskLoop
-  missionCancel --> missionContinuity
+  missionCancel --> missionCancelHandling["Cancel Handling"]
+  missionCancelHandling --> missionContinuity
 ```
 
 `Task`와 `Mission`은 User가 기준을 받아들인 뒤 실행한다. `Closure`는 결과, `Evidence`, `User Judgment`, `Continuation State`, `Continuity Artifact Review`를 `Work` 단위에 맞게 남긴다.
