@@ -91,4 +91,3 @@ flowchart TD
 |[task.md](./task.md)|`Task`, `Task Contract`, `Task User Judgment`를 정의한다.|
 |[mission.md](./mission.md)|`Mission`, `Mission Brief`, `Mission Synthesis`, `Task`에서 `Mission`으로 승격하는 기준, `Mission User Judgment`를 정의한다.|
 |[continuity.md](./continuity.md)|`Closure`와 `Continuity Artifact`를 정의한다.|
-|[feedback.md](./feedback.md)|User feedback을 기준 갱신으로 바꾸는 흐름을 정의한다.|
