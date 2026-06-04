@@ -8,6 +8,8 @@
 
 `Mission`의 경계는 User 판단 비용으로 정한다. 여러 `Task` 결과를 종합해야 하거나, 중간 결정이 이후 작업을 바꾸거나, 다음 작업에서 다시 참조할 메모리가 필요하면 `Mission`으로 다룬다.
 
+`Mission`은 필요한 경우 공유 [Harness Setup](./harness-setup.md)과 Task별 `Harness Setup`을 나누어 설계한다.
+
 ## Mission 흐름
 
 `Mission`은 큰 목표를 `Mission Brief`로 정리하고, 여러 `Task` 결과를 종합해 Mission 수준의 User Judgment로 판단한다.
@@ -16,7 +18,8 @@
 flowchart TD
   align["Mission Brief Alignment"] --> brief["Mission Brief"]
   brief --> briefAccept["User accepts Mission Brief"]
-  briefAccept --> taskLoop["Task Contract per Task"]
+  briefAccept --> harness["Mission Harness Setup (if needed)"]
+  harness --> taskLoop["Task Contract per Task"]
   taskLoop --> taskRepeat["Task Closure repeat"]
   taskRepeat --> synthesis["Mission Synthesis"]
   synthesis --> missionJudgment["Mission User Judgment"]
@@ -41,6 +44,7 @@ flowchart TD
 |`Mission Brief Alignment`|큰 목표, Task 구조, Mission 수준 판단 지점, 종합 기준을 User와 같은 판단 표면에 놓는다.|
 |`Mission Brief`|여러 `Task`가 공유할 목표, 경계, 기준, 고려 사항, 진행 구조를 고정한다.|
 |`User accepts Mission Brief`|User가 `Mission Brief`를 Mission 작업 기준으로 받아들인다.|
+|`Mission Harness Setup`|여러 `Task`가 공유할 context, environment, fixture, metric, observability, safety, evaluation surface를 구성한다.|
 |`Task Contract per Task`|각 `Task`가 실행 전에 별도 `Task Contract`를 정리한다.|
 |`Task Closure repeat`|각 `Task`가 결과, `Evidence`, User Judgment, 필요한 복원 정보로 Closure 기준을 충족한다.|
 |`Mission Synthesis`|수용된 `Task` 결과와 `Evidence`, 남은 한계, `Continuity Artifact` 후보를 Mission 기준에 대조한다.|
@@ -83,6 +87,7 @@ review나 challenge가 필요하면 어떤 관점을 분리된 context나 sub ag
 |어디까지 다루고 어디를 범위 밖에 두는가?|`Mission Boundary`, `Shared Considerations`|
 |어떤 접근으로 진행하는가?|`Approach`, `Accepted Decisions`|
 |모든 `Task`가 공유해야 할 맥락은 무엇인가?|`Key Context`|
+|Mission 수준에서 어떤 harness가 필요한가?|`Shared Harness Setup Plan`|
 |어떤 `Task`들로 나누는가?|`Task Structure`|
 |Task 구조가 Mission 범위와 기준을 어떻게 덮는가?|`Task Structure`, `Task Structure Coverage`|
 |각 `Task`는 어떤 Mission 기준에 기여하는가?|`Task Contribution Map`|
@@ -115,6 +120,7 @@ review나 challenge가 필요하면 어떤 관점을 분리된 context나 sub ag
 |Approach|`Mission`을 어떤 접근으로 진행할지와 그 이유를 정리한다.|
 |Accepted Decisions|User가 받아들인 접근, 선택, tradeoff, 조건, 위험 수용을 고정한다.|
 |Key Context|모든 `Task`가 계속 참고해야 할 User 의도, 도메인 맥락, 제약, 선행 결정을 정리한다.|
+|Shared Harness Setup Plan|여러 `Task`가 공유할 context, tool, script, environment, fixture, metric, observability, safety, evaluation surface를 정리한다.|
 |Task Structure|`Mission`을 어떤 `Task`들로 나누어 다룰지 정리한다.|
 |Task Structure Coverage|각 Mission 기준이 어떤 `Task`에서 다뤄지는지, `Task` 간 중복과 의존성, `Task` 크기의 균형을 정리한다.|
 |Task Contribution Map|각 `Task`가 어떤 Mission 기준에 기여하는지 연결한다.|
@@ -159,6 +165,7 @@ User는 `Mission Synthesis`를 보고 `Mission` 결과를 `Accept`, `Continue`, 
 |승격 기준|의미|
 |---|---|
 |수용 판단이 여러 번 필요하다.|전체 `Work`를 여러 판단 단위로 나누어 받아들인다.|
+|공유 harness와 개별 harness가 함께 필요하다.|Mission 수준 준비와 Task별 준비를 나누어 설계해야 한다.|
 |중간 방향 결정이 이후 작업을 바꾼다.|초기 결정, 설계, 기준 선택, 우선순위 판단이 다음 실행에 영향을 준다.|
 |여러 `Task` 결과를 종합해야 한다.|각 `Task`는 수용 가능해도 전체 목표 충족 여부는 별도로 판단해야 한다.|
 |작업 기준이 실행 중 구체화된다.|User가 중간 결과를 보고 범위, 기준, 방향을 조정할 수 있다.|
