@@ -31,7 +31,7 @@ User가 결과, `Evidence`, 남은 한계를 한 번에 판단할 수 있으면 
 
 ## Task 흐름
 
-`Task`는 실행 기준을 정하고, 결과와 `Evidence`를 User Judgment로 닫는다.
+`Task`는 실행 기준을 정하고, 결과와 `Evidence`를 User Judgment로 판단한다.
 
 ```mermaid
 flowchart TD
@@ -79,7 +79,7 @@ flowchart TD
 |`Cancel`|현재 `Task` 결과를 수용 범위 밖에 두고 가능한 범위에서 `Task` 시작 전 상태로 되돌린다.|
 |`Cancel Handling`|rollback, 참고자료 보존, 새 `Work Frame` 작성 같은 후속 처리를 정리한다.|
 |`Change Trigger`|목표, 경계, 산출물, 수용 기준, 확인 방법, 영향 범위, 위험 수준의 변화를 드러낸다.|
-|`Closure`|결과, `Evidence`, User 판단, 필요한 복원 상태, 장기 인계 후보를 정리해 `Task`를 닫는다.|
+|`Closure`|결과, `Evidence`, User 판단, 필요한 복원 정보, `Continuity Artifact Review` 결과, 작업 방식 개선 후보를 정리한다.|
 
 ## Task Contract Alignment
 

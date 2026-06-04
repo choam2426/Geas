@@ -42,8 +42,7 @@ flowchart TD
 
   direct --> directExecute["Execute"]
   directExecute --> directResult["Result + Check and Limits"]
-  directResult --> directContinuity["Continuity Artifact Review"]
-  directContinuity --> directClosure["Closure"]
+  directResult --> directClosure["Closure"]
 
   task --> taskAlign["Alignment Loop"]
   taskAlign --> contract["Task Contract"]
@@ -55,12 +54,12 @@ flowchart TD
   taskEvidenceEnhance --> taskReady
   taskReady --> taskJudgment["User Judgment"]
   taskJudgment --> taskAccept["Accept"]
-  taskAccept --> taskContinuity["Continuity Artifact Review"]
-  taskContinuity --> taskClosure["Closure"]
+  taskAccept --> taskClosure["Closure"]
   taskJudgment --> taskRework["Rework"]
   taskJudgment --> taskCancel["Cancel"]
   taskRework --> taskExecute
-  taskCancel --> taskContinuity
+  taskCancel --> taskCancelHandling["Cancel Handling"]
+  taskCancelHandling --> taskClosure
 
   mission --> missionAlign["Mission Brief Alignment"]
   missionAlign --> brief["Mission Brief"]
@@ -72,16 +71,15 @@ flowchart TD
   synthesis --> missionEvidenceEnhance["Evidence Enhancement (if needed)"]
   missionEvidenceEnhance --> missionJudgment
   missionJudgment --> missionAccept["Accept"]
-  missionAccept --> missionContinuity["Continuity Artifact Review"]
-  missionContinuity --> missionClosure["Closure"]
+  missionAccept --> missionClosure["Closure"]
   missionJudgment --> missionContinue["Continue"]
   missionJudgment --> missionCancel["Cancel"]
   missionContinue --> taskLoop
   missionCancel --> missionCancelHandling["Cancel Handling"]
-  missionCancelHandling --> missionContinuity
+  missionCancelHandling --> missionClosure
 ```
 
-`Task`와 `Mission`은 User가 기준을 받아들인 뒤 실행한다. `Closure`는 결과, `Evidence`, `User Judgment`, `Continuation State`, `Continuity Artifact Review`를 `Work` 단위에 맞게 남긴다.
+`Task`와 `Mission`은 User가 기준을 받아들인 뒤 실행한다. `Closure`는 결과, 확인 근거, User 판단, 필요한 복원 정보, `Continuity Artifact Review` 결과, 작업 방식 개선 후보를 `Work` 단위에 맞게 남긴다.
 
 ## 문서 구성
 
@@ -92,5 +90,5 @@ flowchart TD
 |[evidence-judgment.md](./evidence-judgment.md)|`Evidence`, verification/review/challenge 강화 절차, 일반 `User Judgment` 기준을 정의한다.|
 |[task.md](./task.md)|`Task`, `Task Contract`, `Task User Judgment`를 정의한다.|
 |[mission.md](./mission.md)|`Mission`, `Mission Brief`, `Mission Synthesis`, `Task`에서 `Mission`으로 승격하는 기준, `Mission User Judgment`를 정의한다.|
-|[continuity.md](./continuity.md)|`Continuation State`, `Continuity Artifact`, `Work Closure`를 정의한다.|
+|[continuity.md](./continuity.md)|`Closure`와 `Continuity Artifact`를 정의한다.|
 |[feedback.md](./feedback.md)|User feedback을 기준 갱신으로 바꾸는 흐름을 정의한다.|

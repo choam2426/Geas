@@ -6,11 +6,11 @@
 
 `Mission`은 하나의 `Task` 결과와 `Evidence`로 전체 목표를 판단하기 어려울 때 사용한다.
 
-`Mission`의 경계는 User 판단 비용으로 정한다. 여러 `Task` 결과를 종합해야 하거나, 중간 결정이 이후 작업을 바꾸거나, 장기 인계 상태가 필요하면 `Mission`으로 다룬다.
+`Mission`의 경계는 User 판단 비용으로 정한다. 여러 `Task` 결과를 종합해야 하거나, 중간 결정이 이후 작업을 바꾸거나, 다음 작업에서 다시 참조할 메모리가 필요하면 `Mission`으로 다룬다.
 
 ## Mission 흐름
 
-`Mission`은 큰 목표를 `Mission Brief`로 정리하고, 여러 `Task` 결과를 종합해 Mission 수준의 User Judgment로 닫는다.
+`Mission`은 큰 목표를 `Mission Brief`로 정리하고, 여러 `Task` 결과를 종합해 Mission 수준의 User Judgment로 판단한다.
 
 ```mermaid
 flowchart TD
@@ -24,15 +24,14 @@ flowchart TD
   evidenceEnhance --> missionJudgment
 
   missionJudgment --> accept["Accept"]
-  accept --> continuity["Continuity Artifact Review"]
-  continuity --> closure["Closure"]
+  accept --> closure["Closure"]
 
   missionJudgment --> continue["Continue"]
   continue --> taskLoop
 
   missionJudgment --> cancel["Cancel"]
   cancel --> cancelHandling["Cancel Handling"]
-  cancelHandling --> continuity
+  cancelHandling --> closure
 ```
 
 각 단계의 역할은 다음과 같다.
@@ -43,16 +42,15 @@ flowchart TD
 |`Mission Brief`|여러 `Task`가 공유할 목표, 경계, 기준, 고려 사항, 진행 구조를 고정한다.|
 |`User accepts Mission Brief`|User가 `Mission Brief`를 Mission 작업 기준으로 받아들인다.|
 |`Task Contract per Task`|각 `Task`가 실행 전에 별도 `Task Contract`를 정리한다.|
-|`Task Closure repeat`|각 `Task`가 결과, `Evidence`, User Judgment, 필요한 복원 상태로 닫힌다.|
-|`Mission Synthesis`|수용된 `Task` 결과와 `Evidence`, 남은 한계, 장기 인계 후보를 Mission 기준에 대조한다.|
+|`Task Closure repeat`|각 `Task`가 결과, `Evidence`, User Judgment, 필요한 복원 정보로 Closure 기준을 충족한다.|
+|`Mission Synthesis`|수용된 `Task` 결과와 `Evidence`, 남은 한계, `Continuity Artifact` 후보를 Mission 기준에 대조한다.|
 |`Evidence Enhancement`|Mission 수준 위험, 영향 범위, 판단 비용이 크면 verification, review, challenge를 통해 종합 근거를 강화한다.|
 |`Mission User Judgment`|User가 `Mission Synthesis`를 보고 `Accept`, `Continue`, `Cancel` 중 하나를 판단한다.|
 |`Accept`|User가 수용된 `Task` 결과와 남은 한계를 포함해 Mission 결과를 받아들인다.|
 |`Continue`|추가 `Task`, 기준 조정, 보완 확인을 이어간다.|
-|`Cancel`|현재 `Mission` 결과를 수용 범위 밖에 두고 현재 상태로 닫는다.|
+|`Cancel`|현재 `Mission` 결과를 수용 범위 밖에 두고 현재 상태로 정리한다.|
 |`Cancel Handling`|이미 수용된 `Task` 결과, 참고자료, 새 `Work Frame` 필요 여부를 정리한다.|
-|`Continuity Artifact Review`|Mission 밖으로 이어질 결정, 위험, 열린 질문, 장기 인계 후보를 확인한다.|
-|`Closure`|Mission 결과, `Evidence`, User 판단, 복원 상태, 장기 인계 후보를 정리해 닫는다.|
+|`Closure`|Mission 결과, `Evidence`, User 판단, 복원 정보, `Continuity Artifact Review` 결과, 작업 방식 개선 후보를 정리한다.|
 
 `Continue` 중 `Mission Brief`의 목표, 경계, 수용 기준, Task 구조가 바뀌면 User 재수용을 받고 이후 `Task Contract`를 갱신한다.
 
@@ -66,7 +64,7 @@ Task 구조나 접근 선택이 결과, 수용 기준, `Evidence`를 바꾸면 A
 
 Task 구조는 Mission 범위와 기준을 어느 정도 덮는지 확인한다. Agent는 각 Mission 기준이 어떤 `Task`에서 다뤄지는지, `Task` 간 중복과 의존성, `Task` 크기의 균형을 드러낸다.
 
-Mission 수준 판단과 Task 수준 판단은 나누어 정한다. Mission 수준에서는 큰 목표, 종합 기준, Task 구조, 장기 인계를 판단하고, Task 수준에서는 실행 목표, 산출물, 수용 기준, 확인 계획을 판단한다.
+Mission 수준 판단과 Task 수준 판단은 나누어 정한다. Mission 수준에서는 큰 목표, 종합 기준, Task 구조, `Continuity Artifact` 후보를 판단하고, Task 수준에서는 실행 목표, 산출물, 수용 기준, 확인 계획을 판단한다.
 
 `Mission Synthesis`는 Alignment 단계에서 미리 설계한다. Agent는 각 `Task` 결과와 `Evidence`, 남은 한계가 최종 판단 표면에서 어떤 항목으로 합쳐지는지 정리한다.
 
@@ -128,7 +126,7 @@ review나 challenge가 필요하면 어떤 관점을 분리된 context나 sub ag
 |Validation And Review Strategy|Mission 수준에서 필요한 verification, review, challenge, 수동 확인의 전략과 분리된 context 사용 조건을 정리한다.|
 |Change Triggers|`Mission Brief`나 이후 `Task Contract`를 다시 정해야 하는 조건을 정리한다.|
 |Continuity Needs|`Mission` 중 복원하거나 인계해야 할 상태를 정리한다.|
-|Continuity Artifact Candidates|`Mission` 밖으로 이어질 수 있는 결정, 위험, 열린 질문, 장기 인계 후보를 정리한다.|
+|Continuity Artifact Candidates|`Mission` 밖으로 이어질 수 있는 결정, 위험, 열린 질문, 메모리 후보를 정리한다.|
 
 `Mission Brief`는 `Mission` 실행 전에 User가 받아들여야 한다. `Mission` 안의 `Task Contract`는 `Mission Brief`를 기준으로 작성한다.
 
@@ -136,7 +134,7 @@ review나 challenge가 필요하면 어떤 관점을 분리된 context나 sub ag
 
 ## Mission Synthesis
 
-`Mission Synthesis`는 수용된 `Task` 결과, `Evidence`, 남은 한계, 장기 인계 후보를 `Mission Brief` 기준으로 종합하는 판단 표면이다.
+`Mission Synthesis`는 수용된 `Task` 결과, `Evidence`, 남은 한계, `Continuity Artifact` 후보를 `Mission Brief` 기준으로 종합하는 판단 표면이다.
 
 User는 `Mission Synthesis`를 보고 `Mission` 결과를 `Accept`, `Continue`, `Cancel` 중 하나로 판단한다.
 
@@ -150,7 +148,7 @@ User는 `Mission Synthesis`를 보고 `Mission` 결과를 `Accept`, `Continue`, 
 |Evidence Summary|Mission 판단에 쓰는 `Evidence`, 강화 절차, 판단 표면을 종합한다.|
 |Remaining Limits|미확인 범위, 남은 위험, User가 받아들여야 할 한계를 종합한다.|
 |Decision Points|Mission User Judgment 전에 User가 판단해야 할 항목을 드러낸다.|
-|Continuity Artifact Candidates|`Mission` 밖으로 이어질 장기 인계 후보를 종합한다.|
+|Continuity Artifact Candidates|`Mission` 밖으로 이어질 메모리 후보를 종합한다.|
 
 `Mission Accept`는 수용된 `Task` 결과들을 `Mission Brief` 기준으로 다시 대조한 뒤, User가 전체 `Mission` 결과를 받아들일 때 성립한다.
 
@@ -184,4 +182,4 @@ User는 `Mission Synthesis`를 보고 `Mission` 결과를 `Accept`, `Continue`, 
 |---|---|
 |Accept|수용된 `Task` 결과와 남은 한계를 포함해 `Mission` 결과를 받아들인다.|
 |Continue|추가 `Task`, 기준 조정, 보완 확인을 이어간다.|
-|Cancel|현재 `Mission` 결과를 수용 범위 밖에 두고 현재 상태로 닫는다. 이미 User가 수용한 `Task` 결과는 별도 판단으로 다룬다.|
+|Cancel|현재 `Mission` 결과를 수용 범위 밖에 두고 현재 상태로 정리한다. 이미 User가 수용한 `Task` 결과는 별도 판단으로 다룬다.|
