@@ -31,7 +31,7 @@ Agent는 Alignment 과정에서 다음 항목을 드러낸다.
 |결정 지점|User 판단이 필요한 방향, 범위, 기준, 위험|
 |선호 지점|User 선호에 따라 결과와 재작업 비용이 달라지는 선택 지점|
 |검증 기준|보고 전에 확인해야 할 기준, 방법, 남길 Evidence, 미확인 범위|
-|준비 기준|작업 품질을 높이기 위해 필요한 context, tool, script, environment, fixture, metric, observability, safety, evaluation surface|
+|준비 기준|작업 품질을 높이기 위해 필요한 style, conventions, environment, tool, verification surface, metric, observability, risk controls|
 |열린 질문|지금 결정할 질문과 실행 중 판단 지점으로 남길 질문|
 
 ## 질문 기준
@@ -49,7 +49,7 @@ Agent는 결과에 영향을 주는 질문을 우선한다. 질문의 목적은 
 |선호|User 선호에 따라 표현 방식, 상호작용 방식, 구조 선택이 달라지고 재작업 비용이 생기는가?|
 |위험|위험 수용, 되돌리기 비용, 장기 비용이 달라지는가?|
 |검증|보고 전 확인 기준, 확인 방법, Evidence 수준이 달라지는가?|
-|준비|필요한 도구, 환경, 데이터, 측정, 관찰, 보안, 평가 표면이 달라지는가?|
+|준비|필요한 style, conventions, 환경, 도구, 데이터, 측정, 관찰, 보안, 평가 표면이 달라지는가?|
 |연속성|이후 작업에도 남길 결정, 맥락, 기준이 생기는가?|
 |의존성|작업 순서, 인계, 막히는 관계가 달라지는가?|
 
@@ -110,7 +110,7 @@ Alignment에서 정리된 기준은 성격에 따라 `Work Frame`, `Task Contrac
 |정리된 기준|기록 위치|
 |---|---|
 |작업 배경, User 의도, 확인한 맥락, 고려할 점|`Work Frame`|
-|harness 필요 여부, 준비 범위, User 판단이 필요한 setup|`Work Frame`, `Task Contract`, `Mission Brief`|
+|harness 필요 여부, 준비 범위, User 판단이 필요한 setup|`Work Frame`, 상호작용 기록, 관련 확인 기준|
 |실행 목표, 산출물, 경계, 수용 기준, 확인 계획|`Task Contract`|
 |큰 목표, Task 구조, 의존성, Mission 판단 지점, 종합 기준|`Mission Brief`|
 |장기 효력이 있는 결정, 맥락, 기준|`Continuity Artifact` 후보|

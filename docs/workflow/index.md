@@ -10,7 +10,7 @@ Geas Workflow는 Human-Agent Work Harness의 정의를 실제 작업 흐름으�
 
 Geas Workflow의 기본 작업 단위는 `Work`다.
 
-`Work`는 User가 Agent에게 맡긴 하나의 작업이다. 모든 `Work`는 실행 전에 `Work Frame`을 통해 작업 배경과 다룰 방식을 정리한다. 이후 필요한 경우 `Harness Setup`을 통해 실행, 측정, 관찰, 검토, 복원 가능한 작업 준비를 구성한다. `Work`는 크기, 위험, 판단 지점 수에 따라 `Direct Work`, `Task`, `Mission`으로 다뤄진다.
+`Work`는 User가 Agent에게 맡긴 하나의 작업이다. 모든 `Work`는 실행 전에 `Work Frame`을 통해 작업 배경과 다룰 방식을 정리한다. 이후 필요한 경우 `Harness Setup`을 통해 코드 스타일, 프로젝트 관례, 환경 정보, 도구, 확인 표면, 위험 통제 같은 작업 준비 상태를 구성한다. `Work`는 크기, 위험, 판단 지점 수에 따라 `Direct Work`, `Task`, `Mission`으로 다뤄진다.
 
 ```text
 Work
@@ -30,27 +30,26 @@ Mission
 
 ## Workflow 흐름
 
-모든 `Work`는 `Alignment Loop`를 거쳐 `Work Frame`으로 정리된다. `Alignment Loop`는 흐린 요청을 작업 가능한 공통 기준으로 구체화하고, `Work Frame`은 작업 배경, 확인한 맥락, 고려할 점, 처리 방식 제안, 필요한 `Harness Setup` 신호를 남긴다. 이후 `Work`는 `Direct Work`, `Task`, `Mission` 중 하나의 방식으로 다뤄진다.
+모든 `Work`는 `Alignment Loop`를 거쳐 `Work Frame`으로 정리된다. `Alignment Loop`는 흐린 요청을 작업 가능한 공통 기준으로 구체화하고, `Work Frame`은 작업 배경, 확인한 맥락, 고려할 점, 처리 방식 제안, 필요한 `Harness Setup` 신호를 남긴다. `Harness Setup`은 준비가 작업 품질이나 판단 비용을 의미 있게 바꿀 때만 수행한다. 이후 `Work`는 `Direct Work`, `Task`, `Mission` 중 하나의 방식으로 다뤄진다.
 
 ```mermaid
 flowchart TD
   start["Work starts"] --> align["Alignment Loop"]
   align --> frame["Work Frame"]
 
-  frame --> direct["Direct Work"]
-  frame --> task["Task"]
-  frame --> mission["Mission"]
+  frame --> harness["Harness Setup (if needed)"]
+  harness --> direct["Direct Work"]
+  harness --> task["Task"]
+  harness --> mission["Mission"]
 
-  direct --> directHarness["Harness Setup (if needed)"]
-  directHarness --> directExecute["Execute"]
+  direct --> directExecute["Execute"]
   directExecute --> directResult["Result + Check and Limits"]
   directResult --> directClosure["Closure"]
 
   task --> taskAlign["Alignment Loop"]
   taskAlign --> contract["Task Contract"]
   contract --> contractAccept["User accepts Task Contract"]
-  contractAccept --> taskHarness["Harness Setup (if needed)"]
-  taskHarness --> taskExecute["Execute"]
+  contractAccept --> taskExecute["Execute"]
   taskExecute --> taskEvidence["Evidence"]
   taskEvidence --> taskReady["Ready for Judgment"]
   taskEvidence --> taskEvidenceEnhance["Evidence Enhancement (if needed)"]
@@ -67,8 +66,7 @@ flowchart TD
   mission --> missionAlign["Mission Brief Alignment"]
   missionAlign --> brief["Mission Brief"]
   brief --> briefAccept["User accepts Mission Brief"]
-  briefAccept --> missionHarness["Mission Harness Setup (if needed)"]
-  missionHarness --> taskLoop["Task Contract per Task"]
+  briefAccept --> taskLoop["Task Contract per Task"]
   taskLoop --> taskRepeat["Task Closure repeat"]
   taskRepeat --> synthesis["Mission Synthesis"]
   synthesis --> missionJudgment["Mission User Judgment"]
@@ -83,7 +81,7 @@ flowchart TD
   missionCancelHandling --> missionClosure
 ```
 
-`Task`와 `Mission`은 User가 기준을 받아들인 뒤 실행한다. `Harness Setup`이 필요한 경우 Agent는 실행 전에 context, tool, script, environment, fixture, metric, observability, safety, evaluation surface를 구성한다. `Closure`는 결과, 확인 근거, User 판단, 필요한 복원 정보, `Continuity Artifact Review` 결과, 작업 방식 개선 후보를 `Work` 단위에 맞게 남긴다.
+`Task`와 `Mission`은 User가 기준을 받아들인 뒤 실행한다. `Harness Setup`은 모든 `Work`의 의무 단계가 아니며, 준비가 작업 품질이나 판단 비용을 의미 있게 바꿀 때 `Work Frame` 이후 조건부로 수행한다. 기준을 바꾸지 않는 세부 runtime 준비는 `Execute` 안에서 처리한다. `Closure`는 결과, 확인 근거, User 판단, 필요한 복원 정보, `Continuity Artifact Review` 결과, 작업 방식 개선 후보를 `Work` 단위에 맞게 남긴다.
 
 ## 문서 구성
 

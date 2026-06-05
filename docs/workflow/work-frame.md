@@ -18,7 +18,7 @@
 |User가 실제로 바꾸고 싶은 방향은 무엇인가?|User 의도와 문제의식|
 |작업 전에 확인해야 할 맥락은 무엇인가?|문서, 코드, 산출물, 대화 맥락, 외부 자료|
 |작업 전에 드러낼 고려 사항은 무엇인가?|제약, 위험, tradeoff, 선호 지점, 열린 질문|
-|작업 품질을 높이기 위한 준비가 필요한가?|context, tool, script, environment, fixture, metric, observability, safety, evaluation surface|
+|작업 품질을 높이기 위한 준비가 필요한가?|style, conventions, environment, tool, verification surface, metric, observability, risk controls|
 |이 `Work`는 어떤 방식으로 다루는가?|`Direct Work`, `Task`, `Mission` 추천|
 
 ## Work Frame 구성
@@ -32,7 +32,7 @@
 |Context Checked|작업 전에 확인한 문서, 코드, 산출물, 대화, 외부 자료와 확인한 맥락을 정리한다.|
 |Assumptions|Agent가 진행을 위해 의존하는 전제와 해석을 드러낸다.|
 |Considerations|작업 전에 고려해야 할 제약, 위험, tradeoff, 선호 지점, 열린 질문을 정리한다.|
-|Harness Setup Need|별도 context, tool, script, environment, fixture, metric, observability, safety, evaluation surface가 필요한지와 그 이유를 정리한다.|
+|Harness Setup Need|코드 스타일, 프로젝트 관례, 환경 정보, 도구, 확인 표면, 측정/관찰 표면, 위험 통제 같은 준비가 필요한지와 그 이유를 정리한다.|
 
 이 내용을 바탕으로 Agent는 이 `Work`를 `Direct Work`, `Task`, `Mission` 중 어떤 방식으로 다룰지 제안한다.
 
@@ -42,9 +42,9 @@
 
 |Work 유형|처리|
 |---|---|
-|`Direct Work`|Agent가 짧은 `Work Frame`을 드러내고 실행할 수 있다. 필요한 harness가 짧고 기준을 바꾸지 않으면 실행 전에 구성한다. User 판단이 필요한 방향, 위험, 선호 지점이 있으면 실행 전에 확인한다.|
-|`Task`|`Work Frame`을 바탕으로 `Task Contract`를 정리한다. 필요한 harness를 실행 기준과 확인 계획에 연결한다. User가 `Task Contract`를 작업 기준으로 받아들인 뒤 실행한다.|
-|`Mission`|`Work Frame`을 바탕으로 `Mission Brief`와 초기 `Task` 구조를 정리한다. 공유 harness와 Task별 harness를 나누어 설계한다. User가 큰 목표와 판단 구조를 받아들인 뒤 실행한다.|
+|`Direct Work`|Agent가 짧은 `Work Frame`을 드러내고 실행할 수 있다. 필요한 준비가 짧고 기준을 바꾸지 않으면 실행 전에 구성한다. User 판단이 필요한 방향, 위험, 선호 지점이 있으면 실행 전에 확인한다.|
+|`Task`|`Work Frame`을 바탕으로 `Task Contract`를 정리한다. 필요한 준비 결과는 기존 계약 필드와 확인 기준 안에 반영한다. User가 `Task Contract`를 작업 기준으로 받아들인 뒤 실행한다.|
+|`Mission`|`Work Frame`을 바탕으로 `Mission Brief`와 초기 `Task` 구조를 정리한다. 공유 준비 결과는 기존 Mission 필드에 반영하고 Task별 준비 결과는 각 `Task`에서 다룬다. User가 큰 목표와 판단 구조를 받아들인 뒤 실행한다.|
 
 ## Direct Work
 
@@ -58,7 +58,7 @@
 |고려할 점이 한 묶음으로 다뤄진다.|제약, 위험, tradeoff가 하나의 판단 범위 안에 머문다.|
 |현재 맥락만으로 실행할 수 있다.|실제로 할 일이 현재 맥락에서 충분히 분명하다.|
 |보고 전 확인이 짧다.|결과가 의도대로 반영됐는지 짧게 확인하고 보고할 수 있다.|
-|필요한 harness가 작다.|추가 준비가 짧고 결과 기준, 권한, 비용, 유지 부담을 바꾸지 않는다.|
+|필요한 준비가 작다.|추가 준비가 짧고 결과 기준, 권한, 비용, 유지 부담을 바꾸지 않는다.|
 |실행 전 방향이 정해져 있다.|접근과 tradeoff가 현재 맥락 안에서 정리된다.|
 |수정과 되돌리기 비용이 작다.|작은 범위에서 결과를 조정할 수 있다.|
 
@@ -73,7 +73,7 @@
 |수용 기준이 분리된다.|결과 판단에 둘 이상의 `Acceptance Criteria`가 필요하다.|
 |산출물 성격이 다르다.|문서, 코드, UI, 데이터처럼 결과의 검토 방식이 달라진다.|
 |확인 방법이 다르다.|테스트, 실행 확인, review, 수동 확인처럼 Evidence가 나뉜다.|
-|별도 harness가 필요하다.|도구 설치, script 작성, MCP 연결, fixture 구성, benchmark, observability, safety scan, eval suite처럼 실행 준비가 결과 판단을 바꾼다.|
+|별도 작업 준비가 필요하다.|코드 스타일 정리, 프로젝트 관례 확인, 환경 정보 고정, 도구 설치, MCP 연결, fixture 구성, benchmark, observability, safety scan, eval suite처럼 준비가 결과 판단을 바꾼다.|
 |영향 범위가 넓다.|파일, 흐름, 의존 관계에 생기는 영향을 따로 봐야 한다.|
 |위험 수준이 높다.|되돌리기 어렵거나 장기 비용, 품질 부채, 기준 이탈 위험이 있다.|
 |User 방향 판단이 필요하다.|접근, 구조, 디자인, 선호, tradeoff 선택이 이후 결과를 바꾼다.|
