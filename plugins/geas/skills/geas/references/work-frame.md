@@ -20,6 +20,8 @@ Record only the fields that materially reduce ambiguity or restoration cost.
 
 Ask only for decisions that change result criteria, risk, scope, cost, or User responsibility.
 
+When `.geas/memory/` exists, check `index.md` and load relevant Continuity Artifacts into Context Checked.
+
 |Question|Reveal|
 |---|---|
 |What context produced this request?|Background and current issue.|

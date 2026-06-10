@@ -51,6 +51,7 @@ Load only the minimum reference set needed for the current position:
 |Mission synthesis|`references/mission.md`, `references/evidence-judgment.md`|
 |Mission closure|`references/mission.md`, `references/evidence-judgment.md`, `references/continuity.md`|
 |Direct Work closure|`references/work-frame.md`, `references/continuity.md`|
+|Resuming saved Work|`references/continuity.md`, plus the references for the restored position|
 |Workflow record creation or update|Current stage references plus the record policy below|
 
 ## Record Policy
@@ -71,7 +72,11 @@ Use these fixed names when the corresponding stage occurs:
 
 Put every Task record, including a single-Task Work, under `tasks/NNN-<task-slug>/`. Use `001`, `002`, and so on in Work order.
 
+Record user acceptance status and time inside `task-contract.md` and `mission-brief.md`. Resume position detection depends on these acceptance records.
+
 Keep actual work outputs in their natural project locations. Use `.geas/works/` for workflow criteria, judgment, restoration, and limits.
+
+Store Continuity Artifacts under `.geas/memory/`, one artifact per `<slug>.md` file, with a one-line summary per artifact in `.geas/memory/index.md`. During Alignment for new Work, check `.geas/memory/index.md` and load relevant artifacts into Context Checked.
 
 ## User Judgment Boundary
 

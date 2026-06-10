@@ -141,6 +141,26 @@ tasks/
 
 작은 `Direct Work` 기록은 User가 명시적으로 기록을 원하거나, 이후 복원할 가치가 있는 기준/판단/한계가 있을 때 `.geas/works/`에 남긴다.
 
+`Task Contract`와 `Mission Brief` 기록에는 User 수용 여부와 수용 시점을 남긴다. 이 수용 기록은 중단된 `Work`를 재개할 때 현재 위치를 판별하는 기준이 된다.
+
+`Continuity Artifact`는 `.geas/memory/`에 남긴다.
+
+```text
+.geas/
+  memory/
+    index.md
+    prefer-table-judgment-surface.md
+    auth-module-rollback-risk.md
+```
+
+|부분|규칙|
+|---|---|
+|위치|`.geas/memory/<slug>.md`에 artifact 하나당 파일 하나|
+|이름|3-6 단어의 lowercase kebab-case slug|
+|색인|`.geas/memory/index.md`에 artifact당 한 줄 요약 유지|
+|참조|새 `Work`의 Alignment에서 `index.md`를 확인하고 관련 artifact를 `Context Checked`에 반영|
+|갱신|같은 기준을 다루는 artifact는 기존 파일을 갱신하고, 더 이상 유효하지 않으면 삭제|
+
 ## Reference 구성
 
 ### `references/work-frame.md`

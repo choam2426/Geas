@@ -37,10 +37,13 @@ flowchart TD
   start["Work starts"] --> align["Alignment Loop"]
   align --> frame["Work Frame"]
 
-  frame --> harness["Harness Setup (if needed)"]
-  harness --> direct["Direct Work"]
-  harness --> task["Task"]
-  harness --> mission["Mission"]
+  frame --> direct["Direct Work"]
+  frame --> task["Task"]
+  frame --> mission["Mission"]
+  frame -.-> harness["Harness Setup (if needed)"]
+  harness -.-> direct
+  harness -.-> task
+  harness -.-> mission
 
   direct --> directExecute["Execute"]
   directExecute --> directResult["Result + Check and Limits"]
@@ -62,6 +65,10 @@ flowchart TD
   taskRework --> taskExecute
   taskCancel --> taskCancelHandling["Cancel Handling"]
   taskCancelHandling --> taskClosure
+  taskExecute --> taskChange["Contract Change Judgment (on criteria change)"]
+  taskChange --> contractAccept
+  taskChange --> taskExecute
+  taskChange --> taskCancel
 
   mission --> missionAlign["Mission Brief Alignment"]
   missionAlign --> brief["Mission Brief"]
@@ -79,6 +86,8 @@ flowchart TD
   missionContinue --> taskLoop
   missionCancel --> missionCancelHandling["Cancel Handling"]
   missionCancelHandling --> missionClosure
+  taskLoop --> briefRefresh["Mission Brief Refresh (on criteria change)"]
+  briefRefresh --> briefAccept
 ```
 
 `Task`와 `Mission`은 User가 기준을 받아들인 뒤 실행한다. `Harness Setup`은 모든 `Work`의 의무 단계가 아니며, 준비가 작업 품질이나 판단 비용을 의미 있게 바꿀 때 `Work Frame` 이후 조건부로 수행한다. 기준을 바꾸지 않는 세부 runtime 준비는 `Execute` 안에서 처리한다. `Closure`는 결과, 확인 근거, User 판단, 필요한 복원 정보, `Continuity Artifact Review` 결과, 작업 방식 개선 후보를 `Work` 단위에 맞게 남긴다.
@@ -93,4 +102,4 @@ flowchart TD
 |[evidence-judgment.md](./evidence-judgment.md)|`Evidence`, verification/review/challenge 강화 절차, 일반 `User Judgment` 기준을 정의한다.|
 |[task.md](./task.md)|`Task`, `Task Contract`, `Task User Judgment`를 정의한다.|
 |[mission.md](./mission.md)|`Mission`, `Mission Brief`, `Mission Synthesis`, `Task`에서 `Mission`으로 승격하는 기준, `Mission User Judgment`를 정의한다.|
-|[continuity.md](./continuity.md)|`Closure`와 `Continuity Artifact`를 정의한다.|
+|[continuity.md](./continuity.md)|`Closure`, `Continuity Artifact`와 저장 위치, `Work` 재개 절차를 정의한다.|

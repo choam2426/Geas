@@ -82,16 +82,16 @@ cp -R geas/plugins/geas/skills/* .claude/skills/
 
 ## 사용 방법
 
-Geas를 설치한 뒤 프로젝트에서 Codex나 Claude Code를 열고 `/mission`으로 Geas 작업을 시작하거나 이어 갑니다.
+Geas를 설치한 뒤 프로젝트에서 Codex나 Claude Code를 열고 `/geas`로 Geas 작업을 시작하거나 이어 갑니다.
 
-작업이 도중에 끊겨도 다시 `/mission`을 호출하면 수용된 Mission 기준, Task 기준, Evidence, User Judgment, 이어받기 맥락을 바탕으로 이어갈 수 있습니다.
+작업이 도중에 끊겨도 다시 `/geas`를 호출하면 수용된 Mission 기준, Task 기준, Evidence, User Judgment, 이어받기 맥락을 바탕으로 이어갈 수 있습니다.
 
 ```text
-/mission 로그인 실패 시 사용자가 원인을 알 수 있도록 오류 메시지 표시 기능 추가
+/geas 로그인 실패 시 사용자가 원인을 알 수 있도록 오류 메시지 표시 기능 추가
 ```
 
 ```text
-/mission 진행 중인 Mission 이어서 진행
+/geas 진행 중인 Mission 이어서 진행
 ```
 
 Geas는 agent가 바로 완료를 선언하게 만들기보다, 먼저 작업 기준을 계약으로 잡고 실행 결과를 Evidence로 남긴 뒤 사람이 검토하고 수용 판단할 수 있게 흐름을 나눕니다.

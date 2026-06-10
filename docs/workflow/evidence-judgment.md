@@ -30,7 +30,7 @@ Agent는 결과, 확인 근거, 남은 한계, 위험, 판단 지점을 분리�
 |남은 한계|미확인 범위, 남은 위험, User가 받아들여야 할 한계를 남긴다.|
 |판단 지점|User가 결정해야 할 선택, 위험, tradeoff를 남긴다.|
 
-`Direct Work`에서는 `Check and Limits`가 작은 `Evidence` 역할을 한다. `Task`와 `Mission`은 `User Judgment`의 입력으로 별도 `Evidence`를 남긴다.
+`Check and Limits`는 `Direct Work`가 끝날 때 남기는 짧은 확인 기록으로, 확인한 것, 확인 방법, 남은 한계를 포함한다. `Direct Work`에서는 `Check and Limits`가 작은 `Evidence` 역할을 한다. `Task`와 `Mission`은 `User Judgment`의 입력으로 별도 `Evidence`를 남긴다.
 
 문장만으로 판단 비용이 커지면 표, Mermaid, HTML 산출물, 실행 결과 캡처, 비교 화면처럼 User가 직접 대조하기 쉬운 형태로 `Evidence`를 제시한다.
 

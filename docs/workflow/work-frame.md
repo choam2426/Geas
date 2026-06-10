@@ -62,7 +62,7 @@
 |실행 전 방향이 정해져 있다.|접근과 tradeoff가 현재 맥락 안에서 정리된다.|
 |수정과 되돌리기 비용이 작다.|작은 범위에서 결과를 조정할 수 있다.|
 
-`Direct Work`가 끝날 때 Agent는 결과, 확인한 것, 한계를 짧게 남긴다.
+`Direct Work`가 끝날 때 Agent는 결과와 함께 확인한 것, 확인 방법, 남은 한계를 `Check and Limits`로 짧게 남긴다.
 
 ## Direct Work에서 Task로 승격하는 기준
 
@@ -80,4 +80,4 @@
 |별도 실행 기준이 필요하다.|결과와 판단 기준을 `Task Contract`로 분리해 설명해야 한다.|
 |User 기준 수용이 필요하다.|User가 기준, 설계, 방향을 작업 기준으로 받아들인 뒤 실행해야 한다.|
 
-이 승격 기준은 `Mission` 안에서 `Task`를 나눌 때도 사용한다. `Task` 분해 기준은 User가 결과와 Evidence를 한 번에 판단할 수 있는지에 둔다.
+`Mission` 안에서 `Task`를 나누는 기준은 [task.md](./task.md)의 `Task` 분리 기준을 따른다. 두 기준의 공통 축은 User가 결과와 `Evidence`를 한 번에 판단할 수 있는지다.

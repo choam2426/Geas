@@ -31,6 +31,32 @@ A Mission is a higher-level Work structure that groups Tasks and Mission-level U
 |Continuity Needs|State and work-readiness context to restore or hand off.|
 |Continuity Candidates|Decisions, risks, open questions, memory candidates for later Work.|
 
+## Proportionality
+
+Write the Mission Brief in proportion to Mission size, risk, and judgment cost. The goal is the smallest judgment surface that lets the user confirm the larger goal, judgment structure, and synthesis criteria.
+
+Always write the core fields: Mission Intent, Mission Boundary, Success Shape, Mission Criteria, Task Structure, Decision Points, Mission Synthesis Plan.
+
+Add the remaining fields only when their trigger applies:
+
+|Field|Trigger|
+|---|---|
+|Mission Background|The need is not evident from Mission Intent alone.|
+|Approach|Multiple approach candidates existed or the chosen approach changes result criteria.|
+|Accepted Decisions|A direction, tradeoff, condition, or risk acceptance decision was made.|
+|Key Context|Shared context, environment facts, or prior decisions apply to all Tasks.|
+|Task Structure Coverage|Many Tasks, or overlap, dependencies, and size balance need separate confirmation.|
+|Task Contribution Map|The criteria-to-Task links are not evident from Task Structure alone.|
+|Task Judgment Boundary|The split between Mission-level and Task-level judgment needs to be explicit.|
+|Shared Considerations|Shared constraints, style, conventions, or risks apply to all Tasks.|
+|Impact Surface|Mission-level touched surfaces need separate confirmation.|
+|Validation And Review Strategy|Mission-level verification surfaces or Evidence strengthening are needed.|
+|Change Triggers|Specific Mission criteria-change points should be fixed in advance.|
+|Continuity Needs|Session switch, handoff, or restoration is expected.|
+|Continuity Candidates|Durable decisions, risks, or open questions are already visible.|
+
+Omitted conditional fields fall back to workflow defaults: Mission Brief criteria changes always require user re-acceptance. When a trigger clearly applies but the field is omitted, record the reason.
+
 ## Flow
 
 1. Align Mission Brief.
@@ -50,6 +76,12 @@ A Mission is a higher-level Work structure that groups Tasks and Mission-level U
 |Accept|The user accepts the Mission result with accepted Task results and remaining limits.|
 |Continue|The Mission continues with additional Tasks, criteria adjustment, or additional checks.|
 |Cancel|The current Mission result is outside accepted scope and closes through cancel handling.|
+
+## Mission Brief Refresh
+
+When the Mission goal, boundary, acceptance criteria, or Task Structure changes, refresh the Mission Brief with user re-acceptance and update later Task Contracts.
+
+When a running Task's Change Trigger conflicts with the Mission Brief, raise it through this refresh path instead of a Task-level contract amendment. Classify already-accepted Task results as reuse, reference, supplement, or out-of-scope preservation under the refreshed Mission Brief.
 
 ## Mission Task Registry
 
@@ -76,7 +108,7 @@ Use `Mission Synthesis` fields as the registry after Task results exist:
 |Criteria Check|Result compared to Success Shape, Boundary, Criteria, Decision Points.|
 |Evidence Summary|Evidence and strengthening used for Mission judgment.|
 |Remaining Limits|Unverified areas, remaining risks, limits the user must accept.|
-|Decision Points|Items the user must judge before Mission closure.|
+|Pending Decisions|Items the user must judge before Mission closure.|
 |Continuity Candidates|Memory candidates that can affect later Work.|
 
 ## Escalation And Retention

@@ -43,9 +43,10 @@ flowchart TD
   contract --> contractAccept["User accepts Task Contract"]
   contractAccept --> execute["Execute"]
   execute --> evidence["Evidence"]
-  evidence --> judgment["Task User Judgment"]
+  evidence --> ready["Ready for Judgment"]
   evidence --> evidenceEnhance["Evidence Enhancement (if needed)"]
-  evidenceEnhance --> judgment["Task User Judgment"]
+  evidenceEnhance --> ready
+  ready --> judgment["Task User Judgment"]
 
   judgment --> accept["Accept"]
   accept --> closure["Closure"]
@@ -60,10 +61,15 @@ flowchart TD
   execute --> changeTrigger["Change Trigger"]
   evidence --> changeTrigger
   evidenceEnhance --> changeTrigger
-  changeTrigger --> cancel
+  changeTrigger --> changeJudgment["Contract Change Judgment"]
+  changeJudgment --> amend["Amend Task Contract"]
+  amend --> contractAccept
+  changeJudgment --> keep["Keep Task Contract"]
+  keep --> execute
+  changeJudgment --> cancel
 ```
 
-`Rework`는 같은 `Task Contract` 안에서 실행, 확인, 정리의 부족한 부분을 다시 진행하는 흐름이다. 기준이 바뀌면 `Change Trigger`로 보고 현재 `Task`를 `Cancel`한 뒤 새 `Work Frame`으로 돌아간다.
+`Rework`는 같은 `Task Contract` 안에서 실행, 확인, 정리의 부족한 부분을 다시 진행하는 흐름이다. 실행 중 기준 변화가 드러나면 `Change Trigger`로 보고 `Contract Change Judgment`로 올린다. User는 `Task Contract`를 갱신해 다시 받아들이거나, 현재 계약을 유지하거나, `Task`를 `Cancel`한다. `Cancel`은 `Task`의 목표 자체가 무효가 되거나 갱신으로 다룰 수 없는 방향 전환일 때 사용하고, 새 `Work Frame`으로 돌아간다.
 
 각 단계의 역할은 다음과 같다.
 
@@ -81,7 +87,8 @@ flowchart TD
 |`Rework`|현재 `Task Contract` 안에서 부족한 실행, 확인, 정리를 다시 진행한다.|
 |`Cancel`|현재 `Task` 결과를 수용 범위 밖에 두고 가능한 범위에서 `Task` 시작 전 상태로 되돌린다.|
 |`Cancel Handling`|rollback, 참고자료 보존, 새 `Work Frame` 작성 같은 후속 처리를 정리한다.|
-|`Change Trigger`|목표, 경계, 산출물, 수용 기준, 작업 준비 결과, 확인 방법, 영향 범위, 위험 수준의 변화를 드러낸다.|
+|`Change Trigger`|목표, 경계, 산출물, 수용 기준, 작업 준비 결과, 확인 방법, 영향 범위, 위험 수준의 변화를 드러내고 `Contract Change Judgment`로 올린다.|
+|`Contract Change Judgment`|User가 드러난 변화를 보고 `Task Contract` 갱신, 유지, `Cancel` 중 하나를 판단한다. 갱신된 계약은 User 재수용 후 실행 기준이 된다.|
 |`Closure`|결과, `Evidence`, User 판단, 필요한 복원 정보, `Continuity Artifact Review` 결과, 작업 방식 개선 후보를 정리한다.|
 
 ## Task Contract Alignment
@@ -140,7 +147,55 @@ review나 challenge가 필요하면 어떤 관점을 분리된 context나 sub ag
 
 `Accepted Decisions`는 방향 선택, tradeoff, 조건, 위험 수용처럼 실행 기준을 바꾸는 User 결정을 고정한다. `Starting Context`는 실행 전에 이해해야 할 기준과 입력이다. `Impact Surface`는 변경이나 산출물이 닿을 수 있어 확인해야 할 표면이다. `Verification Strategy`는 실제 확인 행위와 확인 표면을 정한다. `Review And Challenge Focus`는 분리된 context에서 볼 관점을 정하고, `Evidence Plan`은 User 판단을 위해 남길 근거, 판단 표면, 한계를 정한다.
 
-`Task`는 실행 전에 `Task Contract`를 User가 받아들여야 한다. `Task`의 `Goal`, `Boundary`, `Execution`, `Deliverable`, `Acceptance Criteria`, 확인 방법, 영향 범위, 위험 수용 조건이 바뀌면 현재 `Task`를 `Cancel`하고 새 `Work Frame`을 작성한다.
+`Task`는 실행 전에 `Task Contract`를 User가 받아들여야 한다. 실행 중 `Goal`, `Boundary`, `Execution`, `Deliverable`, `Acceptance Criteria`, 확인 방법, 영향 범위, 위험 수용 조건의 변화가 드러나면 `Change Trigger`로 보고 `Task Contract 갱신`으로 다룬다.
+
+## Task Contract 비례 작성
+
+`Task Contract`는 `Task`의 크기, 위험, 판단 비용에 비례해 작성한다. 목적은 모든 필드를 채우는 것이 아니라 User가 실행 기준과 판단 기준을 확인할 수 있는 최소 판단 표면을 만드는 것이다.
+
+다음 핵심 필드는 모든 `Task Contract`에 작성한다.
+
+`Goal`, `Boundary`, `Deliverable`, `Acceptance Criteria`, `Verification Strategy`, `User Judgment Point`
+
+나머지 필드는 작성 조건이 있을 때만 추가한다.
+
+|조건부 필드|작성 조건|
+|---|---|
+|Work Relation|`Mission` 안의 `Task`이거나 `Work Frame` 기준과의 연결을 따로 밝혀야 할 때|
+|Accepted Decisions|방향 선택, tradeoff, 조건, 위험 수용 결정이 있었을 때|
+|Starting Context|선행 결과, 기준 산출물, 환경 정보, 필수 입력에 의존할 때|
+|Execution|수행 방식이 자명하지 않거나 실행 순서가 결과 기준에 영향을 줄 때|
+|Guardrails|보존할 영역, 지켜야 할 style, conventions, 위험 통제 제약이 있을 때|
+|Impact Surface|변경이 닿는 파일, 문서, 흐름, 의존 관계를 따로 확인해야 할 때|
+|Review And Challenge Focus|위험, 영향 범위, 판단 비용이 커서 `Evidence` 강화가 예정될 때|
+|Evidence Plan|기본 `Evidence` 구성을 넘는 판단 표면이나 형식이 필요할 때|
+|Change Triggers|이 `Task`에서 기준 변화가 예상되는 지점을 미리 고정해야 할 때|
+|Cancel Handling|`Cancel` 시 처리가 기본 rollback과 참고자료 보존을 넘어설 때|
+
+생략한 조건부 필드에는 workflow의 기본 규칙이 적용된다. `Change Triggers`를 생략해도 기준 변화는 항상 `Contract Change Judgment`로 다루고, `Cancel Handling`을 생략하면 가능한 범위의 rollback과 참고자료 보존을 기본 처리로 사용한다.
+
+조건부 필드의 생략은 규칙 위반이 아니라 비례 규칙의 적용이다. 작성 조건이 드러났는데도 생략하는 경우에는 그 이유를 남긴다.
+
+## Task Contract 갱신
+
+`Task Contract`는 User 재수용을 거쳐 갱신할 수 있다.
+
+`Change Trigger`가 결과 기준이나 User 판단 기준을 바꾸면 Agent는 바뀐 항목, 이유, 영향, 유지되는 기준을 드러내고 `Contract Change Judgment`로 올린다. User는 갱신, 유지, `Cancel` 중 하나를 판단한다.
+
+|판단|처리|
+|---|---|
+|갱신|바뀐 항목과 이유를 계약에 기록하고, User가 갱신된 `Task Contract`를 다시 받아들인 뒤 실행을 이어간다.|
+|유지|현재 계약을 유지한다. 드러난 변화는 가정, 한계, 열린 질문으로 `Evidence`에 남긴다.|
+|`Cancel`|`Task`의 목표 자체가 무효가 되거나 갱신으로 다룰 수 없는 방향 전환이면 `Cancel Handling`을 거쳐 새 `Work Frame`을 작성한다.|
+
+갱신은 다음 규칙을 따른다.
+
+|규칙|내용|
+|---|---|
+|기록|갱신된 계약은 바뀐 항목, 이유, 이전 기준을 남기고, 이미 수용된 결정은 `Accepted Decisions`에 유지한다.|
+|재수용|갱신된 `Task Contract`는 User가 다시 받아들인 뒤 실행 기준이 된다.|
+|분리 검토|갱신이 반복되어 결과와 `Evidence`를 하나의 판단 표면으로 다루기 어려워지면 `Task` 분리나 `Mission` 승격을 검토한다.|
+|Mission 내 Task|갱신이 `Mission Brief`의 목표, 경계, 수용 기준, `Task Structure`와 충돌하면 Task 수준 갱신으로 다루지 않고 [mission.md](./mission.md)의 `Mission Brief` 갱신 경로로 올린다.|
 
 ## Task User Judgment
 
@@ -150,6 +205,6 @@ review나 challenge가 필요하면 어떤 관점을 분리된 context나 sub ag
 |Rework|현재 `Task` 기준을 유지한 채 실행, 확인, 정리의 부족한 부분을 다시 진행한다.|
 |Cancel|현재 `Task` 결과를 수용 범위 밖에 두는 판단이다. 기본 처리는 가능한 범위에서 `Task` 시작 전 상태로 되돌리는 것이다.|
 
-`Rework`는 같은 `Task Contract` 안에서만 사용한다. `Goal`, `Boundary`, `Execution`, `Deliverable`, `Acceptance Criteria`, 위험 수용 조건이 바뀌면 현재 `Task`를 `Cancel`하고 새 `Work Frame`을 작성한다.
+`Rework`는 같은 `Task Contract` 안에서만 사용한다. 기준 변화가 필요하면 `Task Contract 갱신`으로 다루고, `Task`의 목표 자체가 무효가 되거나 갱신으로 다룰 수 없는 방향 전환이면 `Cancel`하고 새 `Work Frame`을 작성한다.
 
 `Cancel`은 필요한 후속 처리를 함께 남긴다. 후속 처리는 가능한 범위의 rollback, 수용 범위 밖에 둔 결과의 참고자료 보존, 새 `Work Frame` 작성으로 나뉠 수 있다. rollback 범위 밖에 남는 변경, 참고할 만한 결과, 새 `Work`에 넘길 기준 변화는 `Closure`에 남긴다.

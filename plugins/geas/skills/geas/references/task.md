@@ -31,16 +31,40 @@ Split Tasks when acceptance criteria, output type, verification method, preparat
 |Change Triggers|Conditions that require contract refresh or new Work Frame.|
 |Cancel Handling|Rollback, reference preservation, and next Work Frame handling.|
 
+## Proportionality
+
+Write the contract in proportion to Task size, risk, and judgment cost. The goal is the smallest judgment surface that lets the user confirm execution criteria and judgment criteria, not a fully filled schema.
+
+Always write the core fields: Goal, Boundary, Deliverable, Acceptance Criteria, Verification Strategy, User Judgment Point.
+
+Add the remaining fields only when their trigger applies:
+
+|Field|Trigger|
+|---|---|
+|Work Relation|The Task belongs to a Mission or needs an explicit link to Work Frame criteria.|
+|Accepted Decisions|A direction, tradeoff, condition, or risk acceptance decision was made.|
+|Starting Context|The Task depends on prior results, baseline outputs, environment facts, or required inputs.|
+|Execution|The execution method is not self-evident or its order affects result criteria.|
+|Guardrails|There are preserved areas, style, conventions, or risk-control constraints.|
+|Impact Surface|Touched files, docs, flows, or dependencies need separate confirmation.|
+|Review And Challenge Focus|Risk, impact, or judgment cost warrants Evidence strengthening.|
+|Evidence Plan|The judgment surface goes beyond the default Evidence structure.|
+|Change Triggers|Specific criteria-change points should be fixed in advance for this Task.|
+|Cancel Handling|Cancel handling goes beyond default rollback and reference preservation.|
+
+Omitted conditional fields fall back to workflow defaults: criteria changes always go through Contract Change Judgment, and default cancel handling is best-effort rollback plus reference preservation. When a trigger clearly applies but the field is omitted, record the reason.
+
 ## Flow
 
 1. Align Task Contract.
 2. Ask for Direction Judgment when a direction changes criteria or Evidence.
 3. Present Task Contract for user acceptance.
 4. Execute within the accepted contract.
-5. Prepare Evidence.
-6. Strengthen Evidence when risk, impact, or judgment cost warrants it.
-7. Wait for Task User Judgment.
-8. Close, rework within the same contract, or cancel.
+5. Raise a Contract Change Judgment when a Change Trigger fires during execution.
+6. Prepare Evidence.
+7. Strengthen Evidence when risk, impact, or judgment cost warrants it.
+8. Wait for Task User Judgment.
+9. Close, rework within the same contract, or cancel.
 
 ## User Judgment
 
@@ -54,7 +78,19 @@ Record the user's explicit decision in Task `closure.md`.
 
 ## Change Boundary
 
-Use Rework only inside the accepted Task Contract. Use Cancel and return to Work Frame when Goal, Boundary, Execution, Deliverable, Acceptance Criteria, verification method, impact surface, or risk acceptance changes.
+Use Rework only inside the accepted Task Contract.
+
+When Goal, Boundary, Execution, Deliverable, Acceptance Criteria, verification method, impact surface, or risk acceptance changes during execution, treat it as a Change Trigger and raise a Contract Change Judgment:
+
+|Decision|Handling|
+|---|---|
+|Amend|Record the changed fields, reasons, and prior criteria in the contract, get user re-acceptance, and continue execution.|
+|Keep|Keep the current contract and record the change as an assumption, limit, or open question in Evidence.|
+|Cancel|Use when the Task goal itself is invalid or the change cannot be handled by amendment. Close through Cancel Handling and return to a new Work Frame.|
+
+When repeated amendments make the result and Evidence too large for one judgment surface, consider splitting the Task or escalating to a Mission.
+
+For a Task inside a Mission, when the change conflicts with the Mission Brief, raise it through the Mission Brief refresh path instead of a Task-level amendment.
 
 ## Record Layout
 

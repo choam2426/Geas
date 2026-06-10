@@ -110,7 +110,7 @@ Alignment에서 정리된 기준은 성격에 따라 `Work Frame`, `Task Contrac
 |정리된 기준|기록 위치|
 |---|---|
 |작업 배경, User 의도, 확인한 맥락, 고려할 점|`Work Frame`|
-|harness 필요 여부, 준비 범위, User 판단이 필요한 setup|`Work Frame`, 상호작용 기록, 관련 확인 기준|
+|harness 필요 여부, 준비 범위, User 판단이 필요한 setup|`Work Frame`의 `Harness Setup Need`, 관련 `Task Contract`/`Mission Brief` 필드|
 |실행 목표, 산출물, 경계, 수용 기준, 확인 계획|`Task Contract`|
 |큰 목표, Task 구조, 의존성, Mission 판단 지점, 종합 기준|`Mission Brief`|
 |장기 효력이 있는 결정, 맥락, 기준|`Continuity Artifact` 후보|

@@ -34,6 +34,9 @@ flowchart TD
   missionJudgment --> cancel["Cancel"]
   cancel --> cancelHandling["Cancel Handling"]
   cancelHandling --> closure
+
+  taskLoop --> briefRefresh["Mission Brief Refresh (on criteria change)"]
+  briefRefresh --> briefAccept
 ```
 
 각 단계의 역할은 다음과 같다.
@@ -54,7 +57,7 @@ flowchart TD
 |`Cancel Handling`|이미 수용된 `Task` 결과, 참고자료, 새 `Work Frame` 필요 여부를 정리한다.|
 |`Closure`|Mission 결과, `Evidence`, User 판단, 복원 정보, `Continuity Artifact Review` 결과, 작업 방식 개선 후보를 정리한다.|
 
-`Continue` 중 `Mission Brief`의 목표, 경계, 수용 기준, Task 구조가 바뀌면 User 재수용을 받고 이후 `Task Contract`를 갱신한다.
+`Mission` 진행 중 `Mission Brief`의 목표, 경계, 수용 기준, `Task Structure`가 바뀌면 User 재수용을 받고 이후 `Task Contract`를 갱신한다. 진행 중인 `Task`의 `Change Trigger`가 `Mission Brief` 기준과 충돌하면 Task 수준 계약 갱신으로 다루지 않고 `Mission Brief` 갱신으로 올린다.
 
 ## Mission Brief Alignment
 
@@ -134,6 +137,36 @@ review나 challenge가 필요하면 어떤 관점을 분리된 context나 sub ag
 
 `Mission Brief`가 바뀌면 User 재수용을 받고, `Task Structure`와 이후 `Task Contract`를 갱신한다. 이미 User가 수용한 `Task` 결과는 새 `Mission Brief` 기준에서 재사용, 참고, 보완, 범위 밖 보존 중 하나로 분류한다.
 
+## Mission Brief 비례 작성
+
+`Mission Brief`는 `Mission`의 크기, 위험, 판단 비용에 비례해 작성한다. 목적은 모든 필드를 채우는 것이 아니라 User가 큰 목표, 판단 구조, 종합 기준을 확인할 수 있는 최소 판단 표면을 만드는 것이다.
+
+다음 핵심 필드는 모든 `Mission Brief`에 작성한다.
+
+`Mission Intent`, `Mission Boundary`, `Success Shape`, `Mission Criteria`, `Task Structure`, `Decision Points`, `Mission Synthesis Plan`
+
+나머지 필드는 작성 조건이 있을 때만 추가한다.
+
+|조건부 필드|작성 조건|
+|---|---|
+|Mission Background|필요성이 `Mission Intent`만으로 드러나지 않을 때|
+|Approach|접근 후보가 여럿이었거나 접근 선택이 결과 기준을 바꿀 때|
+|Accepted Decisions|방향 선택, tradeoff, 조건, 위험 수용 결정이 있었을 때|
+|Key Context|모든 `Task`가 공유해야 할 맥락, 환경 정보, 선행 결정이 있을 때|
+|Task Structure Coverage|`Task` 수가 많거나 중복, 의존성, 크기 불균형을 따로 확인해야 할 때|
+|Task Contribution Map|기준과 `Task`의 연결이 `Task Structure`만으로 자명하지 않을 때|
+|Task Judgment Boundary|Mission 수준 판단과 Task 수준 판단의 분리를 따로 밝혀야 할 때|
+|Shared Considerations|모든 `Task`가 공유할 제약, style, conventions, 위험이 있을 때|
+|Impact Surface|변경이 닿는 표면을 Mission 수준에서 따로 확인해야 할 때|
+|Validation And Review Strategy|Mission 수준 확인 표면이나 `Evidence` 강화가 필요할 때|
+|Change Triggers|Mission 기준 변화가 예상되는 지점을 미리 고정해야 할 때|
+|Continuity Needs|세션 전환, 인계, 복원이 예상될 때|
+|Continuity Artifact Candidates|장기 효력이 있는 결정, 위험, 열린 질문 후보가 이미 드러났을 때|
+
+생략한 조건부 필드에는 workflow의 기본 규칙이 적용된다. `Change Triggers`를 생략해도 `Mission Brief` 기준 변화는 항상 User 재수용으로 다룬다.
+
+조건부 필드의 생략은 규칙 위반이 아니라 비례 규칙의 적용이다. 작성 조건이 드러났는데도 생략하는 경우에는 그 이유를 남긴다.
+
 ## Mission Synthesis
 
 `Mission Synthesis`는 수용된 `Task` 결과, `Evidence`, 남은 한계, `Continuity Artifact` 후보를 `Mission Brief` 기준으로 종합하는 판단 표면이다.
@@ -149,7 +182,7 @@ User는 `Mission Synthesis`를 보고 `Mission` 결과를 `Accept`, `Continue`, 
 |Criteria Check|`Mission Brief`의 `Success Shape`, `Mission Boundary`, `Mission Criteria`, `Decision Points` 기준으로 결과를 대조한다.|
 |Evidence Summary|Mission 판단에 쓰는 `Evidence`, 강화 절차, 판단 표면을 종합한다.|
 |Remaining Limits|미확인 범위, 남은 위험, User가 받아들여야 할 한계를 종합한다.|
-|Decision Points|Mission User Judgment 전에 User가 판단해야 할 항목을 드러낸다.|
+|Pending Decisions|`Mission User Judgment` 전에 User가 판단해야 할 항목을 드러낸다.|
 |Continuity Artifact Candidates|`Mission` 밖으로 이어질 메모리 후보를 종합한다.|
 
 `Mission Accept`는 수용된 `Task` 결과들을 `Mission Brief` 기준으로 다시 대조한 뒤, User가 전체 `Mission` 결과를 받아들일 때 성립한다.

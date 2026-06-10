@@ -82,16 +82,16 @@ cp -R geas/plugins/geas/skills/* .claude/skills/
 
 ## Usage
 
-After installing Geas, open Codex or Claude Code in your project and use `/mission` to start or resume Geas work.
+After installing Geas, open Codex or Claude Code in your project and use `/geas` to start or resume Geas work.
 
-If work is interrupted, call `/mission` again to continue from the accepted Mission criteria, Task criteria, Evidence, User Judgment, and continuity context.
+If work is interrupted, call `/geas` again to continue from the accepted Mission criteria, Task criteria, Evidence, User Judgment, and continuity context.
 
 ```text
-/mission Add login error messages that tell users why sign-in failed
+/geas Add login error messages that tell users why sign-in failed
 ```
 
 ```text
-/mission Continue the current Mission
+/geas Continue the current Mission
 ```
 
 Geas does not push the agent to declare completion immediately. It first fixes the working criteria, then leaves Evidence from execution so a human can review the result and make a User Judgment.
