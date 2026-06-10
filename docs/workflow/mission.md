@@ -137,6 +137,8 @@ review나 challenge가 필요하면 어떤 관점을 분리된 context나 sub ag
 
 `Mission Brief`가 바뀌면 User 재수용을 받고, `Task Structure`와 이후 `Task Contract`를 갱신한다. 이미 User가 수용한 `Task` 결과는 새 `Mission Brief` 기준에서 재사용, 참고, 보완, 범위 밖 보존 중 하나로 분류한다.
 
+진행 중 Task 현황은 별도 목록으로 관리하지 않는다. 실행 전에는 `Mission Brief`의 `Task Structure`, `Task Structure Coverage`, `Task Contribution Map`, `Task Judgment Boundary`가 Task 현황의 기준이고, `Task` 결과가 생긴 뒤에는 `Mission Synthesis`의 `Task Results Summary`, `Criteria Check`, `Evidence Summary`, `Remaining Limits`가 그 역할을 잇는다.
+
 ## Mission Brief 비례 작성
 
 `Mission Brief`는 `Mission`의 크기, 위험, 판단 비용에 비례해 작성한다. 목적은 모든 필드를 채우는 것이 아니라 User가 큰 목표, 판단 구조, 종합 기준을 확인할 수 있는 최소 판단 표면을 만드는 것이다.

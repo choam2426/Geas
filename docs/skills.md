@@ -139,7 +139,9 @@ tasks/
 
 단일 `Task`로 끝나는 `Work`도 Task 수준 기록은 `tasks/NNN-<task-slug>/` 아래에 둔다. 이 규칙은 단일 Task가 이후 여러 Task로 커져도 파일 이동을 줄이고, Task 판단 단위를 항상 같은 구조로 복원하기 위한 것이다.
 
-작은 `Direct Work` 기록은 User가 명시적으로 기록을 원하거나, 이후 복원할 가치가 있는 기준/판단/한계가 있을 때 `.geas/works/`에 남긴다.
+`Task`와 `Mission`으로 다루는 `Work`는 기록을 항상 만든다. 계약, 수용 기록, `Evidence`, `Closure`가 User 판단과 `Work` 재개의 기반이기 때문이다. 작은 `Direct Work` 기록만 조건부로, User가 명시적으로 기록을 원하거나 이후 복원할 가치가 있는 기준/판단/한계가 있을 때 `.geas/works/`에 남긴다.
+
+기록은 User의 작업 언어로 쓴다.
 
 `Task Contract`와 `Mission Brief` 기록에는 User 수용 여부와 수용 시점을 남긴다. 이 수용 기록은 중단된 `Work`를 재개할 때 현재 위치를 판별하는 기준이 된다.
 

@@ -20,7 +20,7 @@ Connect Evidence to the active Work Frame, Task Contract, or Mission Brief.
 |Remaining Limits|Unverified scope, remaining risk, user-accepted limits.|
 |Judgment Points|Choices, risks, or tradeoffs requiring user decision.|
 
-For Direct Work, use Check and Limits as a compact Evidence surface. For Task and Mission, prepare Evidence before User Judgment.
+Check and Limits is the short record left when Direct Work ends: what was checked, how it was checked, and what limits remain. It serves as the compact Evidence surface for Direct Work. For Task and Mission, prepare Evidence before User Judgment.
 
 ## Evidence Strengthening
 
@@ -33,6 +33,17 @@ Use strengthening when risk, impact surface, or judgment cost is high.
 |Challenge|Assumptions, long-term cost, rollback cost, criteria conflict, or missing scope need pressure.|Assumptions challenged, risks surfaced, User Judgment points.|
 
 Use separated context or a subagent when it materially improves review or challenge quality.
+
+Do not rely on self-assessed risk alone. Apply the matching procedure by default when any condition below holds. When a condition holds and strengthening is skipped, record the reason under Remaining Limits.
+
+|Condition|Default procedure|
+|---|---|
+|An Acceptance Criteria item was not directly checked.|Verification|
+|No test, run, or comparison surface exists for the result.|Review|
+|The change is hard to reverse (migration, deletion, external send, deploy, publish).|Challenge|
+|The change touches security, permissions, auth, payment, or personal data.|Review and Challenge|
+|The Impact Surface grew beyond the accepted contract during execution.|Review|
+|Rework repeated twice or more in the same Task.|Challenge|
 
 ## User Judgment Boundary
 

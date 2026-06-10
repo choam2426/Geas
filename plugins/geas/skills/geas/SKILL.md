@@ -44,6 +44,7 @@ Load only the minimum reference set needed for the current position:
 |New Work or routing decision|`references/work-frame.md`|
 |Preparation changes quality, judgment cost, permission, or risk|`references/work-frame.md`, `references/harness-setup.md`|
 |Task Contract creation or update|`references/work-frame.md` or `references/mission.md`, plus `references/task.md`|
+|Criteria change during Task execution|`references/task.md`, plus `references/mission.md` for a Task inside a Mission|
 |Task judgment preparation|`references/task.md`, `references/evidence-judgment.md`|
 |Task closure|`references/task.md`, `references/evidence-judgment.md`, `references/continuity.md`|
 |Mission Brief creation or update|`references/work-frame.md`, `references/mission.md`|
@@ -56,7 +57,11 @@ Load only the minimum reference set needed for the current position:
 
 ## Record Policy
 
-Store workflow records under `.geas/works/YYYYMMDD-<slug>/` when the record has restoration value or the user asks for a record.
+Store workflow records under `.geas/works/YYYYMMDD-<slug>/`.
+
+Task and Mission Work always create records: their contracts, acceptance records, Evidence, and Closure are the base for judgment and resume. Direct Work creates records only when the record has restoration value or the user asks for one.
+
+Write workflow records in the user's working language.
 
 Use these fixed names when the corresponding stage occurs:
 

@@ -69,6 +69,8 @@ Omitted conditional fields fall back to workflow defaults: Mission Brief criteri
 8. Wait for Mission User Judgment.
 9. Close, continue with additional Tasks, or cancel.
 
+Record user acceptance status and time inside `mission-brief.md`. Resume position detection depends on it.
+
 ## Mission User Judgment
 
 |Decision|Meaning|

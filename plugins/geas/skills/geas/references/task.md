@@ -104,4 +104,6 @@ Use fixed basenames when the record is created:
 |Evidence summary|`evidence.md`|
 |Closure|`closure.md`|
 
+Record user acceptance status and time inside `task-contract.md`. Resume position detection depends on it.
+
 Use additional role-named supporting files for judgment surfaces, screenshots, structured check output, or comparison reports.
