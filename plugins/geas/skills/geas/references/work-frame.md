@@ -33,7 +33,7 @@ When `.geas/memory/` exists, read the relevant type files (`facts.md`, `preferen
 
 ## Acceptance
 
-Present the Work Frame with the recommended handling for user acceptance before proceeding. All Work proceeds only after the user accepts the Work Frame. Record acceptance status and time in `work-frame.md` when records exist; for Direct Work without records, conversation-level acceptance is enough.
+Present the Work Frame with the recommended handling for user acceptance before proceeding. Present it in the conversation as a short summary — writing `work-frame.md` alone is not presentation. All Work proceeds only after the user accepts the Work Frame. Record acceptance status and time in `work-frame.md` when records exist; for Direct Work without records, conversation-level acceptance is enough.
 
 ## Routing Criteria
 

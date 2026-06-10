@@ -51,6 +51,20 @@ Run `status` and `status --json`, parse the JSON output, and run the existing CL
 Review Evidence: both command outputs and the test run result.
 ```
 
+After writing the record, the agent presents the contract in the conversation — not just the file:
+
+> **Task Contract — add --json flag to status command** (`.geas/works/20260610-status-json-flag/tasks/001-add-json-flag/task-contract.md`)
+>
+> - Goal: `status` supports `--json` for machine-readable output.
+> - Boundary: status output path only; no schema versioning.
+> - Deliverable: changes in `src/commands/status.ts`, `src/cli.ts`.
+> - Acceptance Criteria: `--json` prints valid JSON with the same fields; default output unchanged.
+> - Verification: run both forms, parse JSON, run CLI tests.
+>
+> Open questions: none. Accepting this contract starts execution. Proceed?
+
+User: "good, proceed" — acceptance stamp recorded in the contract.
+
 ## Execute and Evidence
 
 Agent implements the change, then writes `evidence.md` beside the contract:

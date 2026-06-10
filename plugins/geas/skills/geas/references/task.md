@@ -58,7 +58,7 @@ Omitted conditional fields fall back to workflow defaults: criteria changes alwa
 
 1. Align Task Contract.
 2. Ask for Direction Judgment when a direction changes criteria or Evidence.
-3. Present Task Contract for user acceptance.
+3. Present the Task Contract core fields in the conversation as a short summary, with the record path, and ask for acceptance. Writing the record file alone is not presentation.
 4. Execute within the accepted contract.
 5. Raise a Contract Change Judgment when a Change Trigger fires during execution.
 6. Prepare Evidence.

@@ -61,7 +61,7 @@ Omitted conditional fields fall back to workflow defaults: Mission Brief criteri
 
 1. Align Mission Brief.
 2. Ask for Direction Judgment when approach or Task structure changes Mission criteria.
-3. Present Mission Brief for user acceptance.
+3. Present the Mission Brief core fields and Task Structure in the conversation as a short summary, with the record path, and ask for acceptance. Writing the record file alone is not presentation.
 4. Create Task Contracts per Task.
 5. Close each Task through Task Evidence and Task User Judgment.
 6. Prepare Mission Synthesis from accepted Task results and limits.
