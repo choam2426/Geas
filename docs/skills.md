@@ -18,6 +18,7 @@ geas/
     mission.md
     evidence-judgment.md
     continuity.md
+    example.md
 ```
 
 Script는 반복적이고 취약한 기계 작업이 실제로 생길 때 추가한다.
@@ -298,6 +299,25 @@ tasks/
 - User Judgment 이후 결과, 확인 근거, 남은 한계, 복원 정보를 정리할 때
 - 다음 작업에 남길 기준, 위험, 열린 질문, 작업 방식 개선 후보를 분류할 때
 
+### `references/example.md`
+
+역할:
+
+- 작은 `Task` 하나의 전체 흐름을 비례 작성된 실제 기록 형태로 보여준다.
+
+포함:
+
+- 짧은 `Work Frame`
+- 핵심 필드만 사용한 `Task Contract`와 수용 스탬프
+- `Evidence`와 강화 발동 조건 검사
+- `User Judgment`, `Closure`, `Continuity Artifact Review`
+- 기록 트리
+
+사용:
+
+- 프로젝트에서 Geas를 처음 사용할 때
+- 기록 형태나 비례 작성 수준이 불확실할 때
+
 ## Reference 선택 기준
 
 Reference는 상황별 minimum load set을 기준으로 읽는다.
@@ -315,6 +335,7 @@ Reference는 상황별 minimum load set을 기준으로 읽는다.
 |Mission 수준 종합|`mission.md`, `evidence-judgment.md`|
 |Mission 종료|`mission.md`, `evidence-judgment.md`, `continuity.md`|
 |Direct Work 종료|`work-frame.md`, `continuity.md`|
+|프로젝트 첫 Geas 사용 또는 기록 형태 판단|`example.md`|
 |Workflow 기록 생성 또는 갱신|해당 단계 reference와 이 문서의 기록 위치 규칙|
 
 ## Boundary

@@ -57,6 +57,7 @@ Load only the minimum reference set needed for the current position:
 |Mission closure|`references/mission.md`, `references/evidence-judgment.md`, `references/continuity.md`|
 |Direct Work closure|`references/work-frame.md`, `references/continuity.md`|
 |Resuming saved Work|`references/continuity.md`, plus the references for the restored position|
+|First Geas use in a project or uncertainty about record shape|`references/example.md`|
 |Workflow record creation or update|Current stage references plus the record policy below|
 
 ## Record Policy
