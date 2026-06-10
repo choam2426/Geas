@@ -21,7 +21,7 @@ Geas가 줄이려는 것은 agent의 실행 시간이 아니라 사람이 결과
 - 구현, 검증, 리뷰, 챌린지를 분리해 산출물의 맥락, 품질, 누락, 장기 위험을 따로 확인합니다.
 - 작업 중 기준이 바뀌면 조용히 범위를 넓히지 않고 기준 갱신과 재검토로 되돌립니다.
 - 끊긴 작업도 Mission 기준, Task 기준, Evidence, User Judgment, 이어받기 맥락을 바탕으로 다시 이어갈 수 있습니다.
-- gap, debt, follow-up, memory를 구분해 남은 문제와 반복 가능한 교훈을 다음 작업으로 연결합니다.
+- 남은 한계와 반복 가능한 교훈을 Closure 기록과 유형별 memory로 남겨 다음 작업으로 연결합니다.
 
 ## Geas란 무엇인가
 
@@ -98,50 +98,54 @@ Geas는 agent가 바로 완료를 선언하게 만들기보다, 먼저 작업 �
 
 ## 핵심 흐름
 
+모든 요청은 하나의 `Work`가 됩니다. agent는 요청을 Alignment를 거쳐 Work Frame으로 정리한 뒤, 크기, 위험, 판단 비용에 따라 Direct Work, Task, Mission 중 하나로 다룹니다.
+
 ```mermaid
 flowchart TD
-  request["사용자 요청"] --> specifying["specifying<br/>Mission 기준과 Task 계약"]
-  specifying --> building["building<br/>Task 실행과 Evidence"]
-  building --> consolidating["consolidating<br/>Mission 결과 종합"]
-  consolidating --> judgment["수용 판단"]
-  building -->|"기준 재검토"| specifying
-  consolidating -->|"추가 Task 필요"| building
-  consolidating -->|"Mission 기준 갱신"| specifying
+  request["사용자 요청"] --> align["Alignment Loop"]
+  align --> frame["Work Frame"]
+  frame --> direct["Direct Work<br/>실행, 확인, 종료"]
+  frame --> task["Task<br/>계약 기반 판단 단위"]
+  frame --> mission["Mission<br/>여러 Task와 종합"]
 ```
 
-`specifying`은 사용자 요청을 Mission 기준과 Task 계약으로 구체화합니다. `building`은 수용된 Task 계약을 기준으로 구현, 검증, 리뷰를 진행하고 Evidence를 남깁니다. `consolidating`은 수용된 Task들을 Mission 기준으로 종합해 사람이 Mission 결과를 판단할 수 있게 정리합니다. 추가 Task나 기준 갱신이 필요하면 이전 단계로 돌아갑니다.
+- `Direct Work`는 짧은 Work Frame으로 실행하고, 확인한 것과 남은 한계를 남기고 닫습니다.
+- `Task`는 실행 전에 사용자가 수용하는 Task Contract로 실행 기준을 고정하고, Task 수용 판단으로 끝납니다.
+- `Mission`은 여러 Task를 Mission Brief 아래 묶고, 수용된 Task 결과를 종합해 Mission 수준에서 판단합니다.
 
 Task는 다음 흐름으로 진행됩니다.
 
 ```mermaid
 flowchart TD
-  contract["Task Contract"] --> implement["구현"]
-  implement --> implEvidence["Implementation Evidence"]
-  implEvidence --> verify["검증"]
-  verify --> verificationEvidence["Verification Evidence"]
-  verificationEvidence --> review["리뷰"]
-  review --> reviewEvidence["Review Evidence"]
-  reviewEvidence --> challenge{"챌린지 필요?"}
-  challenge -->|"예"| challengerEvidence["Challenger Evidence"]
-  challenge -->|"아니오"| taskJudgment["Task 수용 판단"]
-  challengerEvidence --> taskJudgment
-  taskJudgment -->|"수용"| taskEvidence["Task Evidence"]
-  taskJudgment -->|"재작업"| implement
-  taskJudgment -->|"계약 갱신"| contract
+  contract["Task Contract"] --> accept["사용자 계약 수용"]
+  accept --> execute["실행"]
+  execute --> evidence["Evidence"]
+  evidence --> judgment["Task 수용 판단"]
+  judgment -->|"수용"| closure["Closure"]
+  judgment -->|"재작업"| execute
+  judgment -->|"취소"| closure
+  execute -->|"기준 변화"| amend["계약 변경 판단"]
+  amend --> accept
 ```
+
+위험, 영향 범위, 판단 비용이 크면 verification, review, challenge로 Evidence를 강화합니다. 실행 중 기준이 바뀌면 계약을 갱신할지, 유지할지, 취소할지 사용자가 판단합니다 — 작업이 수용된 기준에서 조용히 벗어나지 않습니다.
+
+기록은 `.geas/works/`에 남아 끊긴 Work를 같은 기준으로 재개할 수 있고, 장기 효력이 있는 결정은 `.geas/memory/`에 memory로 남아 다음 작업에 쓰입니다.
 
 ## 핵심 개념
 
-- `Mission`: 사용자가 agent를 통해 이루려는 목표입니다. 배경, 범위, 제외 범위, 수용 기준을 담습니다.
-- `Task`: Mission을 사람이 Evidence를 보고 판단할 수 있게 나눈 작업 단위입니다.
-- `Evidence`: agent가 남기는 검증 근거와 미검증 범위입니다. 완료 선언이 아니라 사람의 검토를 돕는 근거 자료입니다.
-- `User Judgment`: 사람이 Evidence를 검토한 뒤 결과를 수용, 제한부 수용, 재작업, 취소 중 하나로 판단한 기록입니다.
-- `Reflection`: 실행과 검증에서 드러난 사실을 다음 작업의 계약, 검증 방법, 기록 방식에 반영하는 회고입니다.
+- `Work`: 사용자가 위임한 작업 하나입니다. 모든 Work는 Work Frame에서 시작해 Direct Work, Task, Mission 중 하나로 다뤄집니다.
+- `Task Contract`: Task 실행 전에 사용자가 수용하는 실행 합의입니다. 목표, 경계, 산출물, 수용 기준, 확인 전략을 담습니다.
+- `Mission`: 여러 Task와 판단 지점을 Mission Brief 아래 묶고 Mission 수준 종합으로 끝나는 큰 Work입니다.
+- `Evidence`: 결과가 수용된 기준에 어떻게 대조되는지, 무엇을 확인했고 무엇이 미확인으로 남았는지입니다. 완료 선언이 아니라 사용자의 판단 입력입니다.
+- `User Judgment`: 결과와 Evidence에 대한 사용자의 명시적 결정입니다. Task는 수용, 재작업, 취소 중 하나, Mission은 수용, 계속, 취소 중 하나입니다.
+- `Continuity`: 끊긴 Work를 재개하게 하는 Closure 기록과, 다음 작업을 위해 유형별 memory로 남는 Continuity Artifact입니다.
 
 ## 먼저 읽을 문서
 
 - [Geas 정의](docs/definition.md)
-- [작업 운영](docs/operating/index.md)
+- [Geas Workflow](docs/workflow/index.md)
+- [Skill 구조](docs/skills.md)
 
 ## 라이선스
 

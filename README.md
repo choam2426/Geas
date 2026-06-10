@@ -21,7 +21,7 @@ Geas reduces the total cost of reviewing, judging, maintaining, and continuing a
 - Separates implementation, verification, review, and challenge so context, quality, omissions, and long-term risks can be inspected independently.
 - Returns to baseline revision instead of silently expanding scope when the criteria change during work.
 - Lets interrupted work resume from accepted Mission criteria, Task criteria, Evidence, User Judgment, and continuity context.
-- Separates gap, debt, follow-up, and memory so remaining issues and repeatable lessons can feed the next work.
+- Keeps closure records and typed memory so remaining limits and repeatable lessons feed the next work.
 
 ## What Geas Is
 
@@ -98,50 +98,54 @@ Geas does not push the agent to declare completion immediately. It first fixes t
 
 ## Core Workflow
 
+Every request becomes a `Work`. The agent aligns the request into a Work Frame, then handles it as Direct Work, a Task, or a Mission depending on size, risk, and judgment cost.
+
 ```mermaid
 flowchart TD
-  request["User request"] --> specifying["specifying<br/>Mission criteria and Task contracts"]
-  specifying --> building["building<br/>Task execution and Evidence"]
-  building --> consolidating["consolidating<br/>Mission result synthesis"]
-  consolidating --> judgment["User Judgment"]
-  building -->|"criteria review"| specifying
-  consolidating -->|"more Tasks needed"| building
-  consolidating -->|"Mission criteria update"| specifying
+  request["User request"] --> align["Alignment Loop"]
+  align --> frame["Work Frame"]
+  frame --> direct["Direct Work<br/>execute, check, close"]
+  frame --> task["Task<br/>contract-based judgment unit"]
+  frame --> mission["Mission<br/>multiple Tasks and synthesis"]
 ```
 
-`specifying` turns the user request into Mission criteria and Task contracts. `building` executes accepted Task contracts and records Evidence through implementation, verification, and review. `consolidating` compares accepted Tasks against the Mission criteria so the human can judge the Mission result. When more work or criteria revision is needed, the flow returns to an earlier stage.
+- `Direct Work` runs on a short Work Frame: execute, report the result with checks and limits, close.
+- A `Task` fixes execution criteria as a Task Contract the user accepts before execution, and ends with a Task User Judgment.
+- A `Mission` groups multiple Tasks under a Mission Brief and synthesizes accepted Task results for a Mission-level judgment.
 
 A Task moves through this flow.
 
 ```mermaid
 flowchart TD
-  contract["Task Contract"] --> implement["implementation"]
-  implement --> implEvidence["Implementation Evidence"]
-  implEvidence --> verify["verification"]
-  verify --> verificationEvidence["Verification Evidence"]
-  verificationEvidence --> review["review"]
-  review --> reviewEvidence["Review Evidence"]
-  reviewEvidence --> challenge{"challenge needed?"}
-  challenge -->|"yes"| challengerEvidence["Challenger Evidence"]
-  challenge -->|"no"| taskJudgment["Task User Judgment"]
-  challengerEvidence --> taskJudgment
-  taskJudgment -->|"accepted"| taskEvidence["Task Evidence"]
-  taskJudgment -->|"revise"| implement
-  taskJudgment -->|"contract update"| contract
+  contract["Task Contract"] --> accept["User accepts contract"]
+  accept --> execute["Execute"]
+  execute --> evidence["Evidence"]
+  evidence --> judgment["Task User Judgment"]
+  judgment -->|"Accept"| closure["Closure"]
+  judgment -->|"Rework"| execute
+  judgment -->|"Cancel"| closure
+  execute -->|"criteria change"| amend["Contract Change Judgment"]
+  amend --> accept
 ```
+
+Evidence is strengthened with verification, review, or challenge when risk, impact, or judgment cost is high. When criteria change during execution, the user decides whether to amend the contract, keep it, or cancel — work never silently drifts from the accepted criteria.
+
+Records live under `.geas/works/` so interrupted Work resumes from the same criteria, and durable decisions are kept as memory under `.geas/memory/` for later Work.
 
 ## Core Concepts
 
-- `Mission`: The goal the user wants to accomplish with the agent. It includes background, scope, excluded scope, and acceptance criteria.
-- `Task`: A reviewable unit of Mission work that a human can judge from its outputs and Evidence.
-- `Evidence`: Verification evidence and unchecked scope left by the agent. It is not a completion declaration; it is material for human review.
-- `User Judgment`: The human decision after reviewing Evidence, such as accepted, accepted with limits, revise, defer, or stop.
-- `Reflection`: The process of turning facts found during execution and verification into better contracts, verification methods, and records for future work.
+- `Work`: One unit of work the user delegates. Every Work starts from a Work Frame and is handled as Direct Work, a Task, or a Mission.
+- `Task Contract`: The execution agreement the user accepts before a Task runs: goal, boundary, deliverable, acceptance criteria, and verification strategy.
+- `Mission`: A larger Work that groups multiple Tasks and judgment points under a Mission Brief and ends with Mission-level synthesis.
+- `Evidence`: How the result compares to the accepted criteria, what was checked, and what remains unchecked. It is not a completion declaration; it is the user's judgment input.
+- `User Judgment`: The user's explicit decision on result and Evidence: Accept, Rework, or Cancel for a Task; Accept, Continue, or Cancel for a Mission.
+- `Continuity`: Closure records that let interrupted Work resume, and Continuity Artifacts kept as typed memory for later Work.
 
 ## Start Here
 
 - [Geas definition](docs/definition.md)
-- [Operating model](docs/operating/index.md)
+- [Geas Workflow](docs/workflow/index.md)
+- [Skill structure](docs/skills.md)
 
 ## License
 
