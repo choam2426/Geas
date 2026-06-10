@@ -1,6 +1,6 @@
 ---
 name: geas
-description: Structure agent work with Geas Workflow. Use when the user asks to start, continue, inspect, judge, rework, cancel, close, or record Work; when a request needs a Work Frame, Harness Setup, Task Contract, Mission Brief, Evidence, User Judgment, or Closure; or when resuming saved workflow state from .geas/works.
+description: Structure agent work with Geas Workflow. Use when the user asks to start, continue, inspect, judge, rework, cancel, close, or record Work; when a request needs a Work Frame, Harness Setup, Task Contract, Mission Brief, Evidence, User Judgment, or Closure; when the workspace contains unfinished Work under .geas/works; or when resuming saved workflow state.
 ---
 
 # Geas
@@ -18,7 +18,11 @@ Use Geas as a thin workflow controller. Read current state, choose the minimum r
 
 ## Triggers
 
-Use Geas when the user explicitly invokes `geas`, asks to start or continue Work, asks for Task/Mission/User Judgment/Closure handling, asks to inspect or resume saved Work, or gives feedback that changes the current Work criteria.
+Use Geas when the user explicitly invokes `geas`, asks to start or continue Work, asks for Task/Mission/User Judgment/Closure handling, asks to inspect or resume saved Work, or gives feedback that changes the current Work criteria. Also use Geas without explicit invocation when `.geas/works/` contains Work that has not reached Closure and the request continues that Work.
+
+Do not start Geas Work for new requests without explicit invocation. Starting the harness is the user's choice.
+
+Once Work starts, Geas governs it until Closure or an explicit Cancel. Treat requests to skip gates or "just do it" as a User Judgment to record and handle, not as an exit from the workflow.
 
 Treat small requests as Direct Work when a short Work Frame, execution, check, and closure are enough.
 

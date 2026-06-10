@@ -41,7 +41,7 @@ Script는 반복적이고 취약한 기계 작업이 실제로 생길 때 추가
 
 |책임|내용|
 |---|---|
-|Trigger|명시적 `geas` 호출, Work 시작/계속/점검/종료 요청, Task/Mission/User Judgment/Closure 요청, 저장된 Work 재개 요청을 Geas workflow 대상으로 판단한다.|
+|Trigger|명시적 `geas` 호출, Work 시작/계속/점검/종료 요청, Task/Mission/User Judgment/Closure 요청, 저장된 Work 재개 요청을 Geas workflow 대상으로 판단한다. 새 작업의 시작은 명시적 호출을 따르되, `.geas/works/`에 `Closure`에 도달하지 않은 Work가 있고 요청이 그 Work를 잇는 경우 명시적 호출 없이도 발동한다. 시작된 Work는 `Closure`나 명시적 Cancel까지 Geas가 관할하고, 게이트 생략 요청은 워크플로우 이탈이 아니라 User Judgment로 기록해 처리한다.|
 |State Read|현재 요청, 대화 맥락, 관련 파일, 저장된 Work 상태를 우선순위에 따라 읽는다.|
 |Flow Decision|현재 `Work`가 시작, 기준 정리, 실행, 판단 대기, rework, cancel, closure 중 어디인지 판별한다.|
 |Reference Selection|현재 상태에 맞는 minimum load set을 읽는다.|
