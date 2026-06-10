@@ -48,16 +48,41 @@ Record User Judgment in Closure. Include the user's decision value and the evide
 
 ## Continuity Artifact Storage
 
-Store Continuity Artifacts under `.geas/memory/`.
+Store Continuity Artifacts under `.geas/memory/` as type files, committed to git as shared work criteria.
+
+|Type file|Content|
+|---|---|
+|`facts.md`|Confirmed environment, tool, and domain facts.|
+|`preferences.md`|User preferences and interaction style.|
+|`decisions.md`|User-accepted choices, tradeoffs, and criteria.|
+|`risks.md`|Accepted limits, unverified areas, known risks.|
+|`open-questions.md`|Open questions that can block or change later judgment.|
+|`process.md`|Workflow improvements, verification surfaces, harness shortcuts.|
+
+Write each entry as a section inside its type file:
+
+```markdown
+## test-command-pnpm-unit
+- Source: .geas/works/20260610-setup-ci
+- Date: 2026-06-10
+
+Unit tests run with `pnpm test:unit`. E2e runs only in CI, not locally.
+
+Apply: use as the unit verification surface in Verification Strategy.
+Invalid when: the test scripts in package.json change.
+```
 
 |Rule|Content|
 |---|---|
-|Location|One artifact per file at `.geas/memory/<slug>.md`.|
-|Name|A 3-6 word lowercase kebab-case slug.|
-|Content|Type (decision, risk, open-question, criteria, process-improvement), source Work, date, content, and how to apply it in later Work.|
-|Index|Keep a one-line summary per artifact in `.geas/memory/index.md`.|
-|Reference|During Alignment for new Work, check `index.md` and load relevant artifacts into Context Checked.|
-|Update|When an artifact covers the same criteria, update the existing file instead of creating a new one. Delete artifacts that are no longer valid.|
+|Unit|One entry covers one criterion. Keep it short.|
+|Save gate|Show candidates to the user in Continuity Artifact Review before saving. Never save silently. When there are no candidates, record "none".|
+|Update|When an entry covers the same criterion, update it instead of adding a new one.|
+|Recall|During Alignment for new Work, read the relevant type files and load relevant entries into Context Checked.|
+|Verify on recall|Before applying an entry, confirm it still holds. Update or delete it on contradiction.|
+|Invalidation|Record the condition that ends an entry's validity when writing it.|
+|Cleanup|When a type file grows enough to raise recall cost, consolidate or delete stale entries.|
+
+Never store: anything derivable from the repo (code structure, git history, existing docs), context that only matters to the current Work (that belongs in Closure restoration notes), output or log dumps, or secrets, tokens, and credentials.
 
 ## Resume
 

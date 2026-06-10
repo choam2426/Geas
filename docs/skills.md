@@ -143,23 +143,28 @@ tasks/
 
 `Task Contract`와 `Mission Brief` 기록에는 User 수용 여부와 수용 시점을 남긴다. 이 수용 기록은 중단된 `Work`를 재개할 때 현재 위치를 판별하는 기준이 된다.
 
-`Continuity Artifact`는 `.geas/memory/`에 남긴다.
+`Continuity Artifact`는 `.geas/memory/`에 유형별 파일로 남기고 git에 커밋한다.
 
 ```text
 .geas/
   memory/
-    index.md
-    prefer-table-judgment-surface.md
-    auth-module-rollback-risk.md
+    facts.md
+    preferences.md
+    decisions.md
+    risks.md
+    open-questions.md
+    process.md
 ```
 
 |부분|규칙|
 |---|---|
-|위치|`.geas/memory/<slug>.md`에 artifact 하나당 파일 하나|
-|이름|3-6 단어의 lowercase kebab-case slug|
-|색인|`.geas/memory/index.md`에 artifact당 한 줄 요약 유지|
-|참조|새 `Work`의 Alignment에서 `index.md`를 확인하고 관련 artifact를 `Context Checked`에 반영|
-|갱신|같은 기준을 다루는 artifact는 기존 파일을 갱신하고, 더 이상 유효하지 않으면 삭제|
+|단위|항목 하나는 기준 하나. 유형 파일 안의 `## <slug>` 섹션으로 남긴다.|
+|형식|Source, Date, 내용, 적용 방법, 무효 조건을 남긴다.|
+|참조|새 `Work`의 Alignment에서 관련 유형 파일을 읽고 관련 항목을 `Context Checked`에 반영한다.|
+|검증|항목 적용 전에 유효한지 확인하고, 모순이면 그 자리에서 갱신하거나 삭제한다.|
+|제외|repo에서 파생 가능한 것, 이번 `Work` 한정 맥락, 산출물/로그 덤프, secret은 남기지 않는다.|
+
+세부 형식과 규칙은 [workflow/continuity.md](./workflow/continuity.md)의 `Continuity Artifact 저장`을 따른다.
 
 ## Reference 구성
 

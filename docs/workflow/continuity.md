@@ -55,16 +55,50 @@ Agent는 `Closure` 중 장기 효력이 있는 결정, 맥락, 기준, 위험, �
 
 ## Continuity Artifact 저장
 
-`Continuity Artifact`는 workspace root의 `.geas/memory/`에 남긴다.
+`Continuity Artifact`는 workspace root의 `.geas/memory/`에 유형별 파일로 남긴다. memory는 git에 커밋해 팀과 다음 실행자가 공유하는 작업 기준으로 다룬다.
+
+|유형 파일|내용|
+|---|---|
+|`facts.md`|환경, 도구, 도메인에 대해 확인된 사실|
+|`preferences.md`|User가 드러낸 선호와 상호작용 방식|
+|`decisions.md`|User가 수용한 선택, tradeoff, 기준|
+|`risks.md`|수용된 한계, 미확인 범위, 알려진 위험|
+|`open-questions.md`|다음 판단을 막거나 바꿀 수 있는 열린 질문|
+|`process.md`|작업 방식 개선, 검증 표면, harness 준비 단축 경로|
+
+항목은 유형 파일 안의 섹션으로 남기고 다음 형식을 따른다.
+
+```markdown
+## test-command-pnpm-unit
+- Source: .geas/works/20260610-setup-ci
+- Date: 2026-06-10
+
+단위 테스트는 `pnpm test:unit`으로 실행한다. e2e는 로컬에서 실행하지 않고 CI에서만 돈다.
+
+적용: `Verification Strategy`의 단위 테스트 표면으로 사용한다.
+무효 조건: package.json의 테스트 스크립트가 바뀌면 갱신한다.
+```
+
+저장과 회상은 다음 규칙을 따른다.
 
 |규칙|내용|
 |---|---|
-|위치|`.geas/memory/<slug>.md`에 artifact 하나당 파일 하나로 남긴다.|
-|이름|artifact 내용을 줄인 3-6 단어의 lowercase kebab-case slug를 사용한다.|
-|내용|유형(decision, risk, open-question, criteria, process-improvement), 출처 `Work`, 기록 시점, 내용, 다음 `Work`에 적용하는 방법을 남긴다.|
-|색인|`.geas/memory/index.md`에 artifact당 한 줄 요약을 유지한다.|
-|참조|새 `Work`의 Alignment에서 `.geas/memory/index.md`를 확인하고 관련 artifact를 `Work Frame`의 `Context Checked`에 반영한다.|
-|갱신|기존 artifact와 같은 기준을 다루면 새 파일 대신 기존 파일을 갱신하고, 더 이상 유효하지 않은 artifact는 삭제한다.|
+|단위|항목 하나는 기준 하나를 다룬다. 짧게 쓴다.|
+|저장 게이트|`Continuity Artifact Review`에서 후보를 User에게 보인 뒤 저장한다. 조용한 자동 저장은 하지 않는다. 후보가 없으면 "없음"으로 끝낸다.|
+|갱신|같은 기준을 다루는 항목이 있으면 새 항목을 만들지 않고 기존 항목을 갱신한다.|
+|회상|새 `Work`의 Alignment에서 관련 유형 파일을 읽고 관련 항목을 `Work Frame`의 `Context Checked`에 반영한다.|
+|회상 시 검증|항목을 적용하기 전에 현재도 유효한지 확인한다. 현재 상태와 모순되면 그 자리에서 항목을 갱신하거나 삭제한다.|
+|무효 조건|작성할 때 항목이 효력을 잃는 조건을 함께 남긴다.|
+|정리|유형 파일이 길어져 회상 비용이 커지면 오래된 항목을 통합하거나 삭제한다.|
+
+다음은 `Continuity Artifact`로 남기지 않는다.
+
+|제외|이유|
+|---|---|
+|repo에서 파생할 수 있는 것|코드 구조, git history, 기존 문서가 이미 기록한다.|
+|이번 `Work`에서만 의미 있는 맥락|`Closure`의 복원 정보 자리다.|
+|산출물과 로그 덤프|memory는 포인터지 보관소가 아니다. 산출물은 자연스러운 위치에 둔다.|
+|secret, 토큰, 자격증명|보안 위험이다. 절대 남기지 않는다.|
 
 ## Work 재개
 

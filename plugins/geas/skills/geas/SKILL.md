@@ -76,7 +76,7 @@ Record user acceptance status and time inside `task-contract.md` and `mission-br
 
 Keep actual work outputs in their natural project locations. Use `.geas/works/` for workflow criteria, judgment, restoration, and limits.
 
-Store Continuity Artifacts under `.geas/memory/`, one artifact per `<slug>.md` file, with a one-line summary per artifact in `.geas/memory/index.md`. During Alignment for new Work, check `.geas/memory/index.md` and load relevant artifacts into Context Checked.
+Store Continuity Artifacts under `.geas/memory/` as type files (`facts.md`, `preferences.md`, `decisions.md`, `risks.md`, `open-questions.md`, `process.md`), one entry per criterion, committed to git. During Alignment for new Work, read the relevant type files and load relevant entries into Context Checked, verifying they still hold. Never store secrets or anything derivable from the repo.
 
 ## User Judgment Boundary
 
