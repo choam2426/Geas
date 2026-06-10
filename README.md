@@ -104,9 +104,10 @@ Every request becomes a `Work`. The agent aligns the request into a Work Frame, 
 flowchart TD
   request["User request"] --> align["Alignment Loop"]
   align --> frame["Work Frame"]
-  frame --> direct["Direct Work<br/>execute, check, close"]
-  frame --> task["Task<br/>contract-based judgment unit"]
-  frame --> mission["Mission<br/>multiple Tasks and synthesis"]
+  frame --> frameAccept["User accepts Work Frame"]
+  frameAccept --> direct["Direct Work<br/>execute, check, close"]
+  frameAccept --> task["Task<br/>contract-based judgment unit"]
+  frameAccept --> mission["Mission<br/>multiple Tasks and synthesis"]
 ```
 
 - `Direct Work` runs on a short Work Frame: execute, report the result with checks and limits, close.

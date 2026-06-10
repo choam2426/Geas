@@ -82,7 +82,7 @@ Use these fixed names when the corresponding stage occurs:
 
 Put every Task record, including a single-Task Work, under `tasks/NNN-<task-slug>/`. Use `001`, `002`, and so on in Work order.
 
-Record user acceptance status and time inside `task-contract.md` and `mission-brief.md`. Resume position detection depends on these acceptance records.
+Record user acceptance status and time inside `work-frame.md`, `task-contract.md`, and `mission-brief.md`. Resume position detection depends on these acceptance records. For Direct Work without records, conversation-level acceptance is enough.
 
 Keep actual work outputs in their natural project locations. Use `.geas/works/` for workflow criteria, judgment, restoration, and limits.
 
@@ -91,6 +91,8 @@ Store Continuity Artifacts under `.geas/memory/` as type files (`facts.md`, `pre
 ## User Judgment Boundary
 
 Prepare the judgment surface. Record User Judgment as the user's explicit decision.
+
+Work Frame, Task Contract, and Mission Brief become working criteria only after user acceptance. When asking for acceptance, present the criteria surface, open questions, and what acceptance starts. A clear affirmative instruction ("go ahead", "do it that way") establishes acceptance; record the time and the user's expression. Conditional agreement is acceptance with the condition folded into the criteria and recorded. Ambiguous or partial responses are not acceptance — confirm the accepted scope. Modification requests, silence, or topic changes are not acceptance.
 
 Use `closure.md` to record the user's decision, the evidence considered, accepted limits, and next state. Use supporting files such as `judgment-surface.html`, `visual-diff.html`, `screenshot.png`, or structured JSON when they reduce judgment cost.
 

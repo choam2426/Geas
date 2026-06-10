@@ -104,9 +104,10 @@ Geas는 agent가 바로 완료를 선언하게 만들기보다, 먼저 작업 �
 flowchart TD
   request["사용자 요청"] --> align["Alignment Loop"]
   align --> frame["Work Frame"]
-  frame --> direct["Direct Work<br/>실행, 확인, 종료"]
-  frame --> task["Task<br/>계약 기반 판단 단위"]
-  frame --> mission["Mission<br/>여러 Task와 종합"]
+  frame --> frameAccept["사용자 Work Frame 수용"]
+  frameAccept --> direct["Direct Work<br/>실행, 확인, 종료"]
+  frameAccept --> task["Task<br/>계약 기반 판단 단위"]
+  frameAccept --> mission["Mission<br/>여러 Task와 종합"]
 ```
 
 - `Direct Work`는 짧은 Work Frame으로 실행하고, 확인한 것과 남은 한계를 남기고 닫습니다.

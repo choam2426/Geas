@@ -104,7 +104,7 @@ Agent는 `Closure` 중 장기 효력이 있는 결정, 맥락, 기준, 위험, �
 
 중단된 `Work`는 기록된 상태에서 같은 목표와 기준으로 재개한다.
 
-재개 판별이 가능하도록 `Task Contract`와 `Mission Brief` 기록에는 User 수용 여부와 수용 시점을 남긴다.
+재개 판별이 가능하도록 `Work Frame`, `Task Contract`, `Mission Brief` 기록에는 User 수용 여부와 수용 시점을 남긴다.
 
 재개는 다음 순서를 따른다.
 
@@ -115,7 +115,8 @@ Agent는 `Closure` 중 장기 효력이 있는 결정, 맥락, 기준, 위험, �
 
 |기록 상태|현재 위치|재개 행동|
 |---|---|---|
-|`work-frame.md`만 있다|처리 방식 결정 전후|`Work Frame` 기준을 재확인하고 처리 방식을 정한다.|
+|`work-frame.md`가 있고 수용 기록이 없다|Work Frame 수용 대기|`Work Frame`을 다시 제시하고 User 수용을 받는다.|
+|`work-frame.md`가 수용되었고 다른 기록이 없다|처리 방식 진행 전|수용된 처리 방식대로 다음 단계로 진행한다.|
 |`task-contract.md`가 있고 수용 기록이 없다|계약 수용 대기|`Task Contract`를 다시 제시하고 User 수용을 받는다.|
 |`task-contract.md`가 수용되었고 `evidence.md`가 없다|실행 중|계약 기준으로 실행을 이어간다.|
 |`evidence.md`가 있고 Task `closure.md`가 없다|`Ready for Judgment`|`Evidence`를 다시 제시하고 `Task User Judgment`를 기다린다.|

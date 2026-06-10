@@ -17,7 +17,7 @@ Shown in conversation, kept short:
 - Context Checked: `src/commands/status.ts`, flag handling in `src/cli.ts`, `.geas/memory/` (no relevant entries).
 - Recommended Handling: Task — one acceptance criteria set, a runnable verification surface, user-visible output change.
 
-User accepts Task handling. No Harness Setup needed: environment and test command are already known.
+User: "ok, go with a Task" — a clear affirmative instruction, so the Work Frame is accepted and the stamp is recorded in `work-frame.md` (2026-06-10 14:05). No Harness Setup needed: environment and test command are already known.
 
 ## Task Contract
 
@@ -98,7 +98,8 @@ Agent presents the result and Evidence, then waits. User answers: Accept, accept
 
 ## What This Example Shows
 
+- The Work Frame and the contract were each accepted through a clear affirmative instruction, and both stamps were recorded.
 - The contract used only the six core fields; conditional fields were omitted because no trigger applied.
-- Acceptance status and time live inside the contract, so resume detection works.
+- Acceptance status and time live inside the records, so resume detection works.
 - The mandatory strengthening triggers were checked and the no-strengthening outcome was recorded, not silently assumed.
 - Closure recorded the user's explicit decision, the accepted limit, and one memory entry.

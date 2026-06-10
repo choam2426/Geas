@@ -38,11 +38,11 @@
 
 ## 처리 방식 확정
 
-모든 `Work`는 `Work Frame`으로 정리된 뒤, `Direct Work`, `Task`, `Mission` 중 하나의 방식으로 다뤄진다. User 확인의 깊이는 `Work`의 성격에 따라 달라진다.
+모든 `Work`는 `Work Frame`으로 정리된 뒤 User가 `Work Frame`을 받아들여야 진행한다. 수용 성립 기준은 [alignment.md](./alignment.md)의 `수용`을 따른다. 수용 이후 `Work`는 `Direct Work`, `Task`, `Mission` 중 하나의 방식으로 다뤄진다.
 
 |Work 유형|처리|
 |---|---|
-|`Direct Work`|Agent가 짧은 `Work Frame`을 드러내고 실행할 수 있다. 필요한 준비가 짧고 기준을 바꾸지 않으면 실행 전에 구성한다. User 판단이 필요한 방향, 위험, 선호 지점이 있으면 실행 전에 확인한다.|
+|`Direct Work`|User가 짧은 `Work Frame`을 받아들인 뒤 실행한다. 필요한 준비가 짧고 기준을 바꾸지 않으면 실행 전에 구성한다. User 판단이 필요한 방향, 위험, 선호 지점이 있으면 실행 전에 확인한다.|
 |`Task`|`Work Frame`을 바탕으로 `Task Contract`를 정리한다. 필요한 준비 결과는 기존 계약 필드와 확인 기준 안에 반영한다. User가 `Task Contract`를 작업 기준으로 받아들인 뒤 실행한다.|
 |`Mission`|`Work Frame`을 바탕으로 `Mission Brief`와 초기 `Task` 구조를 정리한다. 공유 준비 결과는 기존 Mission 필드에 반영하고 Task별 준비 결과는 각 `Task`에서 다룬다. User가 큰 목표와 판단 구조를 받아들인 뒤 실행한다.|
 

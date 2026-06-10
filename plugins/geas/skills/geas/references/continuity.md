@@ -95,7 +95,8 @@ Resume interrupted Work from its records with the same goal and criteria.
 
 |Record state|Position|Resume action|
 |---|---|---|
-|Only `work-frame.md`|Routing decision|Reconfirm the Work Frame and decide handling.|
+|`work-frame.md` without acceptance|Awaiting Work Frame acceptance|Present the Work Frame again for user acceptance.|
+|Accepted `work-frame.md`, no other records|Before handling proceeds|Continue with the accepted handling.|
 |`task-contract.md` without acceptance|Awaiting contract acceptance|Present the contract again for user acceptance.|
 |Accepted `task-contract.md`, no `evidence.md`|Executing|Continue execution under the contract.|
 |`evidence.md`, no Task `closure.md`|Ready for Judgment|Present Evidence again and wait for Task User Judgment.|

@@ -31,6 +31,10 @@ When `.geas/memory/` exists, read the relevant type files (`facts.md`, `preferen
 |What preparation changes work quality?|Style, conventions, environment, tools, verification, risk controls.|
 |What handling fits this Work?|Direct Work, Task, or Mission.|
 
+## Acceptance
+
+Present the Work Frame with the recommended handling for user acceptance before proceeding. All Work proceeds only after the user accepts the Work Frame. Record acceptance status and time in `work-frame.md` when records exist; for Direct Work without records, conversation-level acceptance is enough.
+
 ## Routing Criteria
 
 Use Direct Work when the Work has narrow context, low risk, short verification, small preparation, and a simple closure.

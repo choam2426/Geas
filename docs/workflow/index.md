@@ -37,10 +37,11 @@ flowchart TD
   start["Work starts"] --> align["Alignment Loop"]
   align --> frame["Work Frame"]
 
-  frame --> direct["Direct Work"]
-  frame --> task["Task"]
-  frame --> mission["Mission"]
-  frame -.-> harness["Harness Setup (if needed)"]
+  frame --> frameAccept["User accepts Work Frame"]
+  frameAccept --> direct["Direct Work"]
+  frameAccept --> task["Task"]
+  frameAccept --> mission["Mission"]
+  frameAccept -.-> harness["Harness Setup (if needed)"]
   harness -.-> direct
   harness -.-> task
   harness -.-> mission
@@ -90,13 +91,13 @@ flowchart TD
   briefRefresh --> briefAccept
 ```
 
-`Task`와 `Mission`은 User가 기준을 받아들인 뒤 실행한다. `Harness Setup`은 모든 `Work`의 의무 단계가 아니며, 준비가 작업 품질이나 판단 비용을 의미 있게 바꿀 때 `Work Frame` 이후 조건부로 수행한다. 기준을 바꾸지 않는 세부 runtime 준비는 `Execute` 안에서 처리한다. `Closure`는 결과, 확인 근거, User 판단, 필요한 복원 정보, `Continuity Artifact Review` 결과, 작업 방식 개선 후보를 `Work` 단위에 맞게 남긴다.
+모든 `Work`는 User가 `Work Frame`을 받아들인 뒤 진행하고, `Task`와 `Mission`은 추가로 `Task Contract`와 `Mission Brief`를 받아들인 뒤 실행한다. 수용 성립 기준은 [alignment.md](./alignment.md)의 `수용`을 따른다. `Harness Setup`은 모든 `Work`의 의무 단계가 아니며, 준비가 작업 품질이나 판단 비용을 의미 있게 바꿀 때 `Work Frame` 이후 조건부로 수행한다. 기준을 바꾸지 않는 세부 runtime 준비는 `Execute` 안에서 처리한다. `Closure`는 결과, 확인 근거, User 판단, 필요한 복원 정보, `Continuity Artifact Review` 결과, 작업 방식 개선 후보를 `Work` 단위에 맞게 남긴다.
 
 ## 문서 구성
 
 |문서|책임|
 |---|---|
-|[alignment.md](./alignment.md)|흐린 목표와 의도를 상호작용으로 구체화하는 `Alignment Loop`를 정의한다.|
+|[alignment.md](./alignment.md)|흐린 목표와 의도를 상호작용으로 구체화하는 `Alignment Loop`와 기준 `수용`의 성립 기준을 정의한다.|
 |[work-frame.md](./work-frame.md)|`Work Frame`, `Direct Work`, `Task` 승격 기준을 정의한다.|
 |[harness-setup.md](./harness-setup.md)|`Harness Setup`, harness 유형, User 판단 지점을 정의한다.|
 |[evidence-judgment.md](./evidence-judgment.md)|`Evidence`, verification/review/challenge 강화 절차, 일반 `User Judgment` 기준을 정의한다.|

@@ -144,7 +144,7 @@ tasks/
 
 기록은 User의 작업 언어로 쓴다.
 
-`Task Contract`와 `Mission Brief` 기록에는 User 수용 여부와 수용 시점을 남긴다. 이 수용 기록은 중단된 `Work`를 재개할 때 현재 위치를 판별하는 기준이 된다.
+`Work Frame`, `Task Contract`, `Mission Brief` 기록에는 User 수용 여부와 수용 시점을 남긴다. 이 수용 기록은 중단된 `Work`를 재개할 때 현재 위치를 판별하는 기준이 된다. 수용 성립 기준은 [workflow/alignment.md](./workflow/alignment.md)의 `수용`을 따른다.
 
 `Continuity Artifact`는 `.geas/memory/`에 유형별 파일로 남기고 git에 커밋한다.
 
